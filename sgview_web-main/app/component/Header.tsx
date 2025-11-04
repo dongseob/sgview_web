@@ -31,7 +31,7 @@ const Header = () => {
 
   return (
     <>
-      <div className='w-full border-b border-[var(--n-200)] fixed top-0 bg-white/80 z-10'>
+      <div className='max-md:hidden w-full border-b border-[var(--n-200)] fixed top-0 bg-white/80 z-10 '>
         <div className='px-[144px] py-[16px] flex items-center justify-between max-w-[1440px] mx-auto'>
           <div className='flex items-center justify-start gap-[69px]'>
             <Image src='/images/logo.png' alt='logo' width={127} height={34} />
@@ -71,10 +71,20 @@ const Header = () => {
 
           {/* 로그인 / 회원가입 버튼 */}
           <div className='flex items-center justify-start gap-[8px]'>
-            <button onClick={() => {router.push('/signin')}} className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'>
+            <button
+              onClick={() => {
+                router.push('/signin');
+              }}
+              className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
+            >
               로그인
             </button>
-            <button onClick={() => {router.push('/signup')}} className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'>
+            <button
+              onClick={() => {
+                router.push('/signup');
+              }}
+              className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'
+            >
               회원가입
             </button>
           </div>

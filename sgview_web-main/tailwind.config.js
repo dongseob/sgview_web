@@ -11,6 +11,9 @@ const config = {
       colors: {
         colorchip: 'var(--colorchip)',
       },
+      screens: {
+        768: '768px',
+      },
     },
   },
   darkMode: 'class',

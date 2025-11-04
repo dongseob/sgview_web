@@ -49,7 +49,7 @@ export default function Home() {
       {/* 헤더 섹션 */}
       <Image src={'/images/head.png'} width={1440} height={100} alt='head' />
       {/* 섹션1 */}
-      <Image src={'/images/section1.png'} width={1440} height={100} alt='section1' />
+      <Image src={'/images/section1.png'} width={1440} height={100} alt='section1' id='section1' />
       {/* 섹션2 */}
       <Image src={'/images/section2.png'} width={1440} height={100} alt='section2' />
       {/* 섹션3 */}

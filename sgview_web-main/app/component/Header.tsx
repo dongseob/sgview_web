@@ -1,10 +1,24 @@
 'use client';
 import Image from 'next/image';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const Header = () => {
   const pathname = usePathname();
+
+  // 스무스 스크롤 이동 함수
+  const handleScrollTo = (id: string) => {
+    const el = document.querySelector(id);
+    if (el) {
+      const headerOffset = 72; // 헤더 높이(px)
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - headerOffset;
+  
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <>
@@ -15,28 +29,30 @@ const Header = () => {
             <div>
               <ul className='flex items-center justify-start gap-[24px]'>
                 <li className='px-[16px] py-[8px]'>
-                  <Link
-                    href='/'
-                    className='text-[16px] leading-[16px] text-[var(--n-900)]'
+                  {/* 클릭 시 #section1으로 스무스 이동 */}
+                  <button
+                    onClick={() => handleScrollTo('#section1')}
+                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0'
                   >
                     서비스 소개
-                  </Link>
+                  </button>
                 </li>
                 <li className='px-[16px] py-[8px]'>
-                  <Link
-                    href='/'
-                    className='text-[16px] leading-[16px] text-[var(--n-900)]'
+                  {/* 클릭 시 #section2으로 스무스 이동 */}
+                  <button
+                    onClick={() => handleScrollTo('#section2')}
+                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0'
                   >
                     이용방법
-                  </Link>
+                  </button>
                 </li>
                 <li className='px-[16px] py-[8px]'>
-                  <Link
+                  <a
                     href='/consult-apply'
                     className='text-[16px] leading-[16px] text-[var(--n-900)]'
                   >
                     입시컨설팅 신청
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -54,7 +70,7 @@ const Header = () => {
 
       {/* 하단 픽스드 배너 — / 경로일 때만 표시 */}
       {pathname === '/' && (
-        <div className="fixed bottom-0 z-10 w-full bg-[#F3615B] h-[88px] flex items-center justify-center">
+        <div className='fixed bottom-0 z-10 w-full bg-[#F3615B] h-[88px] flex items-center justify-center'>
           <div className='flex items-center'>
             <Image
               className='mb-[48px]'

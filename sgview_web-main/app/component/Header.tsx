@@ -71,10 +71,10 @@ const Header = () => {
 
           {/* 로그인 / 회원가입 버튼 */}
           <div className='flex items-center justify-start gap-[8px]'>
-            <button className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'>
+            <button onClick={() => {router.push('/signin')}} className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'>
               로그인
             </button>
-            <button className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'>
+            <button onClick={() => {router.push('/signup')}} className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'>
               회원가입
             </button>
           </div>

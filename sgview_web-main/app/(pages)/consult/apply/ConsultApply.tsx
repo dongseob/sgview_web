@@ -1,5 +1,6 @@
 'use client';
 
+import ModalScoreCenter from '@/app/component/Modal/ModalScoreCenter';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -96,9 +97,40 @@ const ConsultApply = () => {
   >([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // 폼 유효성 검사
+  const isFormValid =
+    selectedUniversities.length > 0 &&
+    selectedMajors.length > 0 &&
+    uploadedFile &&
+    agreeTerms;
+
+  // 모의고사 점수 상태
+  const [scores, setScores] = useState({
+    korean_subject: '',
+    korean_standard: '',
+    korean_percentile: '',
+    korean_grade: '',
+    math_subject: '',
+    math_standard: '',
+    math_percentile: '',
+    math_grade: '',
+    english_grade: '',
+    history_grade: '',
+    inquiry1_subject: '',
+    inquiry1_standard: '',
+    inquiry1_percentile: '',
+    inquiry1_grade: '',
+    inquiry2_subject: '',
+    inquiry2_standard: '',
+    inquiry2_percentile: '',
+    inquiry2_grade: '',
+    second_lang_grade: '',
+  });
+
   const handleFileUpload = () => {
     fileInputRef.current?.click();
   };
+  const [isOpenScore, setIsOpenScore] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -195,11 +227,11 @@ const ConsultApply = () => {
                 }),
                 multiValue: (base) => ({
                   ...base,
-                  backgroundColor: '#F3F4F6',
+                  backgroundColor: 'transparent',
                   borderRadius: '6px',
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '4px 8px',
+                  padding: '0',
                 }),
                 multiValueLabel: (base) => ({
                   ...base,
@@ -336,11 +368,11 @@ const ConsultApply = () => {
                 }),
                 multiValue: (base) => ({
                   ...base,
-                  backgroundColor: '#F3F4F6',
+                  backgroundColor: 'transparent',
                   borderRadius: '6px',
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '4px 8px',
+                  padding: '0',
                 }),
                 multiValueLabel: (base) => ({
                   ...base,
@@ -406,7 +438,10 @@ const ConsultApply = () => {
             <p className='text-[#36373A] text-[13px] font-medium'>
               최종 모의고사 점수
             </p>
-            <button className='w-full h-[48px] px-[16px] py-[10px] border border-[#D7D8DC] rounded-[8px] text-[15px] font-medium text-[var(--n-800)]'>
+            <button
+              onClick={() => setIsOpenScore(true)}
+              className='w-full h-[48px] px-[16px] py-[10px] border border-[#D7D8DC] rounded-[8px] text-[15px] font-medium text-[var(--n-800)]'
+            >
               <span className='text-[var(--n-200)]'>✓</span> 점수 입력
             </button>
           </div>
@@ -499,20 +534,446 @@ const ConsultApply = () => {
             </span>
           </div>
           <button
+            disabled={!isFormValid}
             className={`${
-              selectedUniversities.length > 0 &&
-              selectedMajors.length > 0 &&
-              uploadedFile &&
-              agreeTerms
-                ? 'bg-[var(--r-400)] text-white'
-                : 'bg-[var(--n-100)] text-[var(--n-400)]'
-            } rounded-[8px] h-[48px] w-full cursor-pointer`}
-            onClick={() => {}}
+              isFormValid
+                ? 'bg-[var(--r-400)] text-white cursor-pointer'
+                : 'bg-[var(--n-100)] text-[var(--n-400)] cursor-not-allowed'
+            } rounded-[8px] h-[48px] w-full`}
+            onClick={() => {
+              if (!isFormValid) return;
+              // TODO: 분석하기 로직
+            }}
           >
             분석하기
           </button>
         </div>
       </div>
+      <ModalScoreCenter
+        isOpen={isOpenScore}
+        onClose={() => setIsOpenScore(false)}
+        title='최종 모의고사 점수'
+        width='898px'
+      >
+        <p className='text-[13px] leading-[1.4] font-[400] text-[var(--n-600)] px-[20px] pt-[11px] pb-[17px]'>
+          최종 모의고사 점수를 입력해주세요
+        </p>
+        <div className='flex flex-col gap-[20px] px-[20px] pb-[20px]  max-md:pr-[0]'>
+          {/* 설명 텍스트 */}
+
+          {/* 점수 테이블 */}
+          <div className='w-full overflow-x-auto border-t border-[var(--n-800)] max-md:max-h-[60vh] max-md:overflow-y-auto'>
+            <table className='w-full border-collapse'>
+              <colgroup>
+                <col className='w-[120px]' />
+                <col className='w-[103px]' />
+                <col className='w-[103px]' />
+                <col className='w-[103px]' />
+                <col className='w-[103px]' />
+                <col className='w-[103px]' />
+                <col className='w-[103px]' />
+              </colgroup>
+              <thead>
+                <tr className='bg-[var(--n-50)]'>
+                  <th className='border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[60px] max-md:min-w-[120px]'>
+                    영역
+                  </th>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                    한국사
+                  </th>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                    국어
+                  </th>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                    수학
+                  </th>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                    영어
+                  </th>
+                  <th
+                    colSpan={2}
+                    className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[206px]'
+                  >
+                    탐구
+                  </th>
+                  <th className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[103px]'>
+                    제2외국어/한문
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* 선택과목 행 */}
+                <tr>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                    선택과목
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex items-center justify-center'>
+                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
+                        화법과 작문
+                      </p>
+                      {/* <input
+                      type='text'
+                      value={scores.korean_subject}
+                      onChange={(e) =>
+                        setScores({ ...scores, korean_subject: e.target.value })
+                      }
+                      placeholder='화법과 작문'
+                      className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                    /> */}
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex items-center justify-center'>
+                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
+                        문학과 독서
+                      </p>
+                    </div>
+                    {/* <input
+                      type='text'
+                      value={scores.math_subject}
+                      onChange={(e) =>
+                        setScores({ ...scores, math_subject: e.target.value })
+                      }
+                      placeholder='문학과 독서'
+                      className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                    /> */}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px]  items-center justify-center'>
+                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
+                        경제와법
+                      </p>
+
+                      {/* <input
+                        type='text'
+                        value={scores.inquiry1_subject}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry1_subject: e.target.value,
+                          })
+                        }
+                        placeholder='경제지리'
+                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                      /> */}
+
+                      {/* <input
+                        type='text'
+                        value={scores.inquiry2_subject}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_subject: e.target.value,
+                          })
+                        }
+                        placeholder='사회 문화'
+                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                      /> */}
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px] items-center justify-center'>
+                      {/* <input
+                        type='text'
+                        value={scores.inquiry1_subject}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry1_subject: e.target.value,
+                          })
+                        }
+                        placeholder='경제지리'
+                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                      /> */}
+                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
+                        사회 문화
+                      </p>
+                      {/* <input
+                        type='text'
+                        value={scores.inquiry2_subject}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_subject: e.target.value,
+                          })
+                        }
+                        placeholder='사회 문화'
+                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                      /> */}
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)] '>
+                    <input
+                      type='text'
+                      value={scores.korean_subject}
+                      onChange={(e) =>
+                        setScores({ ...scores, korean_subject: e.target.value })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                </tr>
+
+                {/* 표준점수 행 */}
+                <tr>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                    표준점수
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.korean_standard}
+                      onChange={(e) =>
+                        setScores({
+                          ...scores,
+                          korean_standard: e.target.value,
+                        })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.math_standard}
+                      onChange={(e) =>
+                        setScores({ ...scores, math_standard: e.target.value })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px]'>
+                      <input
+                        type='text'
+                        value={scores.inquiry2_standard}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_standard: e.target.value,
+                          })
+                        }
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      />
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px]'>
+                      <input
+                        type='text'
+                        value={scores.inquiry2_standard}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_standard: e.target.value,
+                          })
+                        }
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      />
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                </tr>
+
+                {/* 백분위 행 */}
+                <tr>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                    백분위
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.korean_percentile}
+                      onChange={(e) =>
+                        setScores({
+                          ...scores,
+                          korean_percentile: e.target.value,
+                        })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.math_percentile}
+                      onChange={(e) =>
+                        setScores({
+                          ...scores,
+                          math_percentile: e.target.value,
+                        })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px]'>
+                      <input
+                        type='text'
+                        value={scores.inquiry2_percentile}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_percentile: e.target.value,
+                          })
+                        }
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      />
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px]'>
+                      <input
+                        type='text'
+                        value={scores.inquiry2_percentile}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_percentile: e.target.value,
+                          })
+                        }
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      />
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                    -
+                  </td>
+                </tr>
+
+                {/* 등급 행 */}
+                <tr>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                    등급
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.history_grade}
+                      onChange={(e) =>
+                        setScores({ ...scores, history_grade: e.target.value })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.korean_grade}
+                      onChange={(e) =>
+                        setScores({ ...scores, korean_grade: e.target.value })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.math_grade}
+                      onChange={(e) =>
+                        setScores({ ...scores, math_grade: e.target.value })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.english_grade}
+                      onChange={(e) =>
+                        setScores({ ...scores, english_grade: e.target.value })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
+                    />
+                  </td>
+                  <td
+                    colSpan={2}
+                    className='border border-[var(--n-200)] px-[4px] py-[4px]'
+                  >
+                    <div className='flex gap-[4px]'>
+                      <input
+                        type='text'
+                        value={scores.inquiry1_grade}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry1_grade: e.target.value,
+                          })
+                        }
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      />
+                      <input
+                        type='text'
+                        value={scores.inquiry2_grade}
+                        onChange={(e) =>
+                          setScores({
+                            ...scores,
+                            inquiry2_grade: e.target.value,
+                          })
+                        }
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
+                      />
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={scores.second_lang_grade}
+                      onChange={(e) =>
+                        setScores({
+                          ...scores,
+                          second_lang_grade: e.target.value,
+                        })
+                      }
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* 버튼 */}
+          <div className='flex gap-[8px] items-center justify-start w-full max-md:gap-[6px] max-md:pb-[16px] max-md:pr-[20px]'>
+            <button
+              onClick={() => setIsOpenScore(false)}
+              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
+            >
+              닫기
+            </button>
+            <button
+              onClick={() => {
+                // TODO: 점수 저장 로직
+                setIsOpenScore(false);
+              }}
+              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
+            >
+              저장
+            </button>
+          </div>
+        </div>
+      </ModalScoreCenter>
     </div>
   );
 };

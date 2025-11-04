@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body>
+      <body className='min-w-[375px]'>
         <Header />
         <HeaderMo />
         <div className='max-w-[1440px] mx-auto mt-[72px] max-768:min-w-[375px] max-md:mt-[56px]'>

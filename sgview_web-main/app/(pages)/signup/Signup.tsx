@@ -1,6 +1,8 @@
 'use client';
 
 import { TitleInput } from '@/app/component/Input/input';
+import ModalCenter from '@/app/component/Modal/ModalCenter';
+import { serviceTerms } from '@/app/data/serviceTerms';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -23,6 +25,7 @@ const Signup = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [showServiceTerms, setShowServiceTerms] = useState(false);
   const [school, setSchool] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -437,7 +440,10 @@ const Signup = () => {
                     </span>
                   </label>
                 </div>
-                <span className='text-[14px] leading-[1.4] text-[var(--n-400)]'>
+                <span
+                  className='text-[14px] leading-[1.4] text-[var(--n-400)]'
+                  onClick={() => setShowServiceTerms(true)}
+                >
                   보기
                 </span>
               </div>
@@ -539,6 +545,50 @@ const Signup = () => {
           </button>
         </div>
       </div>
+      <ModalCenter
+        isOpen={showServiceTerms}
+        onClose={() => setShowServiceTerms(false)}
+        title='약관안내'
+        width='375px'
+        height='567px'
+      >
+        <>
+          <p className='text-[20px] font-[700] text-[var(--n-800)] px-[20px]'>
+            이용약관
+          </p>
+          <div className='flex flex-col gap-[24px] max-h-full overflow-y-auto p-[20px] pt-[16px] pb-[216px]'>
+            {/* 효력 및 시행일 */}
+
+            {/* 각 장(Section) */}
+            {serviceTerms.sections.map((section, sectionIndex) => (
+              <div key={sectionIndex} className='flex flex-col gap-[16px]'>
+                {/* 장 제목 */}
+                <h3 className='text-[20px] font-[700] text-[var(--n-800)]'>
+                  {section.chapter}
+                </h3>
+
+                {/* 조항들 */}
+                {section.articles ? (
+                  section.articles.map((article, articleIndex) => (
+                    <div key={articleIndex} className='flex flex-col gap-[8px]'>
+                      <h4 className='text-[15px] font-[600] text-[var(--n-800)]'>
+                        {article.number} ({article.title})
+                      </h4>
+                      <p className='text-[14px] text-[var(--n-700)] whitespace-pre-line leading-[1.6]'>
+                        {article.content}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className='text-[14px] text-[var(--n-700)] whitespace-pre-line leading-[1.6]'>
+                    {section.content}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      </ModalCenter>
     </div>
   );
 };

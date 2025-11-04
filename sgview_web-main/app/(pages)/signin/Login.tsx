@@ -8,17 +8,20 @@ import { useState } from 'react';
 const Login = () => {
   const [idError, setIdError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  const [passwordConfirmError, setPasswordConfirmError] = useState(false);
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
   const router = useRouter();
+
+  const isFormValid = !idError && !passwordError && id && password;
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && isFormValid) {
       handleLogin();
     }
   };
+
   const handleLogin = () => {
+    if (!isFormValid) return;
     router.push('/consult-list');
   };
   const validateEmail = (email: string) => {
@@ -54,18 +57,23 @@ const Login = () => {
             title='아이디(이메일)'
             placeholder='아이디(이메일) 입력'
             error={idError}
+            errorMessage='올바른 이메일 형식이 아닙니다.'
             maxLength={64}
             handleKeyDown={handleKeyDown}
             type='text'
             onchange={(e) => {
               setId(e.target.value);
-              if (
-                (!e.target.value || !validateEmail(e.target.value)) &&
-                e.target.value.length > 6
-              ) {
+              // 입력 중 실시간 유효성 검사
+              if (e.target.value && !validateEmail(e.target.value)) {
                 setIdError(true);
               } else {
                 setIdError(false);
+              }
+            }}
+            onblur={(e) => {
+              // 포커스 아웃 시 유효성 검사
+              if (e.target.value && !validateEmail(e.target.value)) {
+                setIdError(true);
               }
             }}
           />
@@ -73,38 +81,35 @@ const Login = () => {
             title='비밀번호'
             placeholder='비밀번호 입력'
             error={passwordError}
+            errorMessage='비밀번호는 8자 이상, 영문 대/소문자, 특수문자를 포함해야 합니다.'
             maxLength={100}
             handleKeyDown={handleKeyDown}
             type='password'
             passwordIcon={true}
             onchange={(e) => {
               setPassword(e.target.value);
-              if (!e.target.value || !validatePassword(e.target.value)) {
+              // 입력 중 실시간 유효성 검사
+              if (e.target.value && !validatePassword(e.target.value)) {
                 setPasswordError(true);
               } else {
                 setPasswordError(false);
               }
-              // 비밀번호 확인과 비교
-              if (passwordConfirm && e.target.value !== passwordConfirm) {
-                setPasswordConfirmError(true);
-              } else if (passwordConfirm) {
-                setPasswordConfirmError(false);
+            }}
+            onblur={(e) => {
+              // 포커스 아웃 시 유효성 검사
+              if (e.target.value && !validatePassword(e.target.value)) {
+                setPasswordError(true);
               }
             }}
           />
           <div className='flex flex-col items-center justify-center gap-[24px]'>
             <button
+              disabled={!isFormValid}
               className={`${
-                !passwordError &&
-                !passwordConfirmError &&
-                !idError &&
-                id &&
-                password &&
-                passwordConfirm &&
-                password === passwordConfirm
-                  ? 'bg-[var(--r-400)] text-white'
-                  : 'bg-[var(--n-100)] text-[var(--n-400)]'
-              } rounded-[8px] h-[50px] w-full cursor-pointer`}
+                isFormValid
+                  ? 'bg-[var(--r-400)] text-white cursor-pointer'
+                  : 'bg-[var(--n-100)] text-[var(--n-400)] cursor-not-allowed'
+              } rounded-[8px] h-[50px] w-full`}
               onClick={handleLogin}
             >
               로그인

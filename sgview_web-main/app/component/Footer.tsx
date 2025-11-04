@@ -4,7 +4,7 @@ import Link from 'next/link';
 const Footer = () => {
   return (
     <div className='w-full border-t border-[var(--n-200)]'>
-      <div className='px-[144px] py-[48px] flex items-start justify-between max-w-[1440px] mx-auto'>
+      <div className='px-[144px] py-[48px] flex items-start justify-between max-w-[1440px] mx-auto pb-[120px]'>
         <div className='flex flex-col items-start justify-start gap-[40px]'>
           <ul className='flex items-center justify-start gap-[40px]'>
             <li>

@@ -24,6 +24,9 @@ const Header = () => {
   const goHomeOrScroll = (id: string) => {
     if (pathname !== '/') {
       router.push('/'); // 그냥 홈으로만 이동
+      setTimeout(() => {
+        handleScrollTo(id);
+      }, 1000);
       return;
     }
     handleScrollTo(id); // 이미 홈이면 해당 섹션으로 스크롤
@@ -34,7 +37,7 @@ const Header = () => {
       <div className='max-md:hidden w-full border-b border-[var(--n-200)] fixed top-0 bg-white/80 z-10 '>
         <div className='px-[144px] py-[16px] flex items-center justify-between max-w-[1440px] mx-auto'>
           <div className='flex items-center justify-start gap-[69px]'>
-            <Image src='/images/logo.png' alt='logo' width={127} height={34} />
+            <Image src='/images/logo.png' alt='logo' width={127} height={34} onClick={() => router.push('/')} className='cursor-pointer' />
             <div>
               <ul className='flex items-center justify-start gap-[24px]'>
                 <li className='px-[16px] py-[8px]'>
@@ -59,7 +62,7 @@ const Header = () => {
                 </li>
                 <li className='px-[16px] py-[8px]'>
                   <a
-                    href='/consult-apply'
+                    href='/consult/apply'
                     className='text-[16px] leading-[16px] text-[var(--n-900)]'
                   >
                     입시컨설팅 신청
@@ -108,7 +111,7 @@ const Header = () => {
             </p>
             <div
               onClick={() => {
-                // 로그인 분기 로직 필요 - 로그인=>/consult-apply, 비로그인=>/signin
+                // 로그인 분기 로직 필요 - 로그인=>/consult/apply, 비로그인=>/signin
               }}
               className='ml-[40px] px-[36px] py-[18px] flex text-[20px] font-[700] text-white leading-[28px] bg-[#D84742] rounded-full cursor-pointer'
             >

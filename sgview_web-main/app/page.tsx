@@ -91,7 +91,7 @@ export default function Home() {
             variants={prefersReduced ? undefined : fadeUp}
             className='py-[16px] px-[28px] bg-[#F6432B] rounded-full flex items-center gap-[4px] mt-[36px] cursor-pointer'
             onClick={() => {
-              router.push('/consult-apply');
+              router.push('/consult/apply');
             }}
           >
             <p className='text-white text-[16.5px] font-[700] leading-[24px]'>무료 진단받기</p>

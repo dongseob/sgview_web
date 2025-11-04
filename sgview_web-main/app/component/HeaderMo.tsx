@@ -3,16 +3,46 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 const HeaderMo = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // TODO: 실제 로그인 상태로 변경
   const [userName, setUserName] = useState('이광호'); // TODO: 실제 사용자 이름으로 변경
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // 스무스 스크롤 이동 함수
+  const handleScrollTo = (id: string) => {
+    const el = document.querySelector(id);
+    if (!el) return;
+    const headerOffset = 72; // 헤더 높이(px)
+    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+  };
+
+  // 홈이 아니면 홈으로만 이동, 홈이면 스크롤
+  const goHomeOrScroll = (id: string) => {
+    if (pathname !== '/') {
+      router.push('/'); // 그냥 홈으로만 이동
+      setTimeout(() => {
+        handleScrollTo(id);
+      }, 1000);
+      return;
+    }
+    handleScrollTo(id); // 이미 홈이면 해당 섹션으로 스크롤
+  };
+
   return (
     <>
       <div className='w-full border-b border-[var(--n-100)] fixed top-0 bg-white/80 z-10 max-md:flex hidden min-w-[375px] px-[20px] h-[56px] items-center justify-between'>
-        <Image src='/images/logo.png' alt='logo' width={89} height={24} />
+        <Image src='/images/logo.png' alt='logo' width={89} height={24} onClick={() => router.push('/')} className='cursor-pointer' />
         <Image
           src='/images/icon-menu-24.svg'
           alt='menu'
@@ -66,7 +96,7 @@ const HeaderMo = () => {
                       </p>
                       <div className='flex flex-col items-start justify-start gap-[8px] w-full'>
                         <Link
-                          href='/consult-apply'
+                          href='/consult/apply'
                           className='bg-[var(--n-800)] text-white rounded-[8px] h-[52px] flex items-center justify-center text-[15px] font-[600] w-full'
                           onClick={() => setIsMenuOpen(false)}
                         >
@@ -113,22 +143,20 @@ const HeaderMo = () => {
 
                 {/* 메뉴 */}
                 <div className='flex flex-col gap-[32px]'>
-                  <Link
-                    href='/service'
-                    className='text-[18px] font-[600] text-[var(--n-800)]'
-                    onClick={() => setIsMenuOpen(false)}
+                  <button
+                    className='text-[18px] font-[600] text-[var(--n-800)] text-left'
+                    onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
                   >
                     서비스 소개
-                  </Link>
-                  <Link
-                    href='/guide'
-                    className='text-[18px] font-[600] text-[var(--n-800)]'
-                    onClick={() => setIsMenuOpen(false)}
+                  </button>
+                  <button
+                    className='text-[18px] font-[600] text-[var(--n-800)] text-left'
+                    onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
                   >
                     이용방법
-                  </Link>
+                  </button>
                   <Link
-                    href='/consult-apply'
+                    href='/consult/apply'
                     className='text-[18px] font-[600] text-[var(--n-800)]'
                     onClick={() => setIsMenuOpen(false)}
                   >

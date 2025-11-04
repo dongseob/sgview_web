@@ -67,15 +67,15 @@ export default function Home() {
     <>
       {/* 헤더 섹션 */}
       <motion.div
-  variants={prefersReduced ? undefined : containerStagger}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, amount: 0.25 }}
-  className="h-[940px] mx-auto"
-  style={{
-    background: 'linear-gradient(0deg, #FFFFFF 0%, #FCC9C7 100%)',
-  }}
->
+        variants={prefersReduced ? undefined : containerStagger}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: true, amount: 0.25 }}
+        className='h-[940px] mx-auto'
+        style={{
+          background: 'linear-gradient(0deg, #FFFFFF 0%, #FCC9C7 100%)',
+        }}
+      >
         <div className='pt-[152px] flex flex-col items-center'>
           <motion.p variants={prefersReduced ? undefined : fadeUp} className='text-[#16171A] text-center text-[58px] font-[700] leading-[75.4px]'>
             AI 생기부 분석으로
@@ -145,13 +145,32 @@ export default function Home() {
         </motion.div>
 
         {/* 스와이퍼 영역 */}
-        <motion.div variants={prefersReduced ? undefined : fadeUp} className='pr-[24px] flex-1 min-w-0'>
+        <motion.div variants={prefersReduced ? undefined : fadeUp} className='relative flex-1 min-w-0'>
+          {/* 👉 좌측 Gradient */}
+          <div
+            className='pointer-events-none absolute left-0 top-0 h-full w-[95px]'
+            style={{
+              background: 'linear-gradient(90deg, #FFF 0%, rgba(255, 255, 255, 0) 58.5%)',
+              zIndex: 10,
+            }}
+          />
+
+          {/* 👉 우측 Gradient (반전 방향) */}
+          <div
+            className='pointer-events-none absolute right-0 top-0 h-full w-[95px]'
+            style={{
+              background: 'linear-gradient(270deg, #FFF 0%, rgba(255, 255, 255, 0) 58.5%)',
+              zIndex: 10,
+            }}
+          />
+
+          {/* ✅ 스와이퍼 본체 */}
           <Swiper
             className='w-full'
             modules={[Autoplay]}
             onSwiper={(sw) => (swiperRef.current = sw)}
             loop
-            slidesPerView={3}
+            slidesPerView={2.6}
             spaceBetween={30}
             autoplay={{
               delay: 3000,
@@ -166,13 +185,12 @@ export default function Home() {
           >
             {reviews.map((r) => (
               <SwiperSlide key={r.id}>
-                {/* 각 카드도 살짝 씩 올라오게 */}
                 <motion.div
                   variants={prefersReduced ? undefined : fadeUp}
                   initial='hidden'
                   whileInView='visible'
                   viewport={{ once: true, amount: 0.3 }}
-                  className='flex flex-col w-full'
+                  className='flex flex-col w-full bg-white'
                 >
                   <div className='flex gap-[2px]'>
                     {Array.from({ length: 5 }).map((_, idx) => {

@@ -63,7 +63,7 @@ const TitleInput = ({ title, placeholder, error, errorMessage, handleKeyDown, on
                         onClick: ()=>setShowPassword(!showPassword),
                         className: "absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer opacity-50 ",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                            src: showPassword ? '/Images/type=ic-visibility-on@2x.png' : '/Images/type=ic-visibility-off@2x.png',
+                            src: showPassword ? '/images/type=ic-visibility-on@2x.png' : '/images/type=ic-visibility-off@2x.png',
                             alt: "toggle password visibility",
                             width: 24,
                             height: 24
@@ -626,7 +626,7 @@ const Signup = ()=>{
                                                         className: "flex items-center justify-center gap-[8px] cursor-pointer",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                src: memberType === 'student' ? '/Images/radio_on.svg' : '/Images/radio_off.svg',
+                                                                src: memberType === 'student' ? '/images/radio_on.svg' : '/images/radio_off.svg',
                                                                 alt: "check",
                                                                 width: 24,
                                                                 height: 24
@@ -676,7 +676,7 @@ const Signup = ()=>{
                                                         className: "flex items-center justify-center gap-[8px] cursor-pointer",
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                src: memberType === 'parent' ? '/Images/radio_on.svg' : '/Images/radio_off.svg',
+                                                                src: memberType === 'parent' ? '/images/radio_on.svg' : '/images/radio_off.svg',
                                                                 alt: "check",
                                                                 width: 24,
                                                                 height: 24
@@ -1032,7 +1032,7 @@ const Signup = ()=>{
                                                     className: "flex items-center gap-[12px] cursor-pointer",
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                            src: agreeAll ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg',
+                                                            src: agreeAll ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg',
                                                             alt: "checkbox",
                                                             width: 24,
                                                             height: 24
@@ -1095,7 +1095,7 @@ const Signup = ()=>{
                                                                 columnNumber: 19
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                src: agreeTerms ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg',
+                                                                src: agreeTerms ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg',
                                                                 alt: "checkbox",
                                                                 width: 24,
                                                                 height: 24
@@ -1153,7 +1153,7 @@ const Signup = ()=>{
                                                                 columnNumber: 19
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                src: agreePrivacy ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg',
+                                                                src: agreePrivacy ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg',
                                                                 alt: "checkbox",
                                                                 width: 24,
                                                                 height: 24
@@ -1211,7 +1211,7 @@ const Signup = ()=>{
                                                                 columnNumber: 19
                                                             }, ("TURBOPACK compile-time value", void 0)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
-                                                                src: agreeMarketing ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg',
+                                                                src: agreeMarketing ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg',
                                                                 alt: "checkbox",
                                                                 width: 24,
                                                                 height: 24

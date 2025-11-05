@@ -207,7 +207,7 @@ const Signup = () => {
                   className='hidden'
                 />
                 <label htmlFor='student' className='flex items-center justify-center gap-[8px] cursor-pointer'>
-                  <Image src={memberType === 'student' ? '/Images/radio_on.svg' : '/Images/radio_off.svg'} alt='check' width={24} height={24} />
+                  <Image src={memberType === 'student' ? '/images/radio_on.svg' : '/images/radio_off.svg'} alt='check' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>학생</span>
                 </label>
               </div>
@@ -222,7 +222,7 @@ const Signup = () => {
                   className='hidden'
                 />
                 <label htmlFor='parent' className='flex items-center justify-center gap-[8px] cursor-pointer'>
-                  <Image src={memberType === 'parent' ? '/Images/radio_on.svg' : '/Images/radio_off.svg'} alt='check' width={24} height={24} />
+                  <Image src={memberType === 'parent' ? '/images/radio_on.svg' : '/images/radio_off.svg'} alt='check' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>학부모</span>
                 </label>
               </div>
@@ -459,7 +459,7 @@ const Signup = () => {
               <div className='flex items-center gap-[12px]'>
                 <input type='checkbox' name='agreeAll' id='agreeAll' checked={agreeAll} onChange={(e) => handleAgreeAll(e.target.checked)} className='hidden' />
                 <label htmlFor='agreeAll' className='flex items-center gap-[12px] cursor-pointer'>
-                  <Image src={agreeAll ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreeAll ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>전체 동의</span>
                 </label>
               </div>
@@ -477,7 +477,7 @@ const Signup = () => {
                     onChange={(e) => handleIndividualAgree('terms', e.target.checked)}
                     className='hidden'
                   />
-                  <Image src={agreeTerms ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreeTerms ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[필수] 서비스 이용약관</span>
                 </label>
                 <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowServiceTerms(true)}>
@@ -494,7 +494,7 @@ const Signup = () => {
                     onChange={(e) => handleIndividualAgree('privacy', e.target.checked)}
                     className='hidden'
                   />
-                  <Image src={agreePrivacy ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreePrivacy ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[필수] 개인정보 수집 및 이용 동의</span>
                 </label>
                 <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowPrivacyTerms(true)}>
@@ -511,7 +511,7 @@ const Signup = () => {
                     onChange={(e) => handleIndividualAgree('marketing', e.target.checked)}
                     className='hidden'
                   />
-                  <Image src={agreeMarketing ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreeMarketing ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[선택] 마케팅 활용 동의 및 광고 수신 동의</span>
                 </label>
                 <span className='text-[14px] leading-[1.4] text-[var(--n-400)]'>보기</span>

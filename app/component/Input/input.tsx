@@ -71,8 +71,8 @@ export const TitleInput = ({
             <Image
               src={
                 showPassword
-                  ? '/Images/type=ic-visibility-on@2x.png'
-                  : '/Images/type=ic-visibility-off@2x.png'
+                  ? '/images/type=ic-visibility-on@2x.png'
+                  : '/images/type=ic-visibility-off@2x.png'
               }
               alt='toggle password visibility'
               width={24}

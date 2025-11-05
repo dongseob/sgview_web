@@ -181,7 +181,7 @@ const ConsultApply = () => {
                 DropdownIndicator: () => (
                   <div className='pr-[16px] flex items-center'>
                     <Image
-                      src='/Images/icon-arrow-24.svg'
+                      src='/images/icon-arrow-24.svg'
                       alt='arrow'
                       width={24}
                       height={24}
@@ -322,7 +322,7 @@ const ConsultApply = () => {
                 DropdownIndicator: () => (
                   <div className='pr-[16px] flex items-center'>
                     <Image
-                      src='/Images/icon-arrow-24.svg'
+                      src='/images/icon-arrow-24.svg'
                       alt='arrow'
                       width={24}
                       height={24}
@@ -456,7 +456,7 @@ const ConsultApply = () => {
                     {uploadedFile?.name}
                   </p>
                   <Image
-                    src='/Images/icon-close-24.svg'
+                    src='/images/icon-close-24.svg'
                     alt='close'
                     width={24}
                     height={24}
@@ -517,8 +517,8 @@ const ConsultApply = () => {
                 <Image
                   src={
                     agreeTerms
-                      ? '/Images/checkbox_on.svg'
-                      : '/Images/checkbox_off.svg'
+                      ? '/images/checkbox_on.svg'
+                      : '/images/checkbox_off.svg'
                   }
                   alt='checkbox'
                   width={24}

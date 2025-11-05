@@ -108,7 +108,7 @@ const HeaderMo = () => {
                   height={24}
                 />
                 <Image
-                  src='/Images/icon-close-24.svg'
+                  src='/images/icon-close-24.svg'
                   alt='close'
                   width={24}
                   height={24}

@@ -120,14 +120,14 @@ const ConsultList = () => {
           >
             {currentPage === 1 ? (
               <Image
-                src='/images/icon-left-gray.svg'
+                src='/Images/icon-left-gray.svg'
                 alt='prev'
                 width={24}
                 height={24}
               />
             ) : (
               <Image
-                src='/images/icon_right_red.svg'
+                src='/Images/icon_right_red.svg'
                 alt='prev'
                 width={24}
                 height={24}
@@ -163,7 +163,7 @@ const ConsultList = () => {
           >
             {currentPage === totalPages ? (
               <Image
-                src='/images/icon-left-gray.svg'
+                src='/Images/icon-left-gray.svg'
                 alt='next'
                 width={24}
                 height={24}
@@ -171,7 +171,7 @@ const ConsultList = () => {
               />
             ) : (
               <Image
-                src='/images/icon_right_red.svg'
+                src='/Images/icon_right_red.svg'
                 alt='next'
                 width={24}
                 height={24}

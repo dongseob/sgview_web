@@ -207,7 +207,7 @@ const Signup = () => {
                   className='hidden'
                 />
                 <label htmlFor='student' className='flex items-center justify-center gap-[8px] cursor-pointer'>
-                  <Image src={memberType === 'student' ? '/images/radio_on.svg' : '/images/radio_off.svg'} alt='check' width={24} height={24} />
+                  <Image src={memberType === 'student' ? '/Images/radio_on.svg' : '/Images/radio_off.svg'} alt='check' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>학생</span>
                 </label>
               </div>
@@ -222,7 +222,7 @@ const Signup = () => {
                   className='hidden'
                 />
                 <label htmlFor='parent' className='flex items-center justify-center gap-[8px] cursor-pointer'>
-                  <Image src={memberType === 'parent' ? '/images/radio_on.svg' : '/images/radio_off.svg'} alt='check' width={24} height={24} />
+                  <Image src={memberType === 'parent' ? '/Images/radio_on.svg' : '/Images/radio_off.svg'} alt='check' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>학부모</span>
                 </label>
               </div>
@@ -249,92 +249,100 @@ const Signup = () => {
           />
 
           {/* 학년 (필수) */}
-          <Select
-            name='grade'
-            id='grade'
-            placeholder='선택'
-            isSearchable={false}
-            isClearable={false}
-            value={grade?.value === '선택' ? null : grade}
-            onChange={(opt) => setGrade(opt as { value: string; label: string } | null)}
-            options={[
-              { value: '1', label: '1학년' },
-              { value: '2', label: '2학년' },
-              { value: '3', label: '3학년' },
-            ]}
-            components={{
-              DropdownIndicator: () => (
-                <div className='pr-[16px] flex items-center'>
-                  <Image src='/images/icon-arrow-24.svg' alt='arrow' width={24} height={24} />
-                </div>
-              ),
-              IndicatorSeparator: () => null,
-            }}
-            styles={{
-              control: (base, state) => ({
-                ...base,
-                height: '50px',
-                minHeight: '50px',
-                borderRadius: 8,
-                borderColor: state.isFocused ? '#37383B' : '#D7D8DC',
-                backgroundColor: 'white',
-                cursor: 'pointer',
-                // ✅ 파란 outline / ring 완전 제거
-                outline: 'none',
-                boxShadow: 'none',
-                '&:hover': { borderColor: '#37383B' },
-              }),
-              valueContainer: (base) => ({
-                ...base,
-                padding: '0 16px',
-              }),
-              placeholder: (base) => ({
-                ...base,
-                fontSize: 15,
-                fontWeight: 400,
-                lineHeight: '21px',
-                color: '#D7D8DC',
-              }),
-              singleValue: (base) => ({
-                ...base,
-                fontSize: 15,
-                fontWeight: 500,
-                lineHeight: '21px',
-                color: 'var(--n-800)',
-              }),
-              menu: (base) => ({
-                ...base,
-                borderRadius: 8,
-                marginTop: 4,
-                background: 'var(--neutral-n-0, #FFF)',
-                border: '1px solid var(--neutral-n-200, #E2E5EA)',
-                boxShadow: '0 4px 10px 0 rgba(0, 0, 0, 0.15)',
-                overflow: 'hidden',
-                // ✅ focus 시 파란 outline 제거
-                outline: 'none',
-              }),
-              menuList: (base) => ({
-                ...base,
-                padding: 0,
-              }),
-              option: (base, state) => ({
-                ...base,
-                fontSize: 15,
-                fontWeight: 400,
-                lineHeight: '21px',
-                padding: '12px 16px',
-                cursor: 'pointer',
-                backgroundColor: state.isSelected ? '#F6432B' : state.isFocused ? '#F7F8FC' : 'white',
-                color: state.isSelected ? '#FFFFFF' : '#36373A',
-                '&:active': {
-                  backgroundColor: state.isSelected ? '#F6432B' : '#F7F8FC',
-                },
-                // ✅ 옵션 hover 중에도 파란 outline 제거
-                outline: 'none',
-                boxShadow: 'none',
-              }),
-            }}
-          />
+          <div>
+            <div className='flex flex-col gap-[8px] w-full'>
+              <p className='text-[#36373A] text-[13px] font-medium'>
+                학년<span className='text-[#F6432B]'>*</span>
+              </p>
+
+              <Select
+                name='grade'
+                id='grade'
+                placeholder='선택'
+                isSearchable={false}
+                isClearable={false}
+                value={grade?.value === '선택' ? null : grade}
+                onChange={(opt) => setGrade(opt as { value: string; label: string } | null)}
+                options={[
+                  { value: '1', label: '1학년' },
+                  { value: '2', label: '2학년' },
+                  { value: '3', label: '3학년' },
+                ]}
+                components={{
+                  DropdownIndicator: () => (
+                    <div className='pr-[16px] flex items-center'>
+                      <Image src='/images/icon-arrow-24.svg' alt='arrow' width={24} height={24} />
+                    </div>
+                  ),
+                  IndicatorSeparator: () => null,
+                }}
+                styles={{
+                  control: (base, state) => ({
+                    ...base,
+                    height: '50px',
+                    minHeight: '50px',
+                    borderRadius: 8,
+                    borderColor: state.isFocused ? '#37383B' : '#D7D8DC',
+                    backgroundColor: 'white',
+                    cursor: 'pointer',
+                    // ✅ 파란 outline / ring 완전 제거
+                    outline: 'none',
+                    boxShadow: 'none',
+                    '&:hover': { borderColor: '#37383B' },
+                  }),
+                  valueContainer: (base) => ({
+                    ...base,
+                    padding: '0 16px',
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    fontSize: 15,
+                    fontWeight: 400,
+                    lineHeight: '21px',
+                    color: '#D7D8DC',
+                  }),
+                  singleValue: (base) => ({
+                    ...base,
+                    fontSize: 15,
+                    fontWeight: 500,
+                    lineHeight: '21px',
+                    color: 'var(--n-800)',
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    borderRadius: 8,
+                    marginTop: 4,
+                    background: 'var(--neutral-n-0, #FFF)',
+                    border: '1px solid var(--neutral-n-200, #E2E5EA)',
+                    boxShadow: '0 4px 10px 0 rgba(0, 0, 0, 0.15)',
+                    overflow: 'hidden',
+                    // ✅ focus 시 파란 outline 제거
+                    outline: 'none',
+                  }),
+                  menuList: (base) => ({
+                    ...base,
+                    padding: 0,
+                  }),
+                  option: (base, state) => ({
+                    ...base,
+                    fontSize: 15,
+                    fontWeight: 400,
+                    lineHeight: '21px',
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    backgroundColor: state.isSelected ? '#F6432B' : state.isFocused ? '#F7F8FC' : 'white',
+                    color: state.isSelected ? '#FFFFFF' : '#36373A',
+                    '&:active': {
+                      backgroundColor: state.isSelected ? '#F6432B' : '#F7F8FC',
+                    },
+                    // ✅ 옵션 hover 중에도 파란 outline 제거
+                    outline: 'none',
+                    boxShadow: 'none',
+                  }),
+                }}
+              />
+            </div>
+          </div>
 
           {/* 이름 (필수) */}
           <TitleInput
@@ -451,7 +459,7 @@ const Signup = () => {
               <div className='flex items-center gap-[12px]'>
                 <input type='checkbox' name='agreeAll' id='agreeAll' checked={agreeAll} onChange={(e) => handleAgreeAll(e.target.checked)} className='hidden' />
                 <label htmlFor='agreeAll' className='flex items-center gap-[12px] cursor-pointer'>
-                  <Image src={agreeAll ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreeAll ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>전체 동의</span>
                 </label>
               </div>
@@ -469,7 +477,7 @@ const Signup = () => {
                     onChange={(e) => handleIndividualAgree('terms', e.target.checked)}
                     className='hidden'
                   />
-                  <Image src={agreeTerms ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreeTerms ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[필수] 서비스 이용약관</span>
                 </label>
                 <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowServiceTerms(true)}>
@@ -486,7 +494,7 @@ const Signup = () => {
                     onChange={(e) => handleIndividualAgree('privacy', e.target.checked)}
                     className='hidden'
                   />
-                  <Image src={agreePrivacy ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreePrivacy ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[필수] 개인정보 수집 및 이용 동의</span>
                 </label>
                 <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowPrivacyTerms(true)}>
@@ -503,7 +511,7 @@ const Signup = () => {
                     onChange={(e) => handleIndividualAgree('marketing', e.target.checked)}
                     className='hidden'
                   />
-                  <Image src={agreeMarketing ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <Image src={agreeMarketing ? '/Images/checkbox_on.svg' : '/Images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
                   <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[선택] 마케팅 활용 동의 및 광고 수신 동의</span>
                 </label>
                 <span className='text-[14px] leading-[1.4] text-[var(--n-400)]'>보기</span>

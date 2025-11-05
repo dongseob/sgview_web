@@ -22,7 +22,7 @@ const Login = () => {
 
   const handleLogin = () => {
     if (!isFormValid) return;
-    router.push('/consult-list');
+    alert('로그인 함수 실행')
   };
   const validateEmail = (email: string) => {
     // 표준 이메일 정규식 패턴
@@ -49,13 +49,11 @@ const Login = () => {
   return (
     <div className='w-full pt-[40px] pb-[120px] mx-auto max-md:pt-[32px] max-md:pb-[32px] max-md:px-[20px]'>
       <div className='w-full max-w-[368px] mx-auto  py-[32px] flex flex-col items-center justify-start gap-[32px] max-md:py-[0]'>
-        <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>
-          로그인
-        </h3>
+        <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>로그인</h3>
         <div className='flex flex-col gap-[24px] w-full'>
           <TitleInput
             title='아이디(이메일)'
-            placeholder='아이디(이메일) 입력'
+            placeholder='이메일 입력'
             error={idError}
             errorMessage='올바른 이메일 형식이 아닙니다.'
             maxLength={64}
@@ -105,34 +103,27 @@ const Login = () => {
           <div className='flex flex-col items-center justify-center gap-[24px]'>
             <button
               disabled={!isFormValid}
-              className={`${
-                isFormValid
-                  ? 'bg-[var(--r-400)] text-white cursor-pointer'
-                  : 'bg-[var(--n-100)] text-[var(--n-400)] cursor-not-allowed'
-              } rounded-[8px] h-[50px] w-full`}
+              className={`rounded-[8px] h-[50px] w-full transition
+    ${
+      isFormValid
+        ? 'bg-[var(--r-400)] text-white cursor-pointer hover:bg-[var(--r-500)]'
+        : 'bg-[var(--n-100)] text-[var(--n-400)] cursor-default opacity-60 pointer-events-none'
+    }`}
               onClick={handleLogin}
             >
               로그인
             </button>
+
             <div className='flex items-center justify-center gap-[8px]'>
-              <Link
-                href='/find-id'
-                className='text-[14px] font-[400] leading-[1.5] text-[var(--n-600)]'
-              >
+              <Link href='/find-id' className='text-[14px] font-[400] leading-[1.5] text-[var(--n-600)]'>
                 아이디 찾기
               </Link>
               <div className='w-[1px] h-[12px] bg-[var(--n-300)]'></div>
-              <Link
-                href='/find-password'
-                className='text-[14px] font-[400] leading-[1.5] text-[var(--n-600)]'
-              >
+              <Link href='/find-password' className='text-[14px] font-[400] leading-[1.5] text-[var(--n-600)]'>
                 비밀번호 재설정
               </Link>
               <div className='w-[1px] h-[12px] bg-[var(--n-300)]'></div>
-              <Link
-                href='/signup'
-                className='text-[14px] font-[400] leading-[1.5] text-[var(--n-600)]'
-              >
+              <Link href='/signup' className='text-[14px] font-[400] leading-[1.5] text-[var(--n-600)]'>
                 회원가입
               </Link>
             </div>

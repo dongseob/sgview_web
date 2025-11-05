@@ -18,14 +18,14 @@ const Footer = () => {
           ${isHome ? 'pb-[120px]' : ''}
           /* 모바일: 요구사항 - py48 px20 gap-y24 */
           max-[745px]:px-[20px] max-[745px]:py-[48px]
-          ${isHome ? 'max-[745px]:pb-[120px]' : 'max-[745px]:pb-0'}
+          ${isHome ? 'max-[745px]:pb-[120px]' : ''}
           max-[745px]:flex-col max-[745px]:gap-y-[24px]
         `}
       >
         {/* 좌측: 링크 + 로고 + 회사정보 */}
         <div className='flex flex-col items-start justify-start gap-[40px] max-[745px]:gap-[24px]'>
           {/* 상단 링크 */}
-          <ul className='flex items-center justify-start gap-[40px] max-[745px]:gap-[24px] max-[745px]:px-0'>
+          <ul className='flex items-center justify-start gap-[40px] max-[745px]:gap-[24px] max-[745px]:px-0 font-[600]'>
             <li>
               <Link
                 href='/'

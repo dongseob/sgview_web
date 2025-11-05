@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 
 const HeaderMo = () => {
@@ -12,6 +12,40 @@ const HeaderMo = () => {
 
   const pathname = usePathname();
   const router = useRouter();
+
+  // 메뉴 열릴 때 스크롤 잠금
+  useEffect(() => {
+    if (isMenuOpen) {
+      // 현재 스크롤 위치 저장
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 스크롤 잠금 해제
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+
+    // cleanup 함수: 컴포넌트 언마운트 시 스크롤 잠금 해제
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    };
+  }, [isMenuOpen]);
 
   // 스무스 스크롤 이동 함수
   const handleScrollTo = (id: string) => {
@@ -144,20 +178,20 @@ const HeaderMo = () => {
                 {/* 메뉴 */}
                 <div className='flex flex-col gap-[32px]'>
                   <button
-                    className='text-[18px] font-[600] text-[var(--n-800)] text-left'
+                    className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
                     onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
                   >
                     서비스 소개
                   </button>
                   <button
-                    className='text-[18px] font-[600] text-[var(--n-800)] text-left'
+                    className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
                     onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
                   >
                     이용방법
                   </button>
                   <Link
                     href='/consult/apply'
-                    className='text-[18px] font-[600] text-[var(--n-800)]'
+                    className='text-[18px] font-[600] text-[var(--n-800)] hover:text-[#F6432B]'
                     onClick={() => setIsMenuOpen(false)}
                   >
                     입시컨설팅 신청

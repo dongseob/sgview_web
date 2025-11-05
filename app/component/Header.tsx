@@ -1,10 +1,12 @@
 'use client';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 const Header = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // TODO: 실제 로그인 상태로 대체 필요
   const isLoggedIn = false;
@@ -15,6 +17,32 @@ const Header = () => {
     } else {
       router.push('/signin');
     }
+  };
+
+  // 스무스 스크롤 이동 함수
+  const handleScrollTo = (id: string) => {
+    const el = document.querySelector(id);
+    if (!el) return;
+    const headerOffset = 72; // 헤더 높이(px)
+    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+  };
+
+  // 홈이 아니면 홈으로만 이동, 홈이면 스크롤
+  const goHomeOrScroll = (id: string) => {
+    if (pathname !== '/') {
+      router.push('/'); // 그냥 홈으로만 이동
+      setTimeout(() => {
+        handleScrollTo(id);
+      }, 1000);
+      return;
+    }
+    handleScrollTo(id); // 이미 홈이면 해당 섹션으로 스크롤
   };
 
   return (
@@ -31,12 +59,12 @@ const Header = () => {
               onClick={() => router.push('/')}
             />
             <div>
-              <ul className='flex items-center justify-start gap-[24px]'>
+              <ul className='flex items-center justify-start gap-[24px] font-[500]'>
                 <li className='px-[16px] py-[8px]'>
                   <button
                     type='button'
-                    onClick={() => router.push('/service')}
-                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0'
+                    onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
+                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     서비스 소개
                   </button>
@@ -44,8 +72,8 @@ const Header = () => {
                 <li className='px-[16px] py-[8px]'>
                   <button
                     type='button'
-                    onClick={() => router.push('/guide')}
-                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0'
+                    onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
+                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     이용방법
                   </button>
@@ -54,7 +82,7 @@ const Header = () => {
                   <button
                     type='button'
                     onClick={() => router.push('/consult/apply')}
-                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0'
+                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     입시컨설팅 신청
                   </button>

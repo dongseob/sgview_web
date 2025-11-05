@@ -23,7 +23,7 @@ export const TitleInput = ({
   onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onblur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   maxLength?: number;
-  type?: 'text' | 'password' | 'number';
+  type?: 'text' | 'password' | 'number' | 'tel';
   passwordIcon?: boolean;
 }) => {
   const [showPassword, setShowPassword] = useState(false);

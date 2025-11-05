@@ -81,7 +81,7 @@ const ModalScoreCenter = ({
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className='flex items-center justify-between relative px-[20px] pb-[24px] pt-[20px] max-md:px-[16px] max-md:pb-[16px] max-md:pt-[16px]'>
+          <div className='flex items-center justify-between relative px-[20px] pb-[24px] pt-[20px] h-[78px] max-md:px-[16px] max-md:pb-[16px] max-md:pt-[16px]'>
             <h3 className='text-left text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] max-md:text-[18px]'>
               {title}
             </h3>

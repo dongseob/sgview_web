@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "c1342302ed37e18bf099e96072abe18d",
-    "previewModeSigningKey": "de7b18924f468a921bfbdc33c4267518fe19668f08cb11c3c8f86ecac49f7568",
-    "previewModeEncryptionKey": "ab5cfc64a634250e3925b5b76fe294fb6ee33808d22b97b413e861b107130595"
-  }
-}
+{"version":4,"routes":{"/mypage/consult/1":{},"/mypage/consult/2":{},"/mypage/consult/3":{}},"dynamicRoutes":{"/mypage/consult/[id]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/mypage/consult/[id]","routeRegex":"^\\/mypage\\/consult\\/([^/]+?)(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"066f7ec4faa1dcd70fd034690ef99059","previewModeSigningKey":"6d50498830ba987b1c16bea34c9b28787cbbc25583189857f556778ad915b40e","previewModeEncryptionKey":"e6dabeb28301daf10018a7d709fc396f1a909a906a9b8eb8dc3196e0dabcbb07"}}

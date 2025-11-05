@@ -516,6 +516,7 @@ const ConsultApply = ()=>{
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(CreatableSelect, {
                                         isMulti: true,
+                                        hideSelectedOptions: false,
                                         placeholder: "희망대학 입력",
                                         value: selectedUniversities,
                                         onChange: (newValue)=>{
@@ -538,12 +539,12 @@ const ConsultApply = ()=>{
                                                         height: 24
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 183,
+                                                        lineNumber: 184,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 182,
+                                                    lineNumber: 183,
                                                     columnNumber: 19
                                                 }, void 0)
                                         },
@@ -564,16 +565,17 @@ const ConsultApply = ()=>{
                                                 }),
                                             valueContainer: (base)=>({
                                                     ...base,
-                                                    padding: '6px 16px',
+                                                    padding: '6px 0 6px 16px',
                                                     display: 'flex',
                                                     flexWrap: 'wrap',
-                                                    gap: '6px'
+                                                    gap: '2px'
                                                 }),
-                                            placeholder: (base)=>({
+                                            placeholder: (base, state)=>({
                                                     ...base,
                                                     fontSize: '15px',
                                                     fontWeight: '400',
-                                                    color: '#AFB0B6'
+                                                    color: '#AFB0B6',
+                                                    display: state.selectProps.menuIsOpen ? 'none' : 'block'
                                                 }),
                                             input: (base)=>({
                                                     ...base,
@@ -585,16 +587,17 @@ const ConsultApply = ()=>{
                                                 }),
                                             multiValue: (base)=>({
                                                     ...base,
-                                                    backgroundColor: 'transparent',
+                                                    backgroundColor: '#F3F4F6',
                                                     borderRadius: '6px',
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    padding: '0'
+                                                    padding: '4px 8px',
+                                                    gap: '4px'
                                                 }),
                                             multiValueLabel: (base)=>({
                                                     ...base,
                                                     fontSize: '14px',
-                                                    fontWeight: '500',
+                                                    fontWeight: '400',
                                                     color: '#36373A',
                                                     padding: '0',
                                                     paddingLeft: '0'
@@ -603,21 +606,25 @@ const ConsultApply = ()=>{
                                                     ...base,
                                                     color: '#9CA3AF',
                                                     cursor: 'pointer',
+                                                    paddingLeft: '4px',
+                                                    paddingRight: '0',
                                                     '&:hover': {
                                                         backgroundColor: 'transparent',
-                                                        color: '#F6432B'
+                                                        color: '#6B7280'
                                                     }
                                                 }),
                                             menu: (base)=>({
                                                     ...base,
                                                     borderRadius: '8px',
                                                     marginTop: '4px',
-                                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                                    border: '1px solid #D7D8DC',
+                                                    boxShadow: 'none',
+                                                    overflow: 'hidden',
                                                     zIndex: 10
                                                 }),
                                             menuList: (base)=>({
                                                     ...base,
-                                                    padding: '8px'
+                                                    padding: '8px 0'
                                                 }),
                                             option: (base, state)=>({
                                                     ...base,
@@ -626,23 +633,18 @@ const ConsultApply = ()=>{
                                                     cursor: 'pointer',
                                                     backgroundColor: state.isSelected ? '#F6432B' : state.isFocused ? '#F3F4F6' : 'white',
                                                     color: state.isSelected ? 'white' : '#36373A',
-                                                    borderRadius: '6px',
-                                                    padding: '10px 12px',
+                                                    borderRadius: '0',
+                                                    padding: '10px 16px',
                                                     '&:active': {
-                                                        backgroundColor: '#F6432B'
+                                                        backgroundColor: '#F3F4F6',
+                                                        color: '#36373A'
                                                     }
                                                 }),
                                             indicatorSeparator: ()=>({
                                                     display: 'none'
                                                 }),
-                                            clearIndicator: (base)=>({
-                                                    ...base,
-                                                    cursor: 'pointer',
-                                                    color: '#9CA3AF',
-                                                    padding: '0 8px',
-                                                    '&:hover': {
-                                                        color: '#F6432B'
-                                                    }
+                                            clearIndicator: ()=>({
+                                                    display: 'none'
                                                 })
                                         }
                                     }, void 0, false, {
@@ -668,17 +670,18 @@ const ConsultApply = ()=>{
                                                 children: "*"
                                             }, void 0, false, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 298,
+                                                lineNumber: 300,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 297,
+                                        lineNumber: 299,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(CreatableSelect, {
                                         isMulti: true,
+                                        hideSelectedOptions: false,
                                         placeholder: "희망학과 입력",
                                         value: selectedMajors,
                                         onChange: (newValue)=>{
@@ -701,12 +704,12 @@ const ConsultApply = ()=>{
                                                         height: 24
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 324,
+                                                        lineNumber: 327,
                                                         columnNumber: 21
                                                     }, void 0)
                                                 }, void 0, false, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 323,
+                                                    lineNumber: 326,
                                                     columnNumber: 19
                                                 }, void 0)
                                         },
@@ -727,16 +730,17 @@ const ConsultApply = ()=>{
                                                 }),
                                             valueContainer: (base)=>({
                                                     ...base,
-                                                    padding: '6px 16px',
+                                                    padding: '6px 0 6px 16px',
                                                     display: 'flex',
                                                     flexWrap: 'wrap',
-                                                    gap: '6px'
+                                                    gap: '2px'
                                                 }),
-                                            placeholder: (base)=>({
+                                            placeholder: (base, state)=>({
                                                     ...base,
                                                     fontSize: '15px',
                                                     fontWeight: '400',
-                                                    color: '#AFB0B6'
+                                                    color: '#AFB0B6',
+                                                    display: state.selectProps.menuIsOpen ? 'none' : 'block'
                                                 }),
                                             input: (base)=>({
                                                     ...base,
@@ -748,16 +752,17 @@ const ConsultApply = ()=>{
                                                 }),
                                             multiValue: (base)=>({
                                                     ...base,
-                                                    backgroundColor: 'transparent',
+                                                    backgroundColor: '#F3F4F6',
                                                     borderRadius: '6px',
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    padding: '0'
+                                                    padding: '4px 8px',
+                                                    gap: '4px'
                                                 }),
                                             multiValueLabel: (base)=>({
                                                     ...base,
                                                     fontSize: '14px',
-                                                    fontWeight: '500',
+                                                    fontWeight: '400',
                                                     color: '#36373A',
                                                     padding: '0',
                                                     paddingLeft: '0'
@@ -766,21 +771,25 @@ const ConsultApply = ()=>{
                                                     ...base,
                                                     color: '#9CA3AF',
                                                     cursor: 'pointer',
+                                                    paddingLeft: '4px',
+                                                    paddingRight: '0',
                                                     '&:hover': {
                                                         backgroundColor: 'transparent',
-                                                        color: '#F6432B'
+                                                        color: '#6B7280'
                                                     }
                                                 }),
                                             menu: (base)=>({
                                                     ...base,
                                                     borderRadius: '8px',
                                                     marginTop: '4px',
-                                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                                    border: '1px solid #D7D8DC',
+                                                    boxShadow: 'none',
+                                                    overflow: 'hidden',
                                                     zIndex: 10
                                                 }),
                                             menuList: (base)=>({
                                                     ...base,
-                                                    padding: '8px'
+                                                    padding: '8px 0'
                                                 }),
                                             option: (base, state)=>({
                                                     ...base,
@@ -789,34 +798,29 @@ const ConsultApply = ()=>{
                                                     cursor: 'pointer',
                                                     backgroundColor: state.isSelected ? '#F6432B' : state.isFocused ? '#F3F4F6' : 'white',
                                                     color: state.isSelected ? 'white' : '#36373A',
-                                                    borderRadius: '6px',
-                                                    padding: '10px 12px',
+                                                    borderRadius: '0',
+                                                    padding: '10px 16px',
                                                     '&:active': {
-                                                        backgroundColor: '#F6432B'
+                                                        backgroundColor: '#F3F4F6',
+                                                        color: '#36373A'
                                                     }
                                                 }),
                                             indicatorSeparator: ()=>({
                                                     display: 'none'
                                                 }),
-                                            clearIndicator: (base)=>({
-                                                    ...base,
-                                                    cursor: 'pointer',
-                                                    color: '#9CA3AF',
-                                                    padding: '0 8px',
-                                                    '&:hover': {
-                                                        color: '#F6432B'
-                                                    }
+                                            clearIndicator: ()=>({
+                                                    display: 'none'
                                                 })
                                         }
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 300,
+                                        lineNumber: 302,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 296,
+                                lineNumber: 298,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -827,7 +831,7 @@ const ConsultApply = ()=>{
                                         children: "최종 모의고사 점수"
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 438,
+                                        lineNumber: 442,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -839,20 +843,20 @@ const ConsultApply = ()=>{
                                                 children: "✓"
                                             }, void 0, false, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 445,
+                                                lineNumber: 449,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             " 점수 입력"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 441,
+                                        lineNumber: 445,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 437,
+                                lineNumber: 441,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -866,18 +870,18 @@ const ConsultApply = ()=>{
                                                 children: "생활기록부 PDF 업로드"
                                             }, void 0, false, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 450,
+                                                lineNumber: 454,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             uploadedFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "border border-[var(--n-200)] rounded-[8px] py-[10px] px-[16px] flex items-center justify-between",
+                                                className: "border border-[var(--n-200)] rounded-[8px] py-[12px] px-[16px] flex items-center justify-between",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                        className: "text-[15px] leading-[1.4] font-[500]",
+                                                        className: "text-[15px] leading-[21px] font-[500]",
                                                         children: uploadedFile?.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 455,
+                                                        lineNumber: 459,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -889,13 +893,13 @@ const ConsultApply = ()=>{
                                                         onClick: handleFileRemove
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 458,
+                                                        lineNumber: 462,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 454,
+                                                lineNumber: 458,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -909,7 +913,7 @@ const ConsultApply = ()=>{
                                                         className: "hidden"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 469,
+                                                        lineNumber: 473,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     !uploadedFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -919,19 +923,19 @@ const ConsultApply = ()=>{
                                                         children: "첨부파일 업로드"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 477,
+                                                        lineNumber: 481,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 468,
+                                                lineNumber: 472,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 449,
+                                        lineNumber: 453,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -940,12 +944,12 @@ const ConsultApply = ()=>{
                                             children: "나이스플러스에서 받은 생활기록부 PDF를 업로드하세요."
                                         }, void 0, false, {
                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                            lineNumber: 488,
+                                            lineNumber: 492,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 487,
+                                        lineNumber: 491,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     uploadedFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -955,20 +959,20 @@ const ConsultApply = ()=>{
                                         children: "첨부파일 수정"
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 493,
+                                        lineNumber: 497,
                                         columnNumber: 15
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 448,
+                                lineNumber: 452,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "w-full h-[1px] bg-[var(--n-200)]"
                             }, void 0, false, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 502,
+                                lineNumber: 506,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -986,7 +990,7 @@ const ConsultApply = ()=>{
                                                 className: "hidden"
                                             }, void 0, false, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 505,
+                                                lineNumber: 509,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1000,7 +1004,7 @@ const ConsultApply = ()=>{
                                                         height: 24
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 517,
+                                                        lineNumber: 521,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1008,19 +1012,19 @@ const ConsultApply = ()=>{
                                                         children: "[필수] 개인정보 수집 및 이용 동의"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 527,
+                                                        lineNumber: 531,
                                                         columnNumber: 17
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 513,
+                                                lineNumber: 517,
                                                 columnNumber: 15
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 504,
+                                        lineNumber: 508,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1028,13 +1032,13 @@ const ConsultApply = ()=>{
                                         children: "보기"
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 532,
+                                        lineNumber: 536,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 503,
+                                lineNumber: 507,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1047,7 +1051,7 @@ const ConsultApply = ()=>{
                                 children: "분석하기"
                             }, void 0, false, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 536,
+                                lineNumber: 540,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
@@ -1069,11 +1073,11 @@ const ConsultApply = ()=>{
                 width: "898px",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "text-[13px] leading-[1.4] font-[400] text-[var(--n-600)] px-[20px] pt-[11px] pb-[17px]",
+                        className: "text-[16px] leading-[1.4] font-[400] text-[var(--n-600)] px-[20px] pt-[11px] pb-[17px]",
                         children: "최종 모의고사 점수를 입력해주세요"
                     }, void 0, false, {
                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                        lineNumber: 558,
+                        lineNumber: 562,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1088,34 +1092,6 @@ const ConsultApply = ()=>{
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
                                                     className: "w-[120px]"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 568,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
-                                                    className: "w-[103px]"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 569,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
-                                                    className: "w-[103px]"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 570,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
-                                                    className: "w-[103px]"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 571,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
-                                                    className: "w-[103px]"
                                                 }, void 0, false, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
                                                     lineNumber: 572,
@@ -1134,11 +1110,39 @@ const ConsultApply = ()=>{
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
                                                     lineNumber: 574,
                                                     columnNumber: 17
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                                    className: "w-[103px]"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
+                                                    lineNumber: 575,
+                                                    columnNumber: 17
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                                    className: "w-[103px]"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
+                                                    lineNumber: 576,
+                                                    columnNumber: 17
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                                    className: "w-[103px]"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
+                                                    lineNumber: 577,
+                                                    columnNumber: 17
+                                                }, ("TURBOPACK compile-time value", void 0)),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("col", {
+                                                    className: "w-[103px]"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
+                                                    lineNumber: 578,
+                                                    columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                            lineNumber: 567,
+                                            lineNumber: 571,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("thead", {
@@ -1146,71 +1150,71 @@ const ConsultApply = ()=>{
                                                 className: "bg-[var(--n-50)]",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[60px] max-md:min-w-[120px]",
+                                                        className: "border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[60px] max-md:min-w-[120px]",
                                                         children: "영역"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 578,
+                                                        lineNumber: 582,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
+                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
                                                         children: "한국사"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 581,
+                                                        lineNumber: 585,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
+                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
                                                         children: "국어"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 584,
+                                                        lineNumber: 588,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
+                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
                                                         children: "수학"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 587,
+                                                        lineNumber: 591,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
+                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]",
                                                         children: "영어"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 590,
+                                                        lineNumber: 594,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                                         colSpan: 2,
-                                                        className: "border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[206px]",
+                                                        className: "border border-[var(--n-200)] text-left px-[8px] pl-[37px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[206px]",
                                                         children: "탐구"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 593,
+                                                        lineNumber: 597,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
-                                                        className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[103px]",
+                                                        className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[103px]",
                                                         children: "제2외국어/한문"
                                                     }, void 0, false, {
                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                        lineNumber: 599,
+                                                        lineNumber: 603,
                                                         columnNumber: 19
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                lineNumber: 577,
+                                                lineNumber: 581,
                                                 columnNumber: 17
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                            lineNumber: 576,
+                                            lineNumber: 580,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -1218,19 +1222,19 @@ const ConsultApply = ()=>{
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] ",
+                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] ",
                                                             children: "선택과목"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 607,
+                                                            lineNumber: 611,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 610,
+                                                            lineNumber: 614,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1242,17 +1246,17 @@ const ConsultApply = ()=>{
                                                                     children: "화법과 작문"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 615,
+                                                                    lineNumber: 619,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 614,
+                                                                lineNumber: 618,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 613,
+                                                            lineNumber: 617,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1264,17 +1268,17 @@ const ConsultApply = ()=>{
                                                                     children: "문학과 독서"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 631,
+                                                                    lineNumber: 635,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 630,
+                                                                lineNumber: 634,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 629,
+                                                            lineNumber: 633,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1282,7 +1286,7 @@ const ConsultApply = ()=>{
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 645,
+                                                            lineNumber: 649,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1294,17 +1298,17 @@ const ConsultApply = ()=>{
                                                                     children: "경제와법"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 650,
+                                                                    lineNumber: 654,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 649,
+                                                                lineNumber: 653,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 648,
+                                                            lineNumber: 652,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1316,21 +1320,21 @@ const ConsultApply = ()=>{
                                                                     children: "사회 문화"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 695,
+                                                                    lineNumber: 699,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 682,
+                                                                lineNumber: 686,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 681,
+                                                            lineNumber: 685,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)] ",
+                                                            className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)] ",
                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                                                 type: "text",
                                                                 value: scores.korean_subject,
@@ -1338,39 +1342,39 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         korean_subject: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 713,
+                                                                lineNumber: 717,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 712,
+                                                            lineNumber: 716,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 606,
+                                                    lineNumber: 610,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] ",
+                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] ",
                                                             children: "표준점수"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 726,
+                                                            lineNumber: 730,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 729,
+                                                            lineNumber: 733,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1382,15 +1386,15 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         korean_standard: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 733,
+                                                                lineNumber: 737,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 732,
+                                                            lineNumber: 736,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1402,23 +1406,23 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         math_standard: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 746,
+                                                                lineNumber: 750,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 745,
+                                                            lineNumber: 749,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 755,
+                                                            lineNumber: 759,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1432,20 +1436,20 @@ const ConsultApply = ()=>{
                                                                             ...scores,
                                                                             inquiry2_standard: e.target.value
                                                                         }),
-                                                                    className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                    className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 760,
+                                                                    lineNumber: 764,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 759,
+                                                                lineNumber: 763,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 758,
+                                                            lineNumber: 762,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1459,52 +1463,52 @@ const ConsultApply = ()=>{
                                                                             ...scores,
                                                                             inquiry2_standard: e.target.value
                                                                         }),
-                                                                    className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                    className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 775,
+                                                                    lineNumber: 779,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 774,
+                                                                lineNumber: 778,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 773,
+                                                            lineNumber: 777,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 788,
+                                                            lineNumber: 792,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 725,
+                                                    lineNumber: 729,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] ",
+                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] ",
                                                             children: "백분위"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 795,
+                                                            lineNumber: 799,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 798,
+                                                            lineNumber: 802,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1516,15 +1520,15 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         korean_percentile: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 802,
+                                                                lineNumber: 806,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 801,
+                                                            lineNumber: 805,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1536,23 +1540,23 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         math_percentile: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 815,
+                                                                lineNumber: 819,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 814,
+                                                            lineNumber: 818,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 827,
+                                                            lineNumber: 831,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1566,20 +1570,20 @@ const ConsultApply = ()=>{
                                                                             ...scores,
                                                                             inquiry2_percentile: e.target.value
                                                                         }),
-                                                                    className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                    className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 832,
+                                                                    lineNumber: 836,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 831,
+                                                                lineNumber: 835,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 830,
+                                                            lineNumber: 834,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1593,44 +1597,44 @@ const ConsultApply = ()=>{
                                                                             ...scores,
                                                                             inquiry2_percentile: e.target.value
                                                                         }),
-                                                                    className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                    className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                    lineNumber: 847,
+                                                                    lineNumber: 851,
                                                                     columnNumber: 23
                                                                 }, ("TURBOPACK compile-time value", void 0))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 846,
+                                                                lineNumber: 850,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 845,
+                                                            lineNumber: 849,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]",
+                                                            className: "border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 860,
+                                                            lineNumber: 864,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 794,
+                                                    lineNumber: 798,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
-                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] ",
+                                                            className: "border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] ",
                                                             children: "등급"
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 867,
+                                                            lineNumber: 871,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1642,15 +1646,15 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         history_grade: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 871,
+                                                                lineNumber: 875,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 870,
+                                                            lineNumber: 874,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1662,15 +1666,15 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         korean_grade: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 881,
+                                                                lineNumber: 885,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 880,
+                                                            lineNumber: 884,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1682,15 +1686,15 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         math_grade: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 891,
+                                                                lineNumber: 895,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 890,
+                                                            lineNumber: 894,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1705,12 +1709,12 @@ const ConsultApply = ()=>{
                                                                 className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 901,
+                                                                lineNumber: 905,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 900,
+                                                            lineNumber: 904,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1726,10 +1730,10 @@ const ConsultApply = ()=>{
                                                                                 ...scores,
                                                                                 inquiry1_grade: e.target.value
                                                                             }),
-                                                                        className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                        className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                        lineNumber: 915,
+                                                                        lineNumber: 919,
                                                                         columnNumber: 23
                                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1739,21 +1743,21 @@ const ConsultApply = ()=>{
                                                                                 ...scores,
                                                                                 inquiry2_grade: e.target.value
                                                                             }),
-                                                                        className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]"
+                                                                        className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                        lineNumber: 926,
+                                                                        lineNumber: 930,
                                                                         columnNumber: 23
                                                                     }, ("TURBOPACK compile-time value", void 0))
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 914,
+                                                                lineNumber: 918,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 910,
+                                                            lineNumber: 914,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -1765,38 +1769,38 @@ const ConsultApply = ()=>{
                                                                         ...scores,
                                                                         second_lang_grade: e.target.value
                                                                     }),
-                                                                className: "w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
+                                                                className: "w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                                lineNumber: 940,
+                                                                lineNumber: 944,
                                                                 columnNumber: 21
                                                             }, ("TURBOPACK compile-time value", void 0))
                                                         }, void 0, false, {
                                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                            lineNumber: 939,
+                                                            lineNumber: 943,
                                                             columnNumber: 19
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                                    lineNumber: 866,
+                                                    lineNumber: 870,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                            lineNumber: 604,
+                                            lineNumber: 608,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                    lineNumber: 566,
+                                    lineNumber: 570,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 565,
+                                lineNumber: 569,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1804,11 +1808,11 @@ const ConsultApply = ()=>{
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                         onClick: ()=>setIsOpenScore(false),
-                                        className: "px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]",
+                                        className: "px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] h-[52px] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]",
                                         children: "닫기"
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 959,
+                                        lineNumber: 963,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$sgview_web$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1816,29 +1820,29 @@ const ConsultApply = ()=>{
                                             // TODO: 점수 저장 로직
                                             setIsOpenScore(false);
                                         },
-                                        className: "px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]",
+                                        className: "px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] h-[52px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]",
                                         children: "저장"
                                     }, void 0, false, {
                                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                        lineNumber: 965,
+                                        lineNumber: 969,
                                         columnNumber: 13
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                                lineNumber: 958,
+                                lineNumber: 962,
                                 columnNumber: 11
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                        lineNumber: 561,
+                        lineNumber: 565,
                         columnNumber: 9
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/sgview_web/app/(pages)/consult/apply/ConsultApply.tsx",
-                lineNumber: 552,
+                lineNumber: 556,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0))
         ]

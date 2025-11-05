@@ -158,6 +158,7 @@ const ConsultApply = () => {
             </p>
             <CreatableSelect
               isMulti
+              hideSelectedOptions={false}
               placeholder='희망대학 입력'
               value={selectedUniversities}
               onChange={(newValue) => {
@@ -206,16 +207,17 @@ const ConsultApply = () => {
                 }),
                 valueContainer: (base) => ({
                   ...base,
-                  padding: '6px 16px',
+                  padding: '6px 0 6px 16px',
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: '6px',
+                  gap: '2px',
                 }),
-                placeholder: (base) => ({
+                placeholder: (base, state) => ({
                   ...base,
                   fontSize: '15px',
                   fontWeight: '400',
                   color: '#AFB0B6',
+                  display: state.selectProps.menuIsOpen ? 'none' : 'block',
                 }),
                 input: (base) => ({
                   ...base,
@@ -227,16 +229,17 @@ const ConsultApply = () => {
                 }),
                 multiValue: (base) => ({
                   ...base,
-                  backgroundColor: 'transparent',
+                  backgroundColor: '#F3F4F6',
                   borderRadius: '6px',
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '0',
+                  padding: '4px 8px',
+                  gap: '4px',
                 }),
                 multiValueLabel: (base) => ({
                   ...base,
                   fontSize: '14px',
-                  fontWeight: '500',
+                  fontWeight: '400',
                   color: '#36373A',
                   padding: '0',
                   paddingLeft: '0',
@@ -245,21 +248,25 @@ const ConsultApply = () => {
                   ...base,
                   color: '#9CA3AF',
                   cursor: 'pointer',
+                  paddingLeft: '4px',
+                  paddingRight: '0',
                   '&:hover': {
                     backgroundColor: 'transparent',
-                    color: '#F6432B',
+                    color: '#6B7280',
                   },
                 }),
                 menu: (base) => ({
                   ...base,
                   borderRadius: '8px',
                   marginTop: '4px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid #D7D8DC',
+                  boxShadow: 'none',
+                  overflow: 'hidden',
                   zIndex: 10,
                 }),
                 menuList: (base) => ({
                   ...base,
-                  padding: '8px',
+                  padding: '8px 0',
                 }),
                 option: (base, state) => ({
                   ...base,
@@ -272,23 +279,18 @@ const ConsultApply = () => {
                     ? '#F3F4F6'
                     : 'white',
                   color: state.isSelected ? 'white' : '#36373A',
-                  borderRadius: '6px',
-                  padding: '10px 12px',
+                  borderRadius: '0',
+                  padding: '10px 16px',
                   '&:active': {
-                    backgroundColor: '#F6432B',
+                    backgroundColor: '#F3F4F6',
+                    color: '#36373A',
                   },
                 }),
                 indicatorSeparator: () => ({
                   display: 'none',
                 }),
-                clearIndicator: (base) => ({
-                  ...base,
-                  cursor: 'pointer',
-                  color: '#9CA3AF',
-                  padding: '0 8px',
-                  '&:hover': {
-                    color: '#F6432B',
-                  },
+                clearIndicator: () => ({
+                  display: 'none',
                 }),
               }}
             />
@@ -299,6 +301,7 @@ const ConsultApply = () => {
             </p>
             <CreatableSelect
               isMulti
+              hideSelectedOptions={false}
               placeholder='희망학과 입력'
               value={selectedMajors}
               onChange={(newValue) => {
@@ -347,16 +350,17 @@ const ConsultApply = () => {
                 }),
                 valueContainer: (base) => ({
                   ...base,
-                  padding: '6px 16px',
+                  padding: '6px 0 6px 16px',
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: '6px',
+                  gap: '2px',
                 }),
-                placeholder: (base) => ({
+                placeholder: (base, state) => ({
                   ...base,
                   fontSize: '15px',
                   fontWeight: '400',
                   color: '#AFB0B6',
+                  display: state.selectProps.menuIsOpen ? 'none' : 'block',
                 }),
                 input: (base) => ({
                   ...base,
@@ -368,16 +372,17 @@ const ConsultApply = () => {
                 }),
                 multiValue: (base) => ({
                   ...base,
-                  backgroundColor: 'transparent',
+                  backgroundColor: '#F3F4F6',
                   borderRadius: '6px',
                   display: 'flex',
                   alignItems: 'center',
-                  padding: '0',
+                  padding: '4px 8px',
+                  gap: '4px',
                 }),
                 multiValueLabel: (base) => ({
                   ...base,
                   fontSize: '14px',
-                  fontWeight: '500',
+                  fontWeight: '400',
                   color: '#36373A',
                   padding: '0',
                   paddingLeft: '0',
@@ -386,21 +391,25 @@ const ConsultApply = () => {
                   ...base,
                   color: '#9CA3AF',
                   cursor: 'pointer',
+                  paddingLeft: '4px',
+                  paddingRight: '0',
                   '&:hover': {
                     backgroundColor: 'transparent',
-                    color: '#F6432B',
+                    color: '#6B7280',
                   },
                 }),
                 menu: (base) => ({
                   ...base,
                   borderRadius: '8px',
                   marginTop: '4px',
-                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid #D7D8DC',
+                  boxShadow: 'none',
+                  overflow: 'hidden',
                   zIndex: 10,
                 }),
                 menuList: (base) => ({
                   ...base,
-                  padding: '8px',
+                  padding: '8px 0',
                 }),
                 option: (base, state) => ({
                   ...base,
@@ -413,23 +422,18 @@ const ConsultApply = () => {
                     ? '#F3F4F6'
                     : 'white',
                   color: state.isSelected ? 'white' : '#36373A',
-                  borderRadius: '6px',
-                  padding: '10px 12px',
+                  borderRadius: '0',
+                  padding: '10px 16px',
                   '&:active': {
-                    backgroundColor: '#F6432B',
+                    backgroundColor: '#F3F4F6',
+                    color: '#36373A',
                   },
                 }),
                 indicatorSeparator: () => ({
                   display: 'none',
                 }),
-                clearIndicator: (base) => ({
-                  ...base,
-                  cursor: 'pointer',
-                  color: '#9CA3AF',
-                  padding: '0 8px',
-                  '&:hover': {
-                    color: '#F6432B',
-                  },
+                clearIndicator: () => ({
+                  display: 'none',
                 }),
               }}
             />
@@ -451,8 +455,8 @@ const ConsultApply = () => {
                 생활기록부 PDF 업로드
               </p>
               {uploadedFile && (
-                <div className='border border-[var(--n-200)] rounded-[8px] py-[10px] px-[16px] flex items-center justify-between'>
-                  <p className='text-[15px] leading-[1.4] font-[500]'>
+                <div className='border border-[var(--n-200)] rounded-[8px] py-[12px] px-[16px] flex items-center justify-between'>
+                  <p className='text-[15px] leading-[21px] font-[500]'>
                     {uploadedFile?.name}
                   </p>
                   <Image
@@ -555,7 +559,7 @@ const ConsultApply = () => {
         title='최종 모의고사 점수'
         width='898px'
       >
-        <p className='text-[13px] leading-[1.4] font-[400] text-[var(--n-600)] px-[20px] pt-[11px] pb-[17px]'>
+        <p className='text-[16px] leading-[1.4] font-[400] text-[var(--n-600)] px-[20px] pt-[11px] pb-[17px]'>
           최종 모의고사 점수를 입력해주세요
         </p>
         <div className='flex flex-col gap-[20px] px-[20px] pb-[20px]  max-md:pr-[0]'>
@@ -575,28 +579,28 @@ const ConsultApply = () => {
               </colgroup>
               <thead>
                 <tr className='bg-[var(--n-50)]'>
-                  <th className='border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[60px] max-md:min-w-[120px]'>
+                  <th className='border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[60px] max-md:min-w-[120px]'>
                     영역
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
                     한국사
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
                     국어
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
                     수학
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
                     영어
                   </th>
                   <th
                     colSpan={2}
-                    className='border border-[var(--n-200)] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[206px]'
+                    className='border border-[var(--n-200)] text-left px-[8px] pl-[37px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[206px]'
                   >
                     탐구
                   </th>
-                  <th className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[13px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[103px]'>
                     제2외국어/한문
                   </th>
                 </tr>
@@ -604,10 +608,10 @@ const ConsultApply = () => {
               <tbody>
                 {/* 선택과목 행 */}
                 <tr>
-                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     선택과목
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -709,24 +713,24 @@ const ConsultApply = () => {
                       /> */}
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)] '>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)] '>
                     <input
                       type='text'
                       value={scores.korean_subject}
                       onChange={(e) =>
                         setScores({ ...scores, korean_subject: e.target.value })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                 </tr>
 
                 {/* 표준점수 행 */}
                 <tr>
-                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     표준점수
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -739,7 +743,7 @@ const ConsultApply = () => {
                           korean_standard: e.target.value,
                         })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -749,10 +753,10 @@ const ConsultApply = () => {
                       onChange={(e) =>
                         setScores({ ...scores, math_standard: e.target.value })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -766,7 +770,7 @@ const ConsultApply = () => {
                             inquiry2_standard: e.target.value,
                           })
                         }
-                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
                   </td>
@@ -781,21 +785,21 @@ const ConsultApply = () => {
                             inquiry2_standard: e.target.value,
                           })
                         }
-                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                 </tr>
 
                 {/* 백분위 행 */}
                 <tr>
-                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     백분위
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -808,7 +812,7 @@ const ConsultApply = () => {
                           korean_percentile: e.target.value,
                         })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -821,10 +825,10 @@ const ConsultApply = () => {
                           math_percentile: e.target.value,
                         })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -838,7 +842,7 @@ const ConsultApply = () => {
                             inquiry2_percentile: e.target.value,
                           })
                         }
-                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
                   </td>
@@ -853,18 +857,18 @@ const ConsultApply = () => {
                             inquiry2_percentile: e.target.value,
                           })
                         }
-                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
                     -
                   </td>
                 </tr>
 
                 {/* 등급 행 */}
                 <tr>
-                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[13px] font-[500] text-[var(--n-800)] '>
+                  <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     등급
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -874,7 +878,7 @@ const ConsultApply = () => {
                       onChange={(e) =>
                         setScores({ ...scores, history_grade: e.target.value })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -884,7 +888,7 @@ const ConsultApply = () => {
                       onChange={(e) =>
                         setScores({ ...scores, korean_grade: e.target.value })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -894,7 +898,7 @@ const ConsultApply = () => {
                       onChange={(e) =>
                         setScores({ ...scores, math_grade: e.target.value })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -921,7 +925,7 @@ const ConsultApply = () => {
                             inquiry1_grade: e.target.value,
                           })
                         }
-                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                       <input
                         type='text'
@@ -932,7 +936,7 @@ const ConsultApply = () => {
                             inquiry2_grade: e.target.value,
                           })
                         }
-                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
                       />
                     </div>
                   </td>
@@ -946,7 +950,7 @@ const ConsultApply = () => {
                           second_lang_grade: e.target.value,
                         })
                       }
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                 </tr>
@@ -958,7 +962,7 @@ const ConsultApply = () => {
           <div className='flex gap-[8px] items-center justify-start w-full max-md:gap-[6px] max-md:pb-[16px] max-md:pr-[20px]'>
             <button
               onClick={() => setIsOpenScore(false)}
-              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
+              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] h-[52px] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
             >
               닫기
             </button>
@@ -967,7 +971,7 @@ const ConsultApply = () => {
                 // TODO: 점수 저장 로직
                 setIsOpenScore(false);
               }}
-              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
+              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] h-[52px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
             >
               저장
             </button>

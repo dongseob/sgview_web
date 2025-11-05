@@ -1,6 +1,6 @@
 'use client';
-
 import ModalNoClose from '@/app/component/Modal/ModalNoClose';
+import Image from 'next/image';
 import { useState } from 'react';
 const ConsultListItem = ({
   date,
@@ -15,61 +15,75 @@ const ConsultListItem = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className='w-[270px] max-md:w-full h-auto py-[24px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px]'>
+    <div className='w-[269.6666564941406px] h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-md:w-full '>
       <div className='flex flex-col items-start justify-start w-full gap-[20px]'>
         <div className='flex flex-col items-start justify-start w-full'>
           <div className='flex items-center justify-between w-full'>
-            <p className='text-[16px] leading-[1.4] font-[400] text-[var(--n-400)]'>
-              생기부 컨설팅
+            <p className='text-[14px] leading-[1.4] font-[400] text-[var(--n-400)]'>
+              {date}
             </p>
-            <div
-              className={`w-[61px] h-[29px] flex items-center justify-center text-[13px] font-[500] rounded-[32px] ${
-                consulting === 'cancel'
-                  ? 'bg-[#FFF4F4] text-[#F3615B]'
-                  : consulting === 'complete'
-                  ? 'bg-[#CEE9D4] text-[#006E18]'
-                  : consulting === 'in-progress'
-                  ? 'bg-[#EFF0F5] text-[#8B95A1]'
-                  : consulting === 'submitted'
-                  ? 'bg-[#F7F8FC] text-[var(--n-800)] border border-[#E4E6EA]'
-                  : ''
-              }`}
-            >
-              {consulting === 'cancel'
-                ? '신청취소'
-                : consulting === 'complete'
-                ? '검토완료'
-                : consulting === 'in-progress'
-                ? '진행중'
-                : consulting === 'submitted'
-                ? '신청완료'
-                : ''}
-            </div>
+            <Image
+              src='/images/icon-close-24-gray.svg'
+              alt='arrow-right'
+              width={20}
+              height={20}
+              onClick={() => setIsOpen(true)}
+            />
           </div>
-        </div>
-        <div className='flex flex-col items-start justify-start w-full gap-[12px]'>
           <h3 className='text-[18px] leading-[1.5] font-[700] text-[var(--n-800)]'>
             {name}
           </h3>
-          <div className='flex flex-col items-start justify-start gap-[8px]'>
+        </div>
+        <div className='flex flex-col items-start justify-start w-full gap-[12px]'>
+          <div className='flex items-center justify-between w-full'>
             <p className='text-[16px] leading-[1.4] font-[400] text-[var(--n-500)]'>
-              컨설턴트 미배정
+              컨설턴트
             </p>
-            <p className='text-[14px] leading-[20px] font-[400] text-[var(--n-500)]'>
-              {date}
+            <p className='text-[16px] leading-[1.4] font-[500] text-[var(--n-800)]'>
+              {consultant}
             </p>
+          </div>
+          <div className='flex items-center justify-between w-full'>
+            <p className='text-[16px] leading-[1.4] font-[400] text-[var(--n-500)]'>
+              컨설팅
+            </p>
+            <div className='flex items-center justify-start gap-[4px]'>
+              {consulting === 'complete' && (
+                <Image
+                  src='/images/ic-check-small.svg'
+                  alt='check'
+                  width={16}
+                  height={16}
+                />
+              )}
+              <p
+                className={`text-[16px] leading-[1.4] font-[500] ${
+                  consulting === 'cancelled'
+                    ? 'text-[var(--n-500)]'
+                    : consulting === 'in-progress'
+                    ? 'text-[var(--g-400)]'
+                    : consulting === 'complete'
+                    ? 'text-[var(--r-400)]'
+                    : 'text-[var(--n-800)]'
+                }`}
+              >
+                {consulting === 'cancelled'
+                  ? '신청취소'
+                  : consulting === 'in-progress'
+                  ? '검토중'
+                  : '검토완료'}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      <div className='flex items-center justify-start gap-[12px] w-full'>
-        {consulting !== 'complete' && (
-          <button className='text-[15px] font-[500] text-[var(--n-800)] h-[48px] w-full rounded-[8px] border border-[var(--n-200)] '>
-            생활기록부 확인
-          </button>
-        )}
+      <div className='flex items-center justify-start gap-[8px] w-full'>
+        <button className='text-[15px] font-[500] text-[var(--n-800)] h-[52px] w-full rounded-[8px] border border-[var(--n-200)] '>
+          생활기록부 {consulting === 'complete' ? '' : '확인'}
+        </button>
         {consulting === 'complete' && (
-          <button className='text-[15px] font-[500]  bg-[var(--r-400)] text-[var(--n-0)] h-[48px] w-full rounded-[8px]  '>
-            진단 결과
+          <button className='text-[15px] font-[500]  bg-[var(--r-400)] text-[var(--n-0)] h-[52px] w-full rounded-[8px]  '>
+            진단결과
           </button>
         )}
       </div>
@@ -83,18 +97,18 @@ const ConsultListItem = ({
           <p className='text-[15px] font-[400] leading-[1.5] text-[var(--n-500)] text-center'>
             삭제시 작성된 생활기록부 정보 및 진단 내역이 삭제됩니다.
           </p>
-          <div className='flex items-center justify-center gap-[12px] w-full pb-[20px]'>
+          <div className='flex items-center justify-center gap-[8px] w-full pb-[20px]'>
             <button
               onClick={() => setIsOpen(false)}
               className='text-[15px] font-[500] text-[var(--n-800)] h-[48px] w-full rounded-[8px] border border-[var(--n-200)] w-[120px]'
             >
-              취소
+              아니요
             </button>
             <button
               onClick={() => setIsOpen(false)}
               className='text-[15px] font-[500] bg-[var(--r-400)] text-[var(--n-0)] h-[48px] w-full rounded-[8px] w-[120px]'
             >
-              삭제
+              네
             </button>
           </div>
         </div>

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///D:/work/sgview_web/app/%28pages%29/mypage/consult/%5Bid%5D/ConsultDetail.tsx"],"sourcesContent":["import LeftMenu from './LeftMenu';\r\n\r\nconst ConsultDetail = () => {\r\n  return (\r\n    <div>\r\n      <LeftMenu />\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default ConsultDetail;\r\n"],"names":[],"mappings":";;;;;AAAA;;;AAEA,MAAM,gBAAgB;IACpB,qBACE,4PAAC;kBACC,cAAA,4PAAC,qLAAQ;;;;;;;;;;AAGf;uCAEe","debugId":null}},
+    {"offset": {"line": 48, "column": 0}, "map": {"version":3,"sources":["file:///D:/work/sgview_web/app/%28pages%29/mypage/consult/%5Bid%5D/page.tsx"],"sourcesContent":["import ConsultDetail from './ConsultDetail';\r\n\r\nexport function generateStaticParams() {\r\n  return [\r\n    { id: '1' },\r\n    { id: '2' },\r\n    { id: '3' },\r\n  ];\r\n}\r\n\r\nconst ConsultDetailPage = () => {\r\n  return (\r\n    <div>\r\n      <ConsultDetail />\r\n    </div>\r\n  );\r\n};\r\n\r\nexport default ConsultDetailPage;\r\n"],"names":[],"mappings":";;;;;;;AAAA;;;AAEO,SAAS;IACd,OAAO;QACL;YAAE,IAAI;QAAI;QACV;YAAE,IAAI;QAAI;QACV;YAAE,IAAI;QAAI;KACX;AACH;AAEA,MAAM,oBAAoB;IACxB,qBACE,4PAAC;kBACC,cAAA,4PAAC,0LAAa;;;;;;;;;;AAGpB;uCAEe","debugId":null}}]
+}

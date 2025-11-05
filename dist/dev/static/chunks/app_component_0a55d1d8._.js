@@ -113,7 +113,7 @@ const Footer = ()=>{
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-[15px] leading-[1.5] text-[var(--n-800)]",
-                                                    children: "(주)에스지뷰교육연구소 대표이사 XXX"
+                                                    children: "(주)이스트루에듀 대표 이지나"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/component/Footer.tsx",
                                                     lineNumber: 68,
@@ -128,25 +128,10 @@ const Footer = ()=>{
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                     className: "text-[15px] max-[745px]:text-[14px] leading-[1.5] text-[var(--n-800)]",
-                                                    children: "사업자등록번호 111-11-11111"
+                                                    children: "사업자등록번호 778-46-01153"
                                                 }, void 0, false, {
                                                     fileName: "[project]/app/component/Footer.tsx",
                                                     lineNumber: 72,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "w-[1px] h-[12px] bg-[var(--n-300)] max-[745px]:hidden"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/component/Footer.tsx",
-                                                    lineNumber: 75,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-[15px] max-[745px]:text-[14px] leading-[1.5] text-[var(--n-800)]",
-                                                    children: "통신판매업 신고번호 1111-1111-1111"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/component/Footer.tsx",
-                                                    lineNumber: 76,
                                                     columnNumber: 17
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
@@ -155,44 +140,12 @@ const Footer = ()=>{
                                             lineNumber: 67,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0)),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "flex flex-wrap items-center gap-[8px] max-[745px]:flex-col max-[745px]:items-start max-[745px]:gap-[4px]",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-[15px] max-[745px]:text-[14px] leading-[1.5] text-[var(--n-800)]",
-                                                    children: "충남 천안시 서북구 검은들3길 58"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/component/Footer.tsx",
-                                                    lineNumber: 82,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "w-[1px] h-[12px] bg-[var(--n-300)] max-[745px]:hidden"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/component/Footer.tsx",
-                                                    lineNumber: 85,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0)),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                    className: "text-[15px] max-[745px]:text-[14px] leading-[1.5] text-[var(--n-800)]",
-                                                    children: "대표번호 XXXX-XXXX"
-                                                }, void 0, false, {
-                                                    fileName: "[project]/app/component/Footer.tsx",
-                                                    lineNumber: 86,
-                                                    columnNumber: 17
-                                                }, ("TURBOPACK compile-time value", void 0))
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/app/component/Footer.tsx",
-                                            lineNumber: 81,
-                                            columnNumber: 15
-                                        }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             className: "text-[14px] max-[745px]:text-[13px] leading-[1.5] text-[var(--n-800)] opacity-80",
-                                            children: "© SGView Corp. All Rights Reserved."
+                                            children: "© 이스트루에듀 All Rights Reserved."
                                         }, void 0, false, {
                                             fileName: "[project]/app/component/Footer.tsx",
-                                            lineNumber: 91,
+                                            lineNumber: 77,
                                             columnNumber: 15
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
@@ -227,12 +180,12 @@ const Footer = ()=>{
                                 className: "rounded-full"
                             }, void 0, false, {
                                 fileName: "[project]/app/component/Footer.tsx",
-                                lineNumber: 101,
+                                lineNumber: 87,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/app/component/Footer.tsx",
-                            lineNumber: 100,
+                            lineNumber: 86,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -244,12 +197,12 @@ const Footer = ()=>{
                                 height: 48
                             }, void 0, false, {
                                 fileName: "[project]/app/component/Footer.tsx",
-                                lineNumber: 110,
+                                lineNumber: 96,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/app/component/Footer.tsx",
-                            lineNumber: 109,
+                            lineNumber: 95,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -261,18 +214,18 @@ const Footer = ()=>{
                                 height: 48
                             }, void 0, false, {
                                 fileName: "[project]/app/component/Footer.tsx",
-                                lineNumber: 118,
+                                lineNumber: 104,
                                 columnNumber: 13
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/app/component/Footer.tsx",
-                            lineNumber: 117,
+                            lineNumber: 103,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/app/component/Footer.tsx",
-                    lineNumber: 99,
+                    lineNumber: 85,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             ]

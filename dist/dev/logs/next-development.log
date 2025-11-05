@@ -1,13 +1,11 @@
-[00:00:00.650] Server  LOG     
-[00:00:00.650] Server  LOG        We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
-[00:00:00.651] Server  LOG        The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
-
-[00:00:00.651] Server  LOG        	- include was updated to add 'dist/types/**/*.ts'
-[00:00:00.651] Server  LOG        	- include was updated to add 'dist/dev/types/**/*.ts'
-[00:00:00.651] Server  LOG     
-[00:00:00.778] Server  LOG      ✓ Ready in 558ms
-[00:00:23.903] Browser WARN    Image with src "/images/logo.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+[00:00:00.801] Server  LOG      ✓ Ready in 575ms
+[00:00:20.974] Browser WARN    Image with src "/images/footerBannerIcon.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
 Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
-[00:00:27.487] Browser WARN    Image with src "http://localhost:3000/images/headerSection-folder.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:00:27.487] Browser WARN    Image with src "http://localhost:3000/images/arrow-right-white.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:00:27.487] Browser WARN    Image with src "http://localhost:3000/images/footerBannerIcon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.308] Browser WARN    Image with src "http://localhost:3000/images/footerBannerIcon.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.308] Browser WARN    Image with src "http://localhost:3000/images/arrow-right-white.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.308] Browser WARN    Image with src "http://localhost:3000/images/headerSection-folder.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.308] Browser WARN    Image with src "http://localhost:3000/images/section1.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.308] Browser WARN    Image with src "http://localhost:3000/images/section2.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.308] Browser WARN    Image with src "http://localhost:3000/images/section3.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:21.709] Browser WARN    Image with src "/images/section1.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading

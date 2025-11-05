@@ -66,7 +66,7 @@ const Footer = () => {
             <div className='flex flex-col items-start justify-start gap-[8px]'>
               <div className='flex flex-wrap items-center gap-[8px] max-[745px]:flex-col max-[745px]:items-start max-[745px]:gap-[4px]'>
                 <p className='text-[15px] leading-[1.5] text-[var(--n-800)]'>
-                  (주)이스트루에듀 대표 이지나
+                  이스트루에듀 대표 이지나
                 </p>
                 <div className='w-[1px] h-[12px] bg-[var(--n-300)] max-[745px]:hidden' />
                 <p className='text-[15px] max-[745px]:text-[14px] leading-[1.5] text-[var(--n-800)]'>

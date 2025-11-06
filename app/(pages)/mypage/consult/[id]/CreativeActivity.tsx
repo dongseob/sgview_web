@@ -1,12 +1,13 @@
 const CreativeActivity = () => {
   return (
     <div>
-      <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+      <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
         창의적 체험활동
       </h2>
 
-      <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-        <table className='w-full border-collapse '>
+      <div className='overflow-x-auto border-t-[var(--n-800)] border-t max-[745px]:border-t-0 max-[745px]:px-[20px]'>
+        <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+        <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
           <colgroup>
             <col width='64px' />
             <col width='120px' />

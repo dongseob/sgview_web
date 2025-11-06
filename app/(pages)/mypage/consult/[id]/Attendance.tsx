@@ -1,17 +1,24 @@
 const Attendance = () => {
   return (
     <div>
-      <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+      <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
         출결/자격증/봉사
       </h2>
 
       {/* 출결상황 */}
       <div className='mb-[32px]'>
-        <h3 className='text-[18px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[16px]'>
+        <h3 className='text-[18px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[16px] max-[745px]:px-[20px]'>
           출결상황
         </h3>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div
+          className='overflow-x-auto border-t-[var(--n-800)] border-t [&::-webkit-scrollbar]:hidden max-[745px]:px-[20px] max-[745px]:border-t-0'
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <colgroup>
               <col width='58px' />
               <col width='59px' />
@@ -60,7 +67,7 @@ const Attendance = () => {
                 </th>
                 <th
                   rowSpan={2}
-                  className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center w-[100px]'
+                  className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center w-[100px]'
                 >
                   특기사항
                 </th>
@@ -140,11 +147,12 @@ const Attendance = () => {
       <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px]'></div>
       {/* 자격증 및 인증 취득사항 */}
       <div className='mb-[32px]'>
-        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
           자격증 및 인증 취득사항
         </h3>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div className='overflow-x-auto border-t-[var(--n-800)] border-t max-[745px]:border-t-0 max-[745px]:px-[20px]'>
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <colgroup>
               <col width='180px' />
               <col />
@@ -184,15 +192,16 @@ const Attendance = () => {
           </table>
         </div>
       </div>
-      <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px]'></div>
+      <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px] max-[745px]:min-w-[calc(100% - 40px)] '></div>
 
       {/* 봉사활동실적 */}
       <div>
-        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
           봉사활동실적
         </h3>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div className='overflow-x-auto max-[745px]:px-[20px] border-t-[var(--n-800)] border-t max-[745px]:border-t-0'>
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px] '>
             <colgroup>
               <col width='80px' />
               <col width='140px' />
@@ -202,7 +211,7 @@ const Attendance = () => {
             </colgroup>
             <thead>
               <tr className='bg-[var(--n-50)]'>
-                <th className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center'>
+                <th className='border border-[var(--n-200)]  border-l-0 px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center'>
                   학년
                 </th>
                 <th className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center'>

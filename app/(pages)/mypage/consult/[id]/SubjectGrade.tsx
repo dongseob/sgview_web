@@ -1,17 +1,18 @@
 const SubjectGrade = () => {
   return (
     <div>
-      <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+      <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
         교과성적
       </h2>
 
       {/* 주요 교과 성적 */}
       <div className='mb-[32px]'>
-        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
           주요 교과 성적
         </h3>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div className='overflow-x-auto border-t-[var(--n-800)] border-t max-[745px]:border-t-0 max-[745px]:px-[20px]'>
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <colgroup>
               <col width='132px' />
               <col width='79px' />
@@ -90,18 +91,19 @@ const SubjectGrade = () => {
         </div>
       </div>
 
-      <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px]'></div>
+      <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px] max-[745px]:min-w-[calc(100% - 40px)]'></div>
 
       {/* 전체 내신 성적 */}
       <div className='mb-[32px]'>
-        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+        <h3 className='text-[20px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
           전체 내신 성적
         </h3>
-        <p className='text-[16px] font-[400] leading-[1.4] text-[var(--n-600)] mb-[24px]'>
+        <p className='text-[16px] font-[400] leading-[1.4] text-[var(--n-600)] mb-[24px] max-[745px]:px-[20px]'>
           공통과목, 일반선택과목
         </p>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div className='overflow-x-auto border-t-[var(--n-800)] border-t max-[745px]:border-t-0 max-[745px]:px-[20px]'>
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <colgroup>
               <col width='132px' />
               <col width='71px' />
@@ -432,11 +434,12 @@ const SubjectGrade = () => {
 
       {/* 체육·예술과목 */}
       <div className='mb-[32px]'>
-        <h3 className='text-[16px] font-[500] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+        <h3 className='text-[16px] font-[500] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
           체육·예술과목
         </h3>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div className='overflow-x-auto border-t-[var(--n-800)] border-t max-[745px]:border-t-0 max-[745px]:px-[20px]'>
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <colgroup>
               <col width='132px' />
               <col width='142px' />
@@ -538,11 +541,12 @@ const SubjectGrade = () => {
 
       {/* 진로선택과목 */}
       <div className='mb-[32px]'>
-        <h3 className='text-[16px] font-[500] leading-[1.3] text-[var(--n-800)] mb-[24px]'>
+        <h3 className='text-[16px] font-[500] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
           진로선택과목
         </h3>
-        <div className='overflow-x-auto border-t-[var(--n-800)] border-t'>
-          <table className='w-full border-collapse'>
+        <div className='overflow-x-auto border-t-[var(--n-800)] border-t max-[745px]:border-t-0 max-[745px]:px-[20px]'>
+          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
+          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <colgroup>
               <col width='70px' />
               <col width='107px' />

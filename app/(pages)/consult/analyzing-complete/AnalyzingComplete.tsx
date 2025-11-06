@@ -2,8 +2,8 @@ import Image from 'next/image';
 
 const AnalyzingComplete = () => {
   return (
-    <div className='pt-[40px] pb-[120px] max-md:pt-[32px] max-md:pb-[32px] max-md:px-[20px]'>
-      <div className='w-[328px] mx-auto py-[32px] flex flex-col items-center justify-center gap-[32px] max-md:py-[0]'>
+    <div className='pt-[40px] pb-[120px] max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
+      <div className='w-[328px] mx-auto py-[32px] flex flex-col items-center justify-center gap-[32px] max-[745px]:py-[0]'>
         <div className='flex flex-col items-center justify-center gap-[20px]'>
           <Image
             src='/images/ic-system-option-on.svg'

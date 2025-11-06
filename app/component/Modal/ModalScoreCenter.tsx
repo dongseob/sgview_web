@@ -70,19 +70,19 @@ const ModalScoreCenter = ({
   // createPortal을 사용하여 모달을 body 바로 아래에 렌더링
   return createPortal(
     <div
-      className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50 max-md:items-end'
+      className='fixed inset-0 z-[100] flex items-center justify-center bg-black/50 max-[745px]:items-end'
       onClick={onClose}
       role='dialog'
     >
       <div
         ref={modalRef}
-        className=' bg-white rounded-xl text-base leading-5 z-20 relative overflow-hidden w-[480px] max-md:w-[calc(100%-32px)] max-md:max-h-[90vh] max-md:rounded-bl-[0px] max-md:rounded-br-[0px]'
+        className=' bg-white rounded-xl text-base leading-5 z-20 relative overflow-hidden w-[480px] max-[745px]:w-[calc(100%-32px)] max-[745px]:max-h-[90vh] max-[745px]:rounded-bl-[0px] max-[745px]:rounded-br-[0px]'
         style={{ height, maxHeight: '90vh', width: width }}
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className='flex items-center justify-between relative px-[20px] pb-[24px] pt-[20px] h-[78px] max-md:px-[16px] max-md:pb-[16px] max-md:pt-[16px]'>
-            <h3 className='text-left text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] max-md:text-[18px]'>
+          <div className='flex items-center justify-between relative px-[20px] pb-[24px] pt-[20px] h-[78px] max-[745px]:px-[16px] max-[745px]:pb-[16px] max-[745px]:pt-[16px]'>
+            <h3 className='text-left text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] max-[745px]:text-[18px]'>
               {title}
             </h3>
             <button className='' onClick={onClose}>

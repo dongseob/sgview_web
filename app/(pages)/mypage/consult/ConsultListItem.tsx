@@ -15,7 +15,7 @@ const ConsultListItem = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className='w-[269.6666564941406px] h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-md:w-full '>
+    <div className='w-[269.6666564941406px] h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-[745px]:w-full '>
       <div className='flex flex-col items-start justify-start w-full gap-[20px]'>
         <div className='flex flex-col items-start justify-start w-full'>
           <div className='flex items-center justify-between w-full'>

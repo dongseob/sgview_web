@@ -1,88 +1,130 @@
 'use client';
-import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useState } from 'react';
 
-const Header = () => {
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+
+const HeaderUnified = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // TODO: 실제 로그인 상태로 대체 필요
+  // 상태
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // 모바일 사이드메뉴
+  const [scrolledPc, setScrolledPc] = useState(false); // 데스크톱: 76px 기준
+  const [scrolledMo, setScrolledMo] = useState(false); // 모바일: 56px 기준
+
+  // TODO: 실제 로그인 연동
   const isLoggedIn = false;
+  const userName = '이광호';
+
+  // ✅ 스크롤 감지하여 헤더 배경/블러 토글 (PC 76px / MO 56px)
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolledPc(y > 76);
+      setScrolledMo(y > 56);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll(); // 초기 위치 반영
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // ✅ 모바일 메뉴 열릴 때 바디 스크롤 잠금
+  useEffect(() => {
+    if (isMenuOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+      return () => {
+        const top = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        if (top) window.scrollTo(0, parseInt(top) * -1);
+      };
+    } else {
+      const top = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      if (top) window.scrollTo(0, parseInt(top) * -1);
+    }
+  }, [isMenuOpen]);
 
   const handleFreeDiagnosis = () => {
-    if (isLoggedIn) {
-      router.push('/consult-apply');
-    } else {
-      router.push('/signin');
-    }
+    if (isLoggedIn) router.push('/consult-apply');
+    else router.push('/signin');
   };
 
-  // 스무스 스크롤 이동 함수
+  // 스무스 스크롤 이동
   const handleScrollTo = (id: string) => {
     const el = document.querySelector(id);
     if (!el) return;
-    const headerOffset = 72; // 헤더 높이(px)
+    const headerOffset = 72;
     const elementPosition = el.getBoundingClientRect().top + window.scrollY;
     const offsetPosition = elementPosition - headerOffset;
-
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: 'smooth',
-    });
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
   };
 
-  // 홈이 아니면 홈으로만 이동, 홈이면 스크롤
+  // 홈이 아니면 홈으로 이동 후 스크롤, 홈이면 바로 스크롤
   const goHomeOrScroll = (id: string) => {
     if (pathname !== '/') {
-      router.push('/'); // 그냥 홈으로만 이동
-      setTimeout(() => {
-        handleScrollTo(id);
-      }, 1000);
+      router.push('/');
+      setTimeout(() => handleScrollTo(id), 1000);
       return;
     }
-    handleScrollTo(id); // 이미 홈이면 해당 섹션으로 스크롤
+    handleScrollTo(id);
   };
 
   return (
     <>
-      <div className='max-md:hidden w-full border-b border-[var(--n-200)] fixed top-0 bg-white/80 z-10 '>
-        <div className='px-[144px] py-[16px] flex items-center justify-between max-w-[1440px] mx-auto'>
+      {/* ====== 데스크톱 고정 헤더 ====== */}
+      <div
+        className={[
+          'w-full fixed top-0 z-10 transition-all duration-300',
+          'max-[745px]:hidden',
+          scrolledPc ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]' : 'bg-white/0',
+        ].join(' ')}
+      >
+        <div className='max-w-[1440px] mx-auto px-[144px] py-[16px] flex items-center justify-between w-full'>
           <div className='flex items-center justify-start gap-[69px]'>
-            <Image
-              src='/images/logo.png'
-              alt='logo'
-              width={127}
-              height={34}
-              className='cursor-pointer'
-              onClick={() => router.push('/')}
-            />
+            <Image src='/images/logo.png' alt='logo' width={127} height={34} className='cursor-pointer' onClick={() => router.push('/')} />
             <div>
-              <ul className='flex items-center justify-start gap-[24px] font-[500]'>
-                <li className='px-[16px] py-[8px]'>
+              <ul className='flex items-center justify-start gap-[24px] font-[500] text-[#1A1B1E]'>
+                <li className='px-[16px] py-[10px]'>
                   <button
                     type='button'
-                    onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
-                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      goHomeOrScroll('#section1');
+                    }}
+                    className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     서비스 소개
                   </button>
                 </li>
-                <li className='px-[16px] py-[8px]'>
+                <li className='px-[16px] py-[10px]'>
                   <button
                     type='button'
-                    onClick={() => {setIsMenuOpen(false); goHomeOrScroll('#section1')}}
-                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      goHomeOrScroll('#section2');
+                    }}
+                    className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     이용방법
                   </button>
                 </li>
-                <li className='px-[16px] py-[8px]'>
+                <li className='px-[16px] py-[10px]'>
                   <button
                     type='button'
                     onClick={() => router.push('/consult/apply')}
-                    className='text-[16px] leading-[16px] text-[var(--n-900)] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
+                    className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     입시컨설팅 신청
                   </button>
@@ -91,20 +133,15 @@ const Header = () => {
             </div>
           </div>
 
-          {/* 로그인 / 회원가입 버튼 */}
           <div className='flex items-center justify-start gap-[8px]'>
             <button
-              onClick={() => {
-                router.push('/signin');
-              }}
+              onClick={() => router.push('/signin')}
               className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
             >
               로그인
             </button>
             <button
-              onClick={() => {
-                router.push('/signup');
-              }}
+              onClick={() => router.push('/signup')}
               className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'
             >
               회원가입
@@ -113,33 +150,144 @@ const Header = () => {
         </div>
       </div>
 
-      {/* 하단 픽스드 배너 — / 경로일 때만 표시 */}
+      {/* ====== 모바일 상단 바 (햄버거) ====== */}
+      <div
+        className={[
+          'hidden max-[745px]:flex',
+          'w-full fixed top-0 z-10 min-w-[375px] h-[56px] items-center justify-between px-[20px]',
+          // 모바일: 처음엔 완전 투명, 56px 넘으면 데스크톱과 동일 효과
+          scrolledMo ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]' : 'bg-white/0',
+          'transition-all duration-300',
+        ].join(' ')}
+      >
+        <Image src='/images/logo.png' alt='logo' width={89} height={24} onClick={() => router.push('/')} className='cursor-pointer' />
+        <Image src='/images/icon-menu-24.svg' alt='menu' width={24} height={24} className='cursor-pointer' onClick={() => setIsMenuOpen(true)} />
+      </div>
+
+      {/* ====== 모바일 사이드 메뉴 ====== */}
+      {isMenuOpen && (
+        <>
+          <div className='fixed inset-0 bg-black/50 z-40 min-w-[375px] hidden max-[745px]:block' onClick={() => setIsMenuOpen(false)} />
+          <div className='fixed top-0 right-0 w-full h-full bg-white z-50 shadow-lg min-w-[375px] hidden max-[745px]:block'>
+            <div className='flex flex-col h-full'>
+              <div className='flex items-center justify-between px-[20px] h-[56px] border-b border-[transparent]'>
+                <Image src='/images/logo.png' alt='logo' width={89} height={24} />
+                <Image src='/images/icon-close-24.svg' alt='close' width={24} height={24} className='cursor-pointer' onClick={() => setIsMenuOpen(false)} />
+              </div>
+
+              <div className='flex flex-col p-[20px] py-[24px] gap-[32px] overflow-y-auto'>
+                <div className='flex flex-col gap-[24px]'>
+                  {isLoggedIn ? (
+                    <>
+                      <p className='text-[24px] font-[700] leading-[36px] text-[var(--n-800)]'>
+                        안녕하세요
+                        <br />
+                        {userName}님
+                      </p>
+                      <div className='flex flex-col gap-[8px] w-full'>
+                        <Link
+                          href='/consult/apply'
+                          className='bg-[var(--n-800)] text-white rounded-[8px] h-[52px] flex items-center justify-center text-[15px] font-[600] w-full'
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          AI 생기부 분석하기
+                        </Link>
+                        <Link
+                          href='/mypage'
+                          className='text-[15px] font-[500] h-[52px] text-[var(--n-600)] text-center w-full border border-[var(--n-200)] rounded-[8px] flex items-center justify-center'
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          마이페이지
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <p className='text-[24px] font-[700] leading-[36px] text-[var(--n-800)]'>
+                        생기부 가입하고
+                        <br />
+                        AI 분석을 받아보세요
+                      </p>
+                      <div className='flex flex-col gap-[8px] w-full'>
+                        <Link
+                          href='/signup'
+                          className='bg-[var(--r-400)] text-white rounded-[8px] h-[52px] flex items-center justify-center text-[15px] font-[600] w-full'
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          회원 가입하기
+                        </Link>
+                        <Link
+                          href='/signin'
+                          className='text-[15px] font-[500] h-[52px] text-[var(--n-600)] text-center w-full border border-[var(--n-200)] rounded-[8px] flex items-center justify-center'
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          로그인
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <div className='w-full h-[1px] bg-[var(--n-200)]' />
+
+                <div className='flex flex-col gap-[32px]'>
+                  <button
+                    className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      goHomeOrScroll('#section1');
+                    }}
+                  >
+                    서비스 소개
+                  </button>
+                  <button
+                    className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      goHomeOrScroll('#section2');
+                    }}
+                  >
+                    이용방법
+                  </button>
+                  <Link href='/consult/apply' className='text-[18px] font-[600] text-[var(--n-800)] hover:text-[#F6432B]' onClick={() => setIsMenuOpen(false)}>
+                    입시컨설팅 신청
+                  </Link>
+                </div>
+
+                {/* 로그인 상태일 때만 */}
+                {isLoggedIn && (
+                  <>
+                    <div className='w-full h-[1px] bg-[var(--n-200)]' />
+                    <button
+                      className='text-[18px] font-[600] text-[var(--n-800)] text-left'
+                      onClick={() => {
+                        // TODO: 로그아웃 처리
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      로그아웃
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ====== 홈 전용 하단 고정 배너 ====== */}
       {pathname === '/' && (
-        <div className='fixed bottom-0 z-10 w-full bg-[#F3615B] h-[88px] flex items-center justify-center'>
+        <div className='fixed bottom-0 z-10 w-full bg-[#F3615B] py-[13.5px] flex items-center justify-center max-[745px]:hidden'>
           <div className='flex items-center'>
-            <Image
-              className='mb-[48px]'
-              src={'/images/footerBannerIcon.png'}
-              width={147}
-              height={127}
-              alt='footerBannerIcon'
-            />
             <p className='text-white text-[22px] font-[500] leading-[30px] ml-[8px]'>
-              입시경쟁력의 첫걸음!{' '}
-              <span className='font-[800]'>생기뷰 분석으로</span>
+              입시경쟁력의 첫걸음! <span className='font-[800]'>생기뷰 분석으로</span>
             </p>
             <div
               onClick={handleFreeDiagnosis}
-              className='ml-[40px] px-[36px] py-[18px] flex text-[20px] font-[700] text-white leading-[28px] bg-[#D84742] rounded-full cursor-pointer'
+              className='ml-[40px] px-[28px] py-[14px] flex text-[20px] font-[700] text-white leading-[28px] bg-[#D84742] rounded-full cursor-pointer'
             >
               무료 진단하기
-              <Image
-                className='ml-[4px]'
-                src={'/images/arrow-right-white.png'}
-                width={20}
-                height={20}
-                alt='arrow-right-white'
-              />
+              <Image className='ml-[4px]' src='/images/arrow-right-white.png' width={20} height={20} alt='arrow-right-white' />
             </div>
           </div>
         </div>
@@ -148,4 +296,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderUnified;

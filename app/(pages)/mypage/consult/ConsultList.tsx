@@ -36,8 +36,8 @@ const ConsultList = () => {
   ];
   return (
     <div className='pt-[40px] pb-[120px] max-w-[1440px]'>
-      <div className='w-full  mx-auto  flex items-start justify-start gap-[24px] px-[144px] max-md:px-[20px] max-md:flex-col'>
-        <div className='flex flex-col items-start justify-start gap-[12px] min-w-[270px] max-md:items-center max-md:justify-center max-md:w-full'>
+      <div className='w-full  mx-auto  flex items-start justify-start gap-[24px] px-[144px] max-[745px]:px-[20px] max-[745px]:flex-col'>
+        <div className='flex flex-col items-start justify-start gap-[12px] min-w-[270px] max-[745px]:items-center max-[745px]:justify-center max-[745px]:w-full'>
           <h3 className='text-[28px] font-[700] leading-[1.3] text-[var(--n-800)]'>
             나의 컨설팅
           </h3>

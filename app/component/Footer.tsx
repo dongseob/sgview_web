@@ -15,10 +15,9 @@ const Footer = () => {
           max-w-[1440px] mx-auto
           px-[144px] py-[48px]
           flex items-start justify-between
-          ${isHome ? 'pb-[120px]' : ''}
-          /* 모바일: 요구사항 - py48 px20 gap-y24 */
+          ${isHome ? 'pb-[195px]' : ''}
           max-[745px]:px-[20px] max-[745px]:py-[48px]
-          ${isHome ? 'max-[745px]:pb-[120px]' : ''}
+          ${isHome ? 'max-[745px]:pb-[48px]' : ''}
           max-[745px]:flex-col max-[745px]:gap-y-[24px]
         `}
       >
@@ -85,27 +84,11 @@ const Footer = () => {
         <div className='flex items-center justify-start gap-[8px] max-[745px]:order-last max-[745px]:pt-[8px]'>
           <Link href='/' className='inline-block'>
             <Image
-              src='/images/link_blog.png'
-              alt='link_blog'
+              src='/images/icon-thread.png'
+              alt='thread'
               width={48}
               height={48}
               className='rounded-full'
-            />
-          </Link>
-          <Link href='/'>
-            <Image
-              src='/images/link-youtube.svg'
-              alt='link_youtube'
-              width={48}
-              height={48}
-            />
-          </Link>
-          <Link href='/'>
-            <Image
-              src='/images/link-insta.svg'
-              alt='link_insta'
-              width={48}
-              height={48}
             />
           </Link>
         </div>

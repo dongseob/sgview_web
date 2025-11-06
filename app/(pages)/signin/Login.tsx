@@ -47,8 +47,8 @@ const Login = () => {
   };
 
   return (
-    <div className='w-full pt-[40px] pb-[120px] mx-auto max-md:pt-[32px] max-md:pb-[32px] max-md:px-[20px]'>
-      <div className='w-full max-w-[368px] mx-auto  py-[32px] flex flex-col items-center justify-start gap-[32px] max-md:py-[0]'>
+    <div className='w-full pt-[40px] pb-[120px] mx-auto max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
+      <div className='w-full max-w-[368px] mx-auto  py-[32px] flex flex-col items-center justify-start gap-[32px] max-[745px]:py-[0]'>
         <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>로그인</h3>
         <div className='flex flex-col gap-[24px] w-full'>
           <TitleInput

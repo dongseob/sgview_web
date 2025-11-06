@@ -41,8 +41,8 @@ const ConsultDetail = () => {
   const content = contentMap[activeSection];
 
   return (
-    <div className='flex gap-[24px] max-md:flex-col max-md:gap-[24px]'>
-      <aside className='w-[270px] flex-shrink-0 max-md:w-full'>
+    <div className='flex gap-[24px] max-[745px]:flex-col max-[745px]:gap-[24px]'>
+      <aside className='w-[270px] flex-shrink-0 max-[745px]:w-full'>
         <LeftMenu
           activeSection={activeSection}
           onSectionChange={setActiveSection}

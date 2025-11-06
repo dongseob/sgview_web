@@ -146,8 +146,8 @@ const ConsultApply = () => {
     }
   };
   return (
-    <div className='pt-[40px] pb-[120px] max-md:pt-[32px] max-md:pb-[32px] max-md:px-[20px]'>
-      <div className='w-[328px] mx-auto  flex flex-col items-center justify-center gap-[32px] max-md:py-[0]'>
+    <div className='pt-[40px] pb-[120px] max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
+      <div className='w-[328px] mx-auto  flex flex-col items-center justify-center gap-[32px] max-[745px]:py-[0]'>
         <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>
           입시컨설팅 신청
         </h3>
@@ -562,11 +562,11 @@ const ConsultApply = () => {
         <p className='text-[16px] leading-[1.4] font-[400] text-[var(--n-600)] px-[20px] pt-[11px] pb-[17px]'>
           최종 모의고사 점수를 입력해주세요
         </p>
-        <div className='flex flex-col gap-[20px] px-[20px] pb-[20px]  max-md:pr-[0]'>
+        <div className='flex flex-col gap-[20px] px-[20px] pb-[20px]  max-[745px]:pr-[0]'>
           {/* 설명 텍스트 */}
 
           {/* 점수 테이블 */}
-          <div className='w-full overflow-x-auto border-t border-[var(--n-800)] max-md:max-h-[60vh] max-md:overflow-y-auto'>
+          <div className='w-full overflow-x-auto border-t border-[var(--n-800)] max-[745px]:max-h-[60vh] max-[745px]:overflow-y-auto'>
             <table className='w-full border-collapse'>
               <colgroup>
                 <col className='w-[120px]' />
@@ -579,28 +579,28 @@ const ConsultApply = () => {
               </colgroup>
               <thead>
                 <tr className='bg-[var(--n-50)]'>
-                  <th className='border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[60px] max-md:min-w-[120px]'>
+                  <th className='border border-[var(--n-200)] text-left border-l-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[60px] max-[745px]:min-w-[120px]'>
                     영역
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-[745px]:min-w-[103px]'>
                     한국사
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-[745px]:min-w-[103px]'>
                     국어
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-[745px]:min-w-[103px]'>
                     수학
                   </th>
-                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[70px] max-[745px]:min-w-[103px]'>
                     영어
                   </th>
                   <th
                     colSpan={2}
-                    className='border border-[var(--n-200)] text-left px-[8px] pl-[37px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[206px]'
+                    className='border border-[var(--n-200)] text-left px-[8px] pl-[37px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-[745px]:min-w-[206px]'
                   >
                     탐구
                   </th>
-                  <th className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-md:min-w-[103px]'>
+                  <th className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-[745px]:min-w-[103px]'>
                     제2외국어/한문
                   </th>
                 </tr>
@@ -959,10 +959,10 @@ const ConsultApply = () => {
           </div>
 
           {/* 버튼 */}
-          <div className='flex gap-[8px] items-center justify-start w-full max-md:gap-[6px] max-md:pb-[16px] max-md:pr-[20px]'>
+          <div className='flex gap-[8px] items-center justify-start w-full max-[745px]:gap-[6px] max-[745px]:pb-[16px] max-[745px]:pr-[20px]'>
             <button
               onClick={() => setIsOpenScore(false)}
-              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] h-[52px] rounded-[8px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
+              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-[var(--n-600)] border border-[var(--n-300)] h-[52px] rounded-[8px] max-[745px]:px-[16px] max-[745px]:py-[12px] max-[745px]:text-[14px]'
             >
               닫기
             </button>
@@ -971,7 +971,7 @@ const ConsultApply = () => {
                 // TODO: 점수 저장 로직
                 setIsOpenScore(false);
               }}
-              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] h-[52px] max-md:px-[16px] max-md:py-[12px] max-md:text-[14px]'
+              className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] h-[52px] max-[745px]:px-[16px] max-[745px]:py-[12px] max-[745px]:text-[14px]'
             >
               저장
             </button>

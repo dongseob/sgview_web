@@ -1,9 +1,0 @@
-{
-  "[project]/sgview_web/node_modules/react-select/creatable/dist/react-select-creatable.esm.js [app-client] (ecmascript, next/dynamic entry)": {
-    "id": "[project]/sgview_web/node_modules/react-select/creatable/dist/react-select-creatable.esm.js [app-client] (ecmascript, next/dynamic entry)",
-    "files": [
-      "static/chunks/57283_9e7d52da._.js",
-      "static/chunks/57283_react-select_creatable_dist_react-select-creatable_esm_7c840c00.js"
-    ]
-  }
-}

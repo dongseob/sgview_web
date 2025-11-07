@@ -277,7 +277,7 @@ const HeaderUnified = () => {
 
       {/* ====== 홈 전용 하단 고정 배너 ====== */}
       {pathname === '/' && (
-        <div className='fixed bottom-0 z-10 w-full bg-[#F3615B] py-[13.5px] flex items-center justify-center max-[745px]:hidden'>
+        <div className='fixed bottom-0 z-20 w-full bg-[#F3615B] py-[13.5px] flex items-center justify-center max-[745px]:hidden'>
           <div className='flex items-center'>
             <p className='text-white text-[22px] font-[500] leading-[30px] ml-[8px]'>
               입시경쟁력의 첫걸음! <span className='font-[800]'>생기뷰 분석으로</span>

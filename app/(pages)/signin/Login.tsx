@@ -1,6 +1,6 @@
 'use client';
 
-import { TitleInput } from '@/app/component/Input/input';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -16,6 +16,7 @@ const Login = () => {
 
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const [showPw, setShowPw] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   // 입력 ref
@@ -37,7 +38,10 @@ const Login = () => {
     const idTrim = id.trim();
     const pwTrim = password.trim();
 
+    // 아이디: 길이만 체크 (형식검증 X)
     const emailOk = idTrim.length >= EMAIL_MIN && idTrim.length <= EMAIL_MAX;
+
+    // 비밀번호: 길이만 체크 (조합검증 X)
     const pwOk = pwTrim.length >= PW_MIN && pwTrim.length <= PW_MAX;
 
     if (!emailOk || !pwOk) {
@@ -61,28 +65,58 @@ const Login = () => {
         <h3 className="text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]">로그인</h3>
 
         <div className="flex flex-col gap-[24px] w-full">
-          {/* ✅ 아이디 (인풋 밑 안내/에러 텍스트 관련 prop/로직 없음) */}
-          <TitleInput
-            title="아이디(이메일)"
-            placeholder="아이디(이메일) 입력"
-            maxLength={EMAIL_MAX}
-            type="text"
-            ref={idRef}
-            handleKeyDown={handleKeyDown}
-            onchange={(e) => setId(e.target.value)}
-          />
+          {/* ✅ 아이디(이메일) - 형식검증 제거, 길이/placeholder/maxlength만 적용 */}
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-[#36373A] text-[13px] font-medium">
+              아이디(이메일)<span className="text-[#F6432B]">*</span>
+            </p>
+            <input
+              ref={idRef}
+              type="text"                         // 형식검증 방지
+              placeholder="아이디(이메일) 입력"
+              maxLength={EMAIL_MAX}
+              value={id}
+              onChange={(e) => setId(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="w-full h-[50px] px-[16px] py-[10px] border rounded-[8px] placeholder:text-[#AFB0B6] text-[15px] font-medium focus:outline-none border-[var(--n-200)]"
+            />
+          </div>
 
-          {/* ✅ 비밀번호 (동일하게 하단 메시지 로직 없음) */}
-          <TitleInput
-            title="비밀번호"
-            placeholder="비밀번호 입력"
-            maxLength={PW_MAX}
-            type="password"
-            passwordIcon={true}
-            ref={pwRef}
-            handleKeyDown={handleKeyDown}
-            onchange={(e) => setPassword(e.target.value)}
-          />
+          {/* ✅ 비밀번호 - 조합검증 제거, 길이/maxlength만 적용 + 보기/숨김 토글 */}
+          <div className="flex flex-col gap-[8px] w-full">
+            <p className="text-[#36373A] text-[13px] font-medium">
+              비밀번호<span className="text-[#F6432B]">*</span>
+            </p>
+            <div className="relative w-full">
+              <input
+                ref={pwRef}
+                type={showPw ? 'text' : 'password'}
+                placeholder="비밀번호 입력"
+                maxLength={PW_MAX}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className="w-full h-[50px] px-[16px] py-[10px] border rounded-[8px] placeholder:text-[#AFB0B6] text-[15px] font-medium focus:outline-none border-[var(--n-200)] pr-[48px]"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw((p) => !p)}
+                className="absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer opacity-50"
+                aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 보이기'}
+              >
+                <Image
+                  src={
+                    showPw
+                      ? '/images/type=ic-visibility-on@2x.png'
+                      : '/images/type=ic-visibility-off@2x.png'
+                  }
+                  alt=""
+                  width={24}
+                  height={24}
+                />
+              </button>
+            </div>
+          </div>
 
           {/* ✅ 버튼 (항상 활성화) */}
           <div className="flex flex-col items-center justify-center gap-[24px]">
@@ -132,11 +166,9 @@ function MotionToast({ message }: { message: string }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const mq = window.matchMedia('(max-width: 745px)');
-
     const update = () => setIsMobile(mq.matches);
     update();
 
-    // ✅ 브라우저 호환 (Safari 등)
     if (mq.addEventListener) {
       mq.addEventListener('change', update);
       return () => mq.removeEventListener('change', update);
@@ -146,9 +178,6 @@ function MotionToast({ message }: { message: string }) {
     }
   }, []);
 
-  // ✅ 방향 분기
-  // 모바일: enter = 아래→위 (+20 → 0), exit = 위→아래 (0 → +20)
-  // 데스크탑: enter = 위→아래 (-20 → 0), exit = 아래→위 (0 → -20)
   const initialY = prefersReduced ? 0 : (isMobile ? 20 : -20);
   const exitY    = prefersReduced ? 0 : (isMobile ? 20 : -20);
 

@@ -35,7 +35,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href='/'
+                href='/terms'
                 className='text-[15px] leading-[15px] text-[var(--n-800)]'
               >
                 이용약관
@@ -43,7 +43,7 @@ const Footer = () => {
             </li>
             <li>
               <Link
-                href='/'
+                href='/privacy'
                 className='text-[15px] leading-[15px] text-[var(--n-800)]'
               >
                 개인정보처리방침
@@ -82,7 +82,7 @@ const Footer = () => {
 
         {/* 우측: 블로그 아이콘 */}
         <div className='flex items-center justify-start gap-[8px] max-[745px]:order-last max-[745px]:pt-[8px]'>
-          <Link href='/' className='inline-block'>
+          <Link target='blank' href='https://www.threads.com/@istrue_sam' className='inline-block'>
             <Image
               src='/images/icon-thread.png'
               alt='thread'

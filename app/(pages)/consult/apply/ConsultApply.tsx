@@ -99,10 +99,7 @@ const ConsultApply = () => {
 
   // 폼 유효성 검사
   const isFormValid =
-    selectedUniversities.length > 0 &&
-    selectedMajors.length > 0 &&
-    uploadedFile &&
-    agreeTerms;
+    selectedUniversities.length > 0 && selectedMajors.length > 0;
 
   // 모의고사 점수 상태
   const [scores, setScores] = useState({
@@ -124,13 +121,57 @@ const ConsultApply = () => {
     inquiry2_standard: '',
     inquiry2_percentile: '',
     inquiry2_grade: '',
+    second_lang_subject: '',
     second_lang_grade: '',
   });
+
+  // 점수 입력 여부 확인
+  const hasScoreInput = Object.values(scores).some((value) => value !== '');
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
   };
   const [isOpenScore, setIsOpenScore] = useState(false);
+  const [composingInputs, setComposingInputs] = useState<Set<string>>(
+    new Set()
+  );
+
+  // 모달 내에서 편집할 임시 점수 상태
+  const [tempScores, setTempScores] = useState(scores);
+
+  // 모달 열 때 현재 scores로 임시 상태 초기화
+  const handleOpenScoreModal = () => {
+    setTempScores(scores);
+    setIsOpenScore(true);
+  };
+
+  // 저장 버튼 클릭 시 실제 scores에 반영
+  const handleSaveScores = () => {
+    setScores(tempScores);
+    setIsOpenScore(false);
+  };
+
+  // 숫자와 소수점 2자리까지 허용하는 함수
+  const handleNumberInput = (value: string): string => {
+    // 숫자와 소수점만 허용
+    let filtered = value.replace(/[^\d.]/g, '');
+
+    // 소수점이 여러 개인 경우 첫 번째 소수점만 유지
+    const parts = filtered.split('.');
+    if (parts.length > 2) {
+      filtered = parts[0] + '.' + parts.slice(1).join('');
+    }
+
+    // 소수점 이하 2자리까지만 허용
+    if (filtered.includes('.')) {
+      const [integer, decimal] = filtered.split('.');
+      if (decimal && decimal.length > 2) {
+        filtered = integer + '.' + decimal.substring(0, 2);
+      }
+    }
+
+    return filtered;
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -167,9 +208,11 @@ const ConsultApply = () => {
                   value: string;
                   label: string;
                 }[];
-                if (universities && universities.length <= 3) {
-                  setSelectedUniversities(universities);
+                if (universities && universities.length > 3) {
+                  alert('희망대학은 최대 3개까지만 선택할 수 있습니다.');
+                  return;
                 }
+                setSelectedUniversities(universities || []);
               }}
               options={universityOptions}
               formatCreateLabel={(inputValue) => `"${inputValue}" 생성`}
@@ -310,9 +353,11 @@ const ConsultApply = () => {
                   value: string;
                   label: string;
                 }[];
-                if (majors && majors.length <= 3) {
-                  setSelectedMajors(majors);
+                if (majors && majors.length > 3) {
+                  alert('희망학과는 최대 3개까지만 선택할 수 있습니다.');
+                  return;
                 }
+                setSelectedMajors(majors || []);
               }}
               options={majorOptions}
               formatCreateLabel={(inputValue) => `"${inputValue}" 생성`}
@@ -443,10 +488,17 @@ const ConsultApply = () => {
               최종 모의고사 점수
             </p>
             <button
-              onClick={() => setIsOpenScore(true)}
+              onClick={handleOpenScoreModal}
               className='w-full h-[48px] px-[16px] py-[10px] border border-[#D7D8DC] rounded-[8px] text-[15px] font-medium text-[var(--n-800)]'
             >
-              <span className='text-[var(--n-200)]'>✓</span> 점수 입력
+              <span
+                className={`${
+                  hasScoreInput ? 'text-[var(--n-800)]' : 'text-[var(--n-200)]'
+                }`}
+              >
+                ✓
+              </span>{' '}
+              {hasScoreInput ? '점수 입력 완료' : '점수 입력'}
             </button>
           </div>
           <div className='flex flex-col gap-[12px] w-full'>
@@ -490,7 +542,7 @@ const ConsultApply = () => {
             </div>
             <ul>
               <li className='text-[var(--n-400)] text-[13px] leading-[1.4] font-[400] pl-4 relative before:content-["•"] before:absolute before:left-0'>
-                나이스플러스에서 받은 생활기록부 PDF를 업로드하세요.
+                나이스플러스 또는 정부24에서 받은 생활기록부 PDF를 업로드하세요.
               </li>
             </ul>
             {uploadedFile && (
@@ -582,64 +634,151 @@ const ConsultApply = () => {
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex items-center justify-center'>
-                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
-                        화법과 작문
-                      </p>
-                      {/* <input
-                      type='text'
-                      value={scores.korean_subject}
-                      onChange={(e) =>
-                        setScores({ ...scores, korean_subject: e.target.value })
-                      }
-                      placeholder='화법과 작문'
-                      className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
-                    /> */}
+                      <input
+                        type='text'
+                        value={tempScores.korean_subject}
+                        maxLength={12}
+                        onCompositionStart={() => {
+                          setComposingInputs((prev) =>
+                            new Set(prev).add('korean_subject')
+                          );
+                        }}
+                        onCompositionEnd={(e) => {
+                          setComposingInputs((prev) => {
+                            const next = new Set(prev);
+                            next.delete('korean_subject');
+                            return next;
+                          });
+                          const textOnly = e.currentTarget.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            korean_subject: textOnly,
+                          });
+                        }}
+                        onChange={(e) => {
+                          if (!composingInputs.has('korean_subject')) {
+                            const textOnly = e.target.value.replace(
+                              /[^가-힣a-zA-Z\s]/g,
+                              ''
+                            );
+                            setTempScores({
+                              ...tempScores,
+                              korean_subject: textOnly,
+                            });
+                          } else {
+                            setTempScores({
+                              ...tempScores,
+                              korean_subject: e.target.value,
+                            });
+                          }
+                        }}
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
+                      />
                     </div>
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
-                    <div className='flex items-center justify-center'>
-                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
-                        문학과 독서
-                      </p>
-                    </div>
-                    {/* <input
+                    <input
                       type='text'
-                      value={scores.math_subject}
-                      onChange={(e) =>
-                        setScores({ ...scores, math_subject: e.target.value })
-                      }
-                      placeholder='문학과 독서'
-                      className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
-                    /> */}
+                      value={tempScores.math_subject}
+                      maxLength={12}
+                      onCompositionStart={() => {
+                        setComposingInputs((prev) =>
+                          new Set(prev).add('math_subject')
+                        );
+                      }}
+                      onCompositionEnd={(e) => {
+                        setComposingInputs((prev) => {
+                          const next = new Set(prev);
+                          next.delete('math_subject');
+                          return next;
+                        });
+                        const textOnly = e.currentTarget.value.replace(
+                          /[^가-힣a-zA-Z\s]/g,
+                          ''
+                        );
+                        setTempScores({
+                          ...tempScores,
+                          math_subject: textOnly,
+                        });
+                      }}
+                      onChange={(e) => {
+                        if (!composingInputs.has('math_subject')) {
+                          const textOnly = e.target.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            math_subject: textOnly,
+                          });
+                        } else {
+                          setTempScores({
+                            ...tempScores,
+                            math_subject: e.target.value,
+                          });
+                        }
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
                     -
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex gap-[4px]  items-center justify-center'>
-                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
-                        경제와법
-                      </p>
+                      <input
+                        type='text'
+                        value={tempScores.inquiry1_subject}
+                        maxLength={12}
+                        onCompositionStart={() => {
+                          setComposingInputs((prev) =>
+                            new Set(prev).add('inquiry1_subject')
+                          );
+                        }}
+                        onCompositionEnd={(e) => {
+                          setComposingInputs((prev) => {
+                            const next = new Set(prev);
+                            next.delete('inquiry1_subject');
+                            return next;
+                          });
+                          const textOnly = e.currentTarget.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            inquiry1_subject: textOnly,
+                          });
+                        }}
+                        onChange={(e) => {
+                          if (!composingInputs.has('inquiry1_subject')) {
+                            const textOnly = e.target.value.replace(
+                              /[^가-힣a-zA-Z\s]/g,
+                              ''
+                            );
+                            setTempScores({
+                              ...tempScores,
+                              inquiry1_subject: textOnly,
+                            });
+                          } else {
+                            setTempScores({
+                              ...tempScores,
+                              inquiry1_subject: e.target.value,
+                            });
+                          }
+                        }}
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
+                      />
 
                       {/* <input
                         type='text'
-                        value={scores.inquiry1_subject}
+                        value={tempScores.inquiry2_subject}
                         onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry1_subject: e.target.value,
-                          })
-                        }
-                        placeholder='경제지리'
-                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
-                      /> */}
-
-                      {/* <input
-                        type='text'
-                        value={scores.inquiry2_subject}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
+                          setTempScores({
+                            ...tempScores,
                             inquiry2_subject: e.target.value,
                           })
                         }
@@ -652,41 +791,105 @@ const ConsultApply = () => {
                     <div className='flex gap-[4px] items-center justify-center'>
                       {/* <input
                         type='text'
-                        value={scores.inquiry1_subject}
+                        value={tempScores.inquiry1_subject}
                         onChange={(e) =>
-                          setScores({
-                            ...scores,
+                          setTempScores({
+                            ...tempScores,
                             inquiry1_subject: e.target.value,
                           })
                         }
                         placeholder='경제지리'
                         className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
                       /> */}
-                      <p className='text-[14px] font-[400] text-[var(--n-800)]'>
-                        사회 문화
-                      </p>
-                      {/* <input
+
+                      <input
                         type='text'
-                        value={scores.inquiry2_subject}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry2_subject: e.target.value,
-                          })
-                        }
-                        placeholder='사회 문화'
-                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
-                      /> */}
+                        value={tempScores.inquiry2_subject}
+                        maxLength={12}
+                        onCompositionStart={() => {
+                          setComposingInputs((prev) =>
+                            new Set(prev).add('inquiry2_subject')
+                          );
+                        }}
+                        onCompositionEnd={(e) => {
+                          setComposingInputs((prev) => {
+                            const next = new Set(prev);
+                            next.delete('inquiry2_subject');
+                            return next;
+                          });
+                          const textOnly = e.currentTarget.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            inquiry2_subject: textOnly,
+                          });
+                        }}
+                        onChange={(e) => {
+                          if (!composingInputs.has('inquiry2_subject')) {
+                            const textOnly = e.target.value.replace(
+                              /[^가-힣a-zA-Z\s]/g,
+                              ''
+                            );
+                            setTempScores({
+                              ...tempScores,
+                              inquiry2_subject: textOnly,
+                            });
+                          } else {
+                            setTempScores({
+                              ...tempScores,
+                              inquiry2_subject: e.target.value,
+                            });
+                          }
+                        }}
+                        className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
+                      />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)] '>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px]  '>
                     <input
                       type='text'
-                      value={scores.korean_subject}
-                      onChange={(e) =>
-                        setScores({ ...scores, korean_subject: e.target.value })
-                      }
-                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      value={tempScores.second_lang_subject}
+                      maxLength={12}
+                      onCompositionStart={() => {
+                        setComposingInputs((prev) =>
+                          new Set(prev).add('second_lang_subject')
+                        );
+                      }}
+                      onCompositionEnd={(e) => {
+                        setComposingInputs((prev) => {
+                          const next = new Set(prev);
+                          next.delete('second_lang_subject');
+                          return next;
+                        });
+                        const textOnly = e.currentTarget.value.replace(
+                          /[^가-힣a-zA-Z\s]/g,
+                          ''
+                        );
+                        setTempScores({
+                          ...tempScores,
+                          second_lang_subject: textOnly,
+                        });
+                      }}
+                      onChange={(e) => {
+                        if (!composingInputs.has('second_lang_subject')) {
+                          const textOnly = e.target.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            second_lang_subject: textOnly,
+                          });
+                        } else {
+                          setTempScores({
+                            ...tempScores,
+                            second_lang_subject: e.target.value,
+                          });
+                        }
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                 </tr>
@@ -702,23 +905,28 @@ const ConsultApply = () => {
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.korean_standard}
-                      onChange={(e) =>
-                        setScores({
-                          ...scores,
-                          korean_standard: e.target.value,
-                        })
-                      }
+                      value={tempScores.korean_standard}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          korean_standard: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.math_standard}
-                      onChange={(e) =>
-                        setScores({ ...scores, math_standard: e.target.value })
-                      }
+                      value={tempScores.math_standard}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          math_standard: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
@@ -729,13 +937,14 @@ const ConsultApply = () => {
                     <div className='flex gap-[4px]'>
                       <input
                         type='text'
-                        value={scores.inquiry2_standard}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry2_standard: e.target.value,
-                          })
-                        }
+                        value={tempScores.inquiry1_standard}
+                        onChange={(e) => {
+                          const filtered = handleNumberInput(e.target.value);
+                          setTempScores({
+                            ...tempScores,
+                            inquiry1_standard: filtered,
+                          });
+                        }}
                         className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
@@ -744,13 +953,14 @@ const ConsultApply = () => {
                     <div className='flex gap-[4px]'>
                       <input
                         type='text'
-                        value={scores.inquiry2_standard}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry2_standard: e.target.value,
-                          })
-                        }
+                        value={tempScores.inquiry2_standard}
+                        onChange={(e) => {
+                          const filtered = handleNumberInput(e.target.value);
+                          setTempScores({
+                            ...tempScores,
+                            inquiry2_standard: filtered,
+                          });
+                        }}
                         className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
@@ -771,26 +981,28 @@ const ConsultApply = () => {
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.korean_percentile}
-                      onChange={(e) =>
-                        setScores({
-                          ...scores,
-                          korean_percentile: e.target.value,
-                        })
-                      }
+                      value={tempScores.korean_percentile}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          korean_percentile: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.math_percentile}
-                      onChange={(e) =>
-                        setScores({
-                          ...scores,
-                          math_percentile: e.target.value,
-                        })
-                      }
+                      value={tempScores.math_percentile}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          math_percentile: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
@@ -801,13 +1013,14 @@ const ConsultApply = () => {
                     <div className='flex gap-[4px]'>
                       <input
                         type='text'
-                        value={scores.inquiry2_percentile}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry2_percentile: e.target.value,
-                          })
-                        }
+                        value={tempScores.inquiry1_percentile}
+                        onChange={(e) => {
+                          const filtered = handleNumberInput(e.target.value);
+                          setTempScores({
+                            ...tempScores,
+                            inquiry1_percentile: filtered,
+                          });
+                        }}
                         className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
@@ -816,13 +1029,14 @@ const ConsultApply = () => {
                     <div className='flex gap-[4px]'>
                       <input
                         type='text'
-                        value={scores.inquiry2_percentile}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry2_percentile: e.target.value,
-                          })
-                        }
+                        value={tempScores.inquiry2_percentile}
+                        onChange={(e) => {
+                          const filtered = handleNumberInput(e.target.value);
+                          setTempScores({
+                            ...tempScores,
+                            inquiry2_percentile: filtered,
+                          });
+                        }}
                         className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
@@ -840,82 +1054,99 @@ const ConsultApply = () => {
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.history_grade}
-                      onChange={(e) =>
-                        setScores({ ...scores, history_grade: e.target.value })
-                      }
+                      value={tempScores.history_grade}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          history_grade: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.korean_grade}
-                      onChange={(e) =>
-                        setScores({ ...scores, korean_grade: e.target.value })
-                      }
+                      value={tempScores.korean_grade}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          korean_grade: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.math_grade}
-                      onChange={(e) =>
-                        setScores({ ...scores, math_grade: e.target.value })
-                      }
+                      value={tempScores.math_grade}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({ ...tempScores, math_grade: filtered });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.english_grade}
-                      onChange={(e) =>
-                        setScores({ ...scores, english_grade: e.target.value })
-                      }
+                      value={tempScores.english_grade}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          english_grade: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
                     />
                   </td>
-                  <td
-                    colSpan={2}
-                    className='border border-[var(--n-200)] px-[4px] py-[4px]'
-                  >
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex gap-[4px]'>
                       <input
                         type='text'
-                        value={scores.inquiry1_grade}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry1_grade: e.target.value,
-                          })
-                        }
+                        value={tempScores.inquiry1_grade}
+                        onChange={(e) => {
+                          const filtered = handleNumberInput(e.target.value);
+                          setTempScores({
+                            ...tempScores,
+                            inquiry1_grade: filtered,
+                          });
+                        }}
                         className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
+                    </div>
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <div className='flex gap-[4px]'>
                       <input
                         type='text'
-                        value={scores.inquiry2_grade}
-                        onChange={(e) =>
-                          setScores({
-                            ...scores,
-                            inquiry2_grade: e.target.value,
-                          })
-                        }
-                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
+                        value={tempScores.inquiry2_grade}
+                        onChange={(e) => {
+                          const filtered = handleNumberInput(e.target.value);
+                          setTempScores({
+                            ...tempScores,
+                            inquiry2_grade: filtered,
+                          });
+                        }}
+                        className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                       />
                     </div>
                   </td>
                   <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px]'>
                     <input
                       type='text'
-                      value={scores.second_lang_grade}
-                      onChange={(e) =>
-                        setScores({
-                          ...scores,
-                          second_lang_grade: e.target.value,
-                        })
-                      }
+                      value={tempScores.second_lang_grade}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          second_lang_grade: filtered,
+                        });
+                      }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
@@ -933,10 +1164,7 @@ const ConsultApply = () => {
               닫기
             </button>
             <button
-              onClick={() => {
-                // TODO: 점수 저장 로직
-                setIsOpenScore(false);
-              }}
+              onClick={handleSaveScores}
               className='px-[24px] py-[10px] flex-1 text-[14px] font-[500] text-white bg-[var(--n-800)] rounded-[8px] h-[52px] max-[745px]:px-[16px] max-[745px]:py-[12px] max-[745px]:text-[14px]'
             >
               저장

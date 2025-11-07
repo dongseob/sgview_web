@@ -1,9 +1,7 @@
-import React from 'react'
+import Terms from './Terms';
 
 const page = () => {
-  return (
-    <div>page</div>
-  )
-}
+  return <Terms />;
+};
 
-export default page
+export default page;

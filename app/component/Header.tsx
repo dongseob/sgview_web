@@ -113,7 +113,7 @@ const HeaderUnified = () => {
                     type='button'
                     onClick={() => {
                       setIsMenuOpen(false);
-                      goHomeOrScroll('#section2');
+                      goHomeOrScroll('#section1');
                     }}
                     className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
@@ -244,7 +244,7 @@ const HeaderUnified = () => {
                     className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
                     onClick={() => {
                       setIsMenuOpen(false);
-                      goHomeOrScroll('#section2');
+                      goHomeOrScroll('#section1');
                     }}
                   >
                     이용방법

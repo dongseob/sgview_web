@@ -37,7 +37,7 @@ const contentMap: Record<string, { title: string; description: string }> = {
   },
 };
 
-const ConsultDetail = () => {
+const ConsultDetail = ({id}: {id: string}) => {
   const [activeSection, setActiveSection] = useState('grade-trend');
   const content = contentMap[activeSection];
 

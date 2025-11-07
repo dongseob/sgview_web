@@ -141,9 +141,7 @@ function MotionToast({ message }: { message: string }) {
       mq.addEventListener('change', update);
       return () => mq.removeEventListener('change', update);
     } else {
-      // @ts-expect-error: older browsers
       mq.addListener(update);
-      // @ts-expect-error: older browsers
       return () => mq.removeListener(update);
     }
   }, []);

@@ -503,40 +503,6 @@ const ConsultApply = () => {
               </button>
             )}
           </div>
-          <div className='w-full h-[1px] bg-[var(--n-200)]'></div>
-          <div className='flex items-center justify-between'>
-            <div className='flex items-center gap-2'>
-              <input
-                type='checkbox'
-                name='agree'
-                id='agree'
-                checked={agreeTerms}
-                onChange={(e) => setAgreeTerms(e.target.checked)}
-                className='hidden'
-              />
-              <label
-                htmlFor='agree'
-                className='flex items-center gap-2 cursor-pointer'
-              >
-                <Image
-                  src={
-                    agreeTerms
-                      ? '/images/checkbox_on.svg'
-                      : '/images/checkbox_off.svg'
-                  }
-                  alt='checkbox'
-                  width={24}
-                  height={24}
-                />
-                <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>
-                  [필수] 개인정보 수집 및 이용 동의
-                </span>
-              </label>
-            </div>
-            <span className='text-[14px] leading-[1.4] text-[var(--n-400)] underline'>
-              보기
-            </span>
-          </div>
           <button
             disabled={!isFormValid}
             className={`${

@@ -2,9 +2,9 @@ import React from 'react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '나의 컨설팅 | 생기뷰(SGView)',
+  title: '회원가입 | 생기뷰(SGView)',
   openGraph: {
-    url: 'https://istrue.axcorp.ai/mypage/consult',
+    url: 'https://istrue.axcorp.ai/signup',
     images: [
       {
         url: '/images/og.png',
@@ -17,13 +17,7 @@ export const metadata: Metadata = {
 };
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className='pt-[40px] pb-[120px] max-[745px]:pt-[0px] max-[745px]:pb-[32px]'>
-      <div className='max-w-[1200px] mx-auto px-[20px] max-[745px]:px-0'>
-        {children}
-      </div>
-    </div>
-  );
+  return <>{children}</>;
 };
 
 export default layout;

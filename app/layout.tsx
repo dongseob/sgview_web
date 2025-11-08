@@ -1,22 +1,27 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import Footer from './component/Footer';
 import Header from './component/Header';
 import './globals.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
-  title: '생기뷰',
-  description: '생기뷰',
+  title: '생기뷰(SGView)',
+  description: '이스트루에듀',
+  openGraph: {
+    title: '생기뷰(SGView)',
+    description: '이스트루에듀',
+    url: 'https://www.stam-p.com',
+    siteName: 'STAMP®',
+    images: [
+      {
+        url: '/images/og.png',
+        width: 1200,
+        height: 630,
+        alt: 'STAMP OG Image',
+      },
+    ],
+    locale: 'ko_KR',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({

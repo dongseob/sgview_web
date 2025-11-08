@@ -9,14 +9,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: '생기뷰(SGView)',
     description: '이스트루에듀',
-    url: 'https://www.stam-p.com',
-    siteName: 'STAMP®',
+    url: 'https://istrue.axcorp.ai/',
+    siteName: '생기뷰(SGView)',
     images: [
       {
         url: '/images/og.png',
         width: 1200,
         height: 630,
-        alt: 'STAMP OG Image',
+        alt: 'OG images',
       },
     ],
     locale: 'ko_KR',

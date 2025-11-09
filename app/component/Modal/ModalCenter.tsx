@@ -31,7 +31,7 @@ const ModalCenter = ({
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 745px)');
     const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    setIsMobile(mql.matches);
+    // setIsMobile(mql.matches);
     if (mql.addEventListener) mql.addEventListener('change', onChange);
     else mql.addListener(onChange);
     return () => {
@@ -52,7 +52,11 @@ const ModalCenter = ({
   // 외부 클릭 닫기
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(e.target as Node) && isOpen) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(e.target as Node) &&
+        isOpen
+      ) {
         onClose();
       }
     };

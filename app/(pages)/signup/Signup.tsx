@@ -2,12 +2,205 @@
 
 import { TitleInput } from '@/app/component/Input/input';
 import ModalCenter from '@/app/component/Modal/ModalCenter';
+import { serviceTerms } from '@/app/data/serviceTerms';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 const Select = dynamic(() => import('react-select'), { ssr: false });
+
+// 약관 내용을 리스트로 변환하는 함수
+const renderContentAsList = (content: string) => {
+  const lines = content.split('\n');
+
+  interface ListItem {
+    type: 'numbered' | 'bullet' | 'alpha' | 'text';
+    content: string;
+    subItems?: ListItem[];
+  }
+
+  const items: ListItem[] = [];
+  let currentItem: ListItem | null = null;
+  let currentSubItems: ListItem[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const originalLine = lines[i];
+    const trimmedLine = originalLine.trim();
+
+    if (!trimmedLine) {
+      // 빈 줄이면 현재 항목 마무리
+      if (currentItem) {
+        if (currentSubItems.length > 0) {
+          currentItem.subItems = [...currentSubItems];
+          currentSubItems = [];
+        }
+        items.push(currentItem);
+        currentItem = null;
+      }
+      continue;
+    }
+
+    // 번호로 시작하는 항목 (예: "1. ", "2. ")
+    const numberedMatch = trimmedLine.match(/^(\d+)\.\s+(.+)$/);
+    if (numberedMatch) {
+      // 이전 항목 저장
+      if (currentItem) {
+        if (currentSubItems.length > 0) {
+          currentItem.subItems = [...currentSubItems];
+          currentSubItems = [];
+        }
+        items.push(currentItem);
+      }
+      // 새 항목 시작
+      currentItem = {
+        type: 'numbered',
+        content: numberedMatch[2],
+        subItems: [],
+      };
+      continue;
+    }
+
+    // 들여쓰기된 불릿 포인트 (예: "   • 가. ", "   • 나. ")
+    const bulletMatch = originalLine.match(/^(\s{3,})\•\s+(.+)$/);
+    if (bulletMatch) {
+      if (currentItem) {
+        currentSubItems.push({
+          type: 'bullet',
+          content: bulletMatch[2], // "가. 일반 회원: ..." 형식
+        });
+      } else {
+        // 메인 항목이 없으면 일반 텍스트로 처리
+        items.push({
+          type: 'text',
+          content: trimmedLine,
+        });
+      }
+      continue;
+    }
+
+    // 들여쓰기된 알파벳 항목 (예: "   a. ", "   b. ")
+    const alphaMatch = originalLine.match(/^(\s{3,})([a-z])\.\s+(.+)$/);
+    if (alphaMatch) {
+      if (currentItem) {
+        currentSubItems.push({
+          type: 'alpha',
+          content: alphaMatch[3],
+        });
+      } else {
+        items.push({
+          type: 'text',
+          content: trimmedLine,
+        });
+      }
+      continue;
+    }
+
+    // 들여쓰기가 있는 일반 텍스트 (현재 항목의 연속)
+    if (originalLine.match(/^\s{3,}/)) {
+      if (currentSubItems.length > 0) {
+        // 서브 항목의 연속
+        const lastSubItem = currentSubItems[currentSubItems.length - 1];
+        lastSubItem.content += ' ' + trimmedLine;
+      } else if (currentItem) {
+        // 메인 항목의 연속
+        currentItem.content += ' ' + trimmedLine;
+      } else {
+        items.push({
+          type: 'text',
+          content: trimmedLine,
+        });
+      }
+      continue;
+    }
+
+    // 일반 텍스트 (번호나 불릿이 없는 경우)
+    if (currentItem) {
+      // 현재 항목에 추가
+      if (currentSubItems.length > 0) {
+        const lastSubItem = currentSubItems[currentSubItems.length - 1];
+        lastSubItem.content += ' ' + trimmedLine;
+      } else {
+        currentItem.content += ' ' + trimmedLine;
+      }
+    } else {
+      // 리스트가 없으면 일반 텍스트로 추가
+      items.push({
+        type: 'text',
+        content: trimmedLine,
+      });
+    }
+  }
+
+  // 마지막 항목 저장
+  if (currentItem) {
+    if (currentSubItems.length > 0) {
+      currentItem.subItems = [...currentSubItems];
+    }
+    items.push(currentItem);
+  }
+
+  // 렌더링 - 연속된 numbered 항목들을 하나의 ol로 묶기
+  const renderItems: React.ReactElement[] = [];
+  let currentNumberedGroup: ListItem[] = [];
+
+  const flushNumberedGroup = () => {
+    if (currentNumberedGroup.length > 0) {
+      renderItems.push(
+        <ol
+          key={renderItems.length}
+          className='list-decimal list-outside ml-[20px] space-y-[4px]'
+        >
+          {currentNumberedGroup.map((item, idx) => (
+            <li
+              key={idx}
+              className='text-[14px] text-[var(--n-700)] leading-[1.6] pl-[4px]'
+            >
+              {item.content}
+              {item.subItems && item.subItems.length > 0 && (
+                <ul className='list-none ml-[20px] mt-[4px] space-y-[4px]'>
+                  {item.subItems.map((subItem, subIdx) => (
+                    <li
+                      key={subIdx}
+                      className='text-[14px] text-[var(--n-700)] leading-[1.6] flex items-start'
+                    >
+                      <span className='mr-[4px]'>•</span>
+                      <span>{subItem.content}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ol>
+      );
+      currentNumberedGroup = [];
+    }
+  };
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (item.type === 'numbered') {
+      currentNumberedGroup.push(item);
+    } else {
+      // numbered가 아닌 항목을 만나면 이전 numbered 그룹 종료
+      flushNumberedGroup();
+      // 일반 텍스트 항목 추가
+      renderItems.push(
+        <p
+          key={renderItems.length}
+          className='text-[14px] text-[var(--n-700)] leading-[1.6]'
+        >
+          {item.content}
+        </p>
+      );
+    }
+  }
+  // 마지막 numbered 그룹 종료
+  flushNumberedGroup();
+
+  return <div className='flex flex-col gap-[4px]'>{renderItems}</div>;
+};
 
 const Signup = () => {
   const [memberType, setMemberType] = useState<'student' | 'parent'>('student');
@@ -652,7 +845,40 @@ const Signup = () => {
         height='567px'
       >
         <>
-          <div className='px-[20px] pt-[16px] pb-[20px] max-h-full overflow-y-auto'>
+          <>
+            <div className='flex flex-col gap-[24px] max-h-full overflow-y-auto p-[20px] pt-[16px] h-[406px]'>
+              <p className='text-[20px] font-[700] text-[var(--n-800)]'>
+                이용약관
+              </p>
+              {serviceTerms.sections.map((section, sectionIndex) => (
+                <div key={sectionIndex} className='flex flex-col gap-[16px]'>
+                  <h3 className='text-[20px] font-[700] text-[var(--n-800)]'>
+                    {section.chapter}
+                  </h3>
+                  {section.articles ? (
+                    section.articles.map((article, articleIndex) => (
+                      <div
+                        key={articleIndex}
+                        className='flex flex-col gap-[8px]'
+                      >
+                        <h4 className='text-[15px] font-[600] text-[var(--n-800)]'>
+                          {article.number} ({article.title})
+                        </h4>
+                        <div className='text-[14px] text-[var(--n-700)] leading-[1.6]'>
+                          {renderContentAsList(article.content)}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className='text-[14px] text-[var(--n-700)] leading-[1.6]'>
+                      {renderContentAsList(section.content || '')}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+          {/* <div className='px-[20px] pt-[16px] pb-[20px] max-h-full overflow-y-auto'>
             <Image
               src='/images/terms-mo.png'
               alt='이용약관 이미지'
@@ -661,7 +887,7 @@ const Signup = () => {
               className='w-full h-auto'
               priority
             />
-          </div>
+          </div> */}
         </>
       </ModalCenter>
 

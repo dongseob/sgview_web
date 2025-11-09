@@ -37,7 +37,7 @@ const contentMap: Record<string, { title: string; description: string }> = {
   },
 };
 
-const ConsultDetail = ({id}: {id: string}) => {
+const ConsultDetail = ({ id }: { id: string }) => {
   const [activeSection, setActiveSection] = useState('grade-trend');
   const content = contentMap[activeSection];
 
@@ -66,7 +66,7 @@ const ConsultDetail = ({id}: {id: string}) => {
           </button>
 
           {/* 컨설팅 정보 */}
-          <div className='mt-[32px]'>
+          <div className='mt-[32px] max-[745px]:mt-[72px]'>
             {/* 모바일 레이아웃 (745px 이하) */}
             <div className='hidden max-[745px]:block max-[745px]:px-[20px]'>
               <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[12px]'>
@@ -150,7 +150,7 @@ const ConsultDetail = ({id}: {id: string}) => {
         </div>
 
         {/* 구분선 */}
-        <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px]'></div>
+        <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px] max-[745px]:w-[calc(100%-40px)] max-[745px]:mx-auto'></div>
 
         {/* 컨텐츠 영역 */}
         {activeSection === 'grade-trend' && <GradeTrend />}

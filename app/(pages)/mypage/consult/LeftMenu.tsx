@@ -21,7 +21,7 @@ const LeftMenu = ({ activeSection, onSectionChange }: LeftMenuProps) => {
           <button
             key={item.id}
             onClick={() => onSectionChange(item.id)}
-            className={`text-left px-[16px] text-[16px] font-[600] transition-colors ${
+            className={`text-left text-[16px] font-[600] transition-colors ${
               activeSection === item.id
                 ? 'text-[var(--r-400)]'
                 : 'text-[var(--n-800)] hover:text-[var(--r-400)]'
@@ -34,13 +34,13 @@ const LeftMenu = ({ activeSection, onSectionChange }: LeftMenuProps) => {
 
       {/* 모바일: 가로 탭 메뉴 */}
       <div
-        className='md:hidden overflow-x-auto [&::-webkit-scrollbar]:hidden'
+        className='md:hidden overflow-x-auto [&::-webkit-scrollbar]:hidden fixed top-[56px] left-0 right-0 w-full bg-white z-10'
         style={{
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }}
       >
-        <div className='flex min-w-max pb-[8px]'>
+        <div className='flex min-w-max'>
           {menuItems.map((item) => (
             <button
               key={item.id}

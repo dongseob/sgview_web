@@ -1,9 +1,9 @@
 'use client';
 
-import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import ConsultList from './ConsultList';
+import { Suspense } from 'react';
 import ConsultDetail from './ConsultDetail';
+import ConsultList from './ConsultList';
 
 function PageContent() {
   const searchParams = useSearchParams();
@@ -18,7 +18,9 @@ function PageContent() {
 export default function Page() {
   return (
     <Suspense fallback={null}>
-      <div className='mx-auto w-[1440px]'><PageContent /></div>
+      <div className='mx-auto max-w-[1440px] px-[144px] max-[745px]:px-[0]'>
+        <PageContent />
+      </div>
     </Suspense>
   );
 }

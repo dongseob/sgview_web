@@ -1,7 +1,7 @@
 import { ResponsiveBar } from '@nivo/bar';
 import { ResponsiveLine } from '@nivo/line';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // 교과별 성적 변화율 테이블 컴포넌트
 const GradeChangeTable = ({
   subject,
@@ -273,7 +273,7 @@ const SubjectTrendChart = ({
           }))}
           keys={['grade']}
           indexBy='semester'
-          margin={{ top: 20, right: 20, bottom: 50, left: 20 }}
+          margin={{ top: 20, right: 0, bottom: 20, left: 20 }}
           padding={0.5}
           valueScale={{ type: 'linear', min: 0, max: 5 }}
           indexScale={{ type: 'band', round: true }}
@@ -364,41 +364,31 @@ const GradeBarChart = () => {
       data={data}
       keys={['grade']}
       indexBy='subject'
-      margin={{ top: 20, right: 20, bottom: 50, left: 30 }}
+      margin={{ top: 20, right: 0, bottom: 0, left: 30 }}
       padding={0.4}
       valueScale={{ type: 'linear', min: 0, max: 9 }}
       indexScale={{ type: 'band', round: true }}
       colors={['#F6432B']}
-      borderRadius={0}
+      borderRadius={2}
       axisTop={null}
       axisRight={null}
       axisBottom={{
         tickSize: 0,
         tickPadding: 10,
         tickRotation: 0,
-        legend: '',
-        legendPosition: 'middle',
-        legendOffset: 46,
       }}
       axisLeft={{
         tickSize: 0,
         tickPadding: 8,
-        tickRotation: 0,
-        legend: '',
-        legendPosition: 'middle',
-        legendOffset: -50,
         format: (value) => value.toFixed(1),
         tickValues: [1.5, 3.0, 4.5, 6.0, 7.5, 9.0],
       }}
       gridYValues={[1.5, 3.0, 4.5, 6.0, 7.5, 9.0]}
+      enableLabel={false}
+      isInteractive={false}
+      role='application'
+      ariaLabel='교과별 내신 성적 차트'
       theme={{
-        background: 'transparent',
-        grid: {
-          line: {
-            stroke: '#E5E7EB',
-            strokeWidth: 1,
-          },
-        },
         axis: {
           domain: {
             line: {
@@ -410,30 +400,82 @@ const GradeBarChart = () => {
             text: {
               fill: '#37383B',
               fontSize: 12,
-              gap: 12,
-              fontFamily: 'inherit',
             },
           },
         },
       }}
-      labelSkipWidth={12}
-      labelSkipHeight={12}
-      enableLabel={false}
-      isInteractive={false}
-      role='application'
-      ariaLabel='교과별 내신 성적 차트'
+      layers={[
+        'grid',
+        'axes',
+        // 👇 커스텀 레이어 추가
+        (props) => {
+          const { bars } = props;
+
+          return bars.map((bar) => {
+            const adjustedX = bar.x + (bar.width - 28) / 2;
+
+            return (
+              <rect
+                key={bar.key}
+                x={adjustedX}
+                y={bar.y}
+                width={28}
+                height={bar.height}
+                fill={bar.color}
+                rx={2}
+                ry={2}
+              />
+            );
+          });
+        },
+        'markers',
+        'legends',
+      ]}
     />
   );
 };
 
 // 성적추이 라인 차트
 const GradeLineChart = () => {
-  const data = [
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      if (typeof window !== 'undefined') {
+        setIsMobile(window.innerWidth <= 745);
+      }
+    };
+    checkMobile();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', checkMobile);
+      return () => window.removeEventListener('resize', checkMobile);
+    }
+  }, []);
+
+  const labels = [
+    '1-1학기',
+    '1-2학기',
+    '2-1학기',
+    '2-2학기',
+    '3-1학기',
+    '3-2학기',
+  ];
+
+  // 모바일용 짧은 라벨
+  const shortLabels = ['1-1', '1-2', '2-1', '2-2', '3-1', '3-2'];
+
+  // 문자열 라벨에 숫자 좌표를 부여
+  const labelMap = labels.reduce((acc, label, i) => {
+    acc[label] = i + 1;
+    return acc;
+  }, {} as Record<string, number>);
+
+  const rawData = [
     {
       id: '전교과',
-      color: '#D32F2F',
+      color: '#D93025',
       data: [
-        { x: '1-1학기', y: 5.7 },
+        { x: '1-1학기', y: 6.7 },
         { x: '1-2학기', y: 6.8 },
         { x: '2-1학기', y: 2.9 },
         { x: '2-2학기', y: 4.8 },
@@ -443,19 +485,19 @@ const GradeLineChart = () => {
     },
     {
       id: '국영수사과',
-      color: '#F44336',
+      color: '#F6432B',
       data: [
-        { x: '1-1학기', y: 6.0 },
-        { x: '1-2학기', y: 7.1 },
-        { x: '2-1학기', y: 3.5 },
-        { x: '2-2학기', y: 5.2 },
-        { x: '3-1학기', y: 3.8 },
-        { x: '3-2학기', y: 5.3 },
+        { x: '1-1학기', y: 6.2 },
+        { x: '1-2학기', y: 3.5 },
+        { x: '2-1학기', y: 5.5 },
+        { x: '2-2학기', y: 7.2 },
+        { x: '3-1학기', y: 4.8 },
+        { x: '3-2학기', y: 3 },
       ],
     },
     {
       id: '국영수사',
-      color: '#E91E63',
+      color: '#F7A39F',
       data: [
         { x: '1-1학기', y: 6.2 },
         { x: '1-2학기', y: 7.5 },
@@ -467,7 +509,7 @@ const GradeLineChart = () => {
     },
     {
       id: '국명수과',
-      color: '#F8BBD0',
+      color: '#FFCDD0',
       data: [
         { x: '1-1학기', y: 6.5 },
         { x: '1-2학기', y: 7.8 },
@@ -479,19 +521,28 @@ const GradeLineChart = () => {
     },
   ];
 
+  // x 값을 숫자로 변환
+  const data = rawData.map((serie) => ({
+    ...serie,
+    data: serie.data.map((point) => ({
+      x: labelMap[point.x],
+      y: point.y,
+      label: point.x, // tick 표시용
+    })),
+  }));
+
   return (
     <ResponsiveLine
       data={data}
-      margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-      xScale={
-        { type: 'point', padding: 0.7 } as unknown as {
-          type: 'point';
-          padding?: number;
-        }
-      }
+      margin={{ top: 20, right: 0, bottom: 50, left: 30 }}
+      xScale={{
+        type: 'linear',
+        min: 0.5, // y축에서 약간 떨어짐
+        max: labels.length + 0.5, // 오른쪽도 여유
+      }}
       yScale={{
         type: 'linear',
-        min: 3.0,
+        min: 1.5,
         max: 7.5,
         stacked: false,
         reverse: false,
@@ -507,6 +558,8 @@ const GradeLineChart = () => {
         legend: '',
         legendOffset: 36,
         legendPosition: 'middle',
+        tickValues: Object.values(labelMap),
+        format: (v) => (isMobile ? shortLabels[v - 1] : labels[v - 1]), // 모바일일 때 짧은 라벨
       }}
       axisLeft={{
         tickSize: 0,
@@ -517,42 +570,39 @@ const GradeLineChart = () => {
         legendOffset: -50,
         format: (value) => value.toFixed(1),
         tickValues: [3.0, 4.5, 6.0, 7.5],
+        renderTick: (tick) => (
+          <g transform={`translate(${tick.x - 10},${tick.y + 5})`}>
+            <text
+              textAnchor='end'
+              dominantBaseline='middle'
+              fontSize={13}
+              fill={'#AFB0B6'} // ✅ tick 값에 따라 색 지정
+            >
+              {tick.value}
+            </text>
+          </g>
+        ),
       }}
       gridYValues={[3.0, 4.5, 6.0, 7.5]}
-      lineWidth={2}
+      enableGridX={false}
+      colors={(serie) => serie.color}
+      lineWidth={1}
       pointSize={6}
-      pointColor={{ from: 'serieColor' }}
+      pointColor={(point) => {
+        return point.series.color || '#000000';
+      }}
       pointBorderWidth={2}
-      pointBorderColor={{ from: 'serieColor' }}
+      pointBorderColor={(point) => {
+        const serie = data.find((s) => s.id === point.seriesId);
+        return serie?.color || '#000000';
+      }}
       pointLabelYOffset={-12}
       enablePointLabel={false}
       enableArea={false}
       useMesh={true}
-      legends={[
-        {
-          anchor: 'top-right',
-          direction: 'row',
-          justify: true,
-          translateX: 0,
-          translateY: 0,
-          itemsSpacing: 0,
-          itemDirection: 'left-to-right',
-          itemWidth: 80,
-          itemHeight: 20,
-          itemOpacity: 0.75,
-          symbolSize: 12,
-          symbolShape: 'square',
-          effects: [
-            {
-              on: 'hover',
-              style: {
-                itemBackground: '#D93025',
-                itemOpacity: 1,
-              },
-            },
-          ],
-        },
-      ]}
+      enableCrosshair={false}
+      tooltip={() => null}
+      legends={[]}
       theme={{
         grid: {
           line: {
@@ -585,8 +635,8 @@ const GradeTrend = () => {
   const [isGradeChangeOpen, setIsGradeChangeOpen] = useState(true);
 
   return (
-    <div className='flex flex-col gap-[32px]'>
-      <div>
+    <div className='flex flex-col gap-[32px] '>
+      <div className='max-[745px]:px-[20px]'>
         <button
           onClick={() => setIsGradeTrendOpen(!isGradeTrendOpen)}
           className='flex items-center justify-between w-full mb-[24px] max-[745px]:px-[20px]'
@@ -607,7 +657,7 @@ const GradeTrend = () => {
         {isGradeTrendOpen && (
           <>
             {/* 상단 섹션 */}
-            <div className='grid grid-cols-2 gap-[24px] mb-[24px] max-md:grid-cols-1 max-[745px]:px-[20px]'>
+            <div className='grid grid-cols-2 gap-[24px] mb-[24px] max-md:grid-cols-1'>
               {/* 왼쪽: 교과별 등급 리스트 */}
               <div className='bg-white rounded-[8px] border border-[var(--n-200)] p-[24px]'>
                 <h3 className='text-[16px] font-[600] leading-[1.3] text-[var(--n-800)] mb-[16px]'>
@@ -665,7 +715,7 @@ const GradeTrend = () => {
               </div>
 
               {/* 오른쪽: 교과별 내신 성적 막대 차트 */}
-              <div className='bg-white rounded-[8px] border border-[var(--n-200)] p-[24px]'>
+              <div className='bg-white rounded-[8px] border border-[var(--n-200)] p-[24px] max-[745px]:px-[20px]'>
                 <h3 className='text-[18px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[16px]'>
                   교과별 내신 성적
                 </h3>
@@ -676,18 +726,41 @@ const GradeTrend = () => {
             </div>
 
             {/* 하단: 성적추이 라인 차트 */}
-            <div className='bg-white rounded-[8px] border border-[var(--n-200)] p-[24px] max-[745px]:px-[20px]'>
-              <h3 className='text-[18px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[16px]'>
-                성적추이
-              </h3>
-              <div className='h-[171px]'>
+            <div className='bg-white rounded-[8px] border border-[var(--n-200)] p-[24px]'>
+              <div className='flex items-center justify-between mb-[16px] max-[745px]:flex-col max-[745px]:items-start max-[745px]:gap-[20px]'>
+                <h3 className='text-[18px] font-[700] leading-[1.3] text-[var(--n-800)]'>
+                  성적추이
+                </h3>
+                <div className='flex items-center gap-0'>
+                  {[
+                    { id: '전교과', color: '#D93025' },
+                    { id: '국영수사과', color: '#F6432B' },
+                    { id: '국영수사', color: '#F7A39F' },
+                    { id: '국명수과', color: '#FFCDD0' },
+                  ].map((item) => (
+                    <div
+                      key={item.id}
+                      className='flex items-center gap-[4px] px-[8px]'
+                    >
+                      <div
+                        className='w-[12px] h-[12px] rounded-[2px]'
+                        style={{ backgroundColor: item.color }}
+                      ></div>
+                      <span className='text-[12px] font-[400] leading-[1.3] text-[var(--n-800)] whitespace-nowrap'>
+                        {item.id}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className='h-[171px] w-[818px] max-[745px]:w-[297px] '>
                 <GradeLineChart />
               </div>
             </div>
           </>
         )}
       </div>
-      <div className='w-full h-[1px] bg-[var(--n-200)]'></div>
+      <div className='w-full h-[1px] bg-[var(--n-200)] max-[745px]:w-[calc(100%-40px)] max-[745px]:mx-auto'></div>
       <div>
         {/* 교과별 성적 추이도 */}
         <button
@@ -786,7 +859,7 @@ const GradeTrend = () => {
           </>
         )}
       </div>
-      <div className='w-full h-[1px] bg-[var(--n-200)]'></div>
+      <div className='w-full h-[1px] bg-[var(--n-200)] max-[745px]:w-[calc(100%-40px)] max-[745px]:mx-auto'></div>
       <div>
         {/* 교과별 성적 변화율 */}
         <div className='overflow-hidden'>

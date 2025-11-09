@@ -42,38 +42,89 @@ const ConsultDetail = ({ id }: { id: string }) => {
   const content = contentMap[activeSection];
 
   return (
-    <div className='flex gap-[24px] max-[745px]:flex-col max-[745px]:gap-[0px]'>
-      <aside className='w-[270px] flex-shrink-0 max-[745px]:w-full'>
-        <LeftMenu
-          activeSection={activeSection}
-          onSectionChange={setActiveSection}
-        />
-      </aside>
-      <main className='flex-1 '>
-        {/* 헤더 영역 */}
-        <div className='mb-[32px]'>
-          {/* 뒤로가기 */}
-          <button className='flex items-center gap-[4px] text-[15px] text-[var(--n-600)] bg-[var(--n-50)] h-[41px] px-[16px] rounded-[1000px] max-[745px]:hidden'>
-            <Image
-              src='/Images/icon-left-arrow-16.svg'
-              alt='arrow-left'
-              width={16}
-              height={16}
-            />
-            <span className='text-[16px] font-[500] text-[var(--n-600)]'>
-              나의 컨설팅
-            </span>
-          </button>
+    <div className='px-[144px] max-[745px]:px-[0]'>
+      <div className='flex gap-[24px] max-[745px]:flex-col max-[745px]:gap-[0px]'>
+        <aside className='w-[270px] flex-shrink-0 max-[745px]:w-full'>
+          <LeftMenu
+            activeSection={activeSection}
+            onSectionChange={setActiveSection}
+          />
+        </aside>
+        <main className='flex-1 '>
+          {/* 헤더 영역 */}
+          <div className='mb-[32px]'>
+            {/* 뒤로가기 */}
+            <button className='flex items-center gap-[4px] text-[15px] text-[var(--n-600)] bg-[var(--n-50)] h-[41px] px-[16px] rounded-[1000px] max-[745px]:hidden'>
+              <Image
+                src='/Images/icon-left-arrow-16.svg'
+                alt='arrow-left'
+                width={16}
+                height={16}
+              />
+              <span className='text-[16px] font-[500] text-[var(--n-600)]'>
+                나의 컨설팅
+              </span>
+            </button>
 
-          {/* 컨설팅 정보 */}
-          <div className='mt-[32px] max-[745px]:mt-[72px]'>
-            {/* 모바일 레이아웃 (745px 이하) */}
-            <div className='hidden max-[745px]:block max-[745px]:px-[20px]'>
-              <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[12px]'>
-                이*희(고3)
-              </h1>
-              {/* 상세 정보 */}
-              <div className='flex items-center gap-[8px] text-[15px] text-[var(--n-600)] mb-[12px]'>
+            {/* 컨설팅 정보 */}
+            <div className='mt-[32px] max-[745px]:mt-[72px]'>
+              {/* 모바일 레이아웃 (745px 이하) */}
+              <div className='hidden max-[745px]:block max-[745px]:px-[20px]'>
+                <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[12px]'>
+                  이*희(고3)
+                </h1>
+                {/* 상세 정보 */}
+                <div className='flex items-center gap-[8px] text-[15px] text-[var(--n-600)] mb-[12px]'>
+                  <p className='flex items-center justify-center gap-[8px]'>
+                    <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
+                      컨설턴트
+                    </span>
+                    <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-800)]'>
+                      이지나
+                    </span>
+                  </p>
+                  <span className='w-[1px] h-[12px] bg-[var(--n-300)]'></span>
+                  <p className='flex items-center justify-center gap-[8px]'>
+                    <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
+                      컨설팅
+                    </span>
+                    <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-800)]'>
+                      검토중
+                    </span>
+                  </p>
+                  <span className='w-[1px] h-[12px] bg-[var(--n-300)]'></span>
+                  <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
+                    2025.11.1
+                  </span>
+                </div>
+                {/* 버튼 */}
+                <div className='flex gap-[8px]'>
+                  <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--n-800)] border border-[var(--n-300)] rounded-[100px] h-[40px]'>
+                    정보수정
+                  </button>
+                  <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--r-400)] border border-[var(--r-400)] rounded-[100px] h-[40px]'>
+                    삭제
+                  </button>
+                </div>
+              </div>
+
+              {/* 데스크톱 레이아웃 (745px 이상) */}
+              <div className='max-[745px]:hidden flex items-start justify-between mb-[12px]'>
+                <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] '>
+                  이*희(고3)
+                </h1>
+                <div className='flex gap-[8px]'>
+                  <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--n-800)] border border-[var(--n-300)] rounded-[100px] h-[40px]'>
+                    정보수정
+                  </button>
+                  <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--r-400)] border border-[var(--r-400)] rounded-[100px] h-[40px]'>
+                    삭제
+                  </button>
+                </div>
+              </div>
+
+              {/* 상세 정보 (데스크톱 - 745px 이상) */}
+              <div className='max-[745px]:hidden flex items-center gap-[8px] text-[15px] text-[var(--n-600)]'>
                 <p className='flex items-center justify-center gap-[8px]'>
                   <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
                     컨설턴트
@@ -96,81 +147,32 @@ const ConsultDetail = ({ id }: { id: string }) => {
                   2025.11.1
                 </span>
               </div>
-              {/* 버튼 */}
-              <div className='flex gap-[8px]'>
-                <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--n-800)] border border-[var(--n-300)] rounded-[100px] h-[40px]'>
-                  정보수정
-                </button>
-                <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--r-400)] border border-[var(--r-400)] rounded-[100px] h-[40px]'>
-                  삭제
-                </button>
-              </div>
-            </div>
-
-            {/* 데스크톱 레이아웃 (745px 이상) */}
-            <div className='max-[745px]:hidden flex items-start justify-between mb-[12px]'>
-              <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] '>
-                이*희(고3)
-              </h1>
-              <div className='flex gap-[8px]'>
-                <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--n-800)] border border-[var(--n-300)] rounded-[100px] h-[40px]'>
-                  정보수정
-                </button>
-                <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--r-400)] border border-[var(--r-400)] rounded-[100px] h-[40px]'>
-                  삭제
-                </button>
-              </div>
-            </div>
-
-            {/* 상세 정보 (데스크톱 - 745px 이상) */}
-            <div className='max-[745px]:hidden flex items-center gap-[8px] text-[15px] text-[var(--n-600)]'>
-              <p className='flex items-center justify-center gap-[8px]'>
-                <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
-                  컨설턴트
-                </span>
-                <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-800)]'>
-                  이지나
-                </span>
-              </p>
-              <span className='w-[1px] h-[12px] bg-[var(--n-300)]'></span>
-              <p className='flex items-center justify-center gap-[8px]'>
-                <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
-                  컨설팅
-                </span>
-                <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-800)]'>
-                  검토중
-                </span>
-              </p>
-              <span className='w-[1px] h-[12px] bg-[var(--n-300)]'></span>
-              <span className='text-[15px] font-[500] leading-[1.4] text-[var(--n-500)]'>
-                2025.11.1
-              </span>
             </div>
           </div>
-        </div>
 
-        {/* 구분선 */}
-        <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px] max-[745px]:w-[calc(100%-40px)] max-[745px]:mx-auto'></div>
+          {/* 구분선 */}
+          <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px] max-[745px]:w-[calc(100%-40px)] max-[745px]:mx-auto'></div>
 
-        {/* 컨텐츠 영역 */}
-        {activeSection === 'grade-trend' && <GradeTrend />}
-        {activeSection === 'subject-grade' && <SubjectGrade />}
-        {activeSection === 'learning-development' && (
-          <div>
-            <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
-              {content.title}
-            </h2>
+          {/* 컨텐츠 영역 */}
+          {activeSection === 'grade-trend' && <GradeTrend />}
+          {activeSection === 'subject-grade' && <SubjectGrade />}
+          {activeSection === 'learning-development' && (
+            <div>
+              <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
+                {content.title}
+              </h2>
 
-            {/* 학년별 테이블 */}
-            {['1학년', '2학년', '3학년'].map((grade, gradeIndex) => (
-              <LearningDevelopment key={gradeIndex} grade={grade} />
-            ))}
-          </div>
-        )}
-        {activeSection === 'creative-activity' && <CreativeActivity />}
-        {activeSection === 'behavior-opinion' && <BehaviorOption />}
-        {activeSection === 'attendance' && <Attendance />}
-      </main>
+              {/* 학년별 테이블 */}
+              {['1학년', '2학년', '3학년'].map((grade, gradeIndex) => (
+                <LearningDevelopment key={gradeIndex} grade={grade} />
+              ))}
+            </div>
+          )}
+          {activeSection === 'creative-activity' && <CreativeActivity />}
+          {activeSection === 'behavior-opinion' && <BehaviorOption />}
+          {activeSection === 'attendance' && <Attendance />}
+        </main>
+      </div>
     </div>
   );
 };

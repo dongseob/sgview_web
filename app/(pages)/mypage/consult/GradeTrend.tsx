@@ -10,6 +10,8 @@ const GradeChangeTable = ({
   subject: string;
   change1_2: string; // 1-2학기 성적변화
 }) => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
   const getChangeColor = (change: string) => {
     if (change === '-') return 'text-[var(--n-800)]';
     if (change.startsWith('-')) return 'text-[#0066CC]';
@@ -106,8 +108,36 @@ const GradeChangeTable = ({
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                 {subject}
               </td>
-              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                89
+              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center relative'>
+                <span
+                  className='text-[14px] font-[400] bg-[var(--r-200)] text-center cursor-pointer'
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  89
+                </span>
+                {showTooltip && (
+                  <div className='absolute bottom-full left-1/2 transform -translate-x-1/2 mb-[8px] z-50'>
+                    <div className='bg-white border-l border-r border-t border-[var(--n-200)] rounded-[8px] px-[12px] py-[8px] shadow-lg min-w-[180px] relative'>
+                      <div className='flex items-center justify-between gap-[12px]'>
+                        <span className='text-[14px] font-[400] text-[var(--n-800)] whitespace-nowrap'>
+                          학업역량, 진로역량
+                        </span>
+                        <button
+                          onClick={() => setShowTooltip(false)}
+                          className='text-[var(--n-600)] hover:text-[var(--n-800)] text-[14px] leading-none'
+                        >
+                          ×
+                        </button>
+                      </div>
+                      {/* 삼각형 포인터 */}
+                      <div className='absolute top-full left-1/2 transform -translate-x-1/2'>
+                        <div className='w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-transparent'></div>
+                        <div className='w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-white absolute top-[0px] left-1/2 transform -translate-x-1/2'></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                 16.1
@@ -340,7 +370,16 @@ const SubjectTrendChart = ({
             'markers',
             'legends',
           ]}
-          isInteractive={false}
+          isInteractive={true}
+          tooltip={({ indexValue, value }) => {
+            return (
+              <div className='bg-white border border-[var(--n-200)] rounded-[4px] px-[8px] py-[4px] shadow-sm w-[90px] text-center'>
+                <div className='text-[12px] text-[var(--n-800)]'>
+                  {indexValue}: {Number(value).toFixed(1)}
+                </div>
+              </div>
+            );
+          }}
           role='application'
           ariaLabel={`${title} 성적 추이 차트`}
         />
@@ -385,7 +424,16 @@ const GradeBarChart = () => {
       }}
       gridYValues={[1.5, 3.0, 4.5, 6.0, 7.5, 9.0]}
       enableLabel={false}
-      isInteractive={false}
+      isInteractive={true}
+      tooltip={({ indexValue, value }) => {
+        return (
+          <div className='bg-white border border-[var(--n-200)] rounded-[4px] px-[8px] py-[4px] shadow-sm w-[90px] text-center'>
+            <div className='text-[12px] text-[var(--n-800)]'>
+              {indexValue}: {Number(value).toFixed(1)}
+            </div>
+          </div>
+        );
+      }}
       role='application'
       ariaLabel='교과별 내신 성적 차트'
       theme={{
@@ -407,7 +455,8 @@ const GradeBarChart = () => {
       layers={[
         'grid',
         'axes',
-        // 👇 커스텀 레이어 추가
+        'bars',
+        // 👇 커스텀 레이어 추가 (bars 위에 그려서 28px 너비로 표시)
         (props) => {
           const { bars } = props;
 
@@ -424,6 +473,7 @@ const GradeBarChart = () => {
                 fill={bar.color}
                 rx={2}
                 ry={2}
+                style={{ pointerEvents: 'none' }}
               />
             );
           });
@@ -601,7 +651,16 @@ const GradeLineChart = () => {
       enableArea={false}
       useMesh={true}
       enableCrosshair={false}
-      tooltip={() => null}
+      tooltip={({ point }) => {
+        const xLabel = point.data.label || labels[point.data.x - 1];
+        return (
+          <div className='bg-white border border-[var(--n-200)] rounded-[4px] px-[8px] py-[4px] shadow-sm w-[90px] text-center'>
+            <div className='text-[12px] text-[var(--n-800)]'>
+              {xLabel}: {point.data.y.toFixed(1)}
+            </div>
+          </div>
+        );
+      }}
       legends={[]}
       theme={{
         grid: {

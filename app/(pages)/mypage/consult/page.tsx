@@ -18,7 +18,7 @@ function PageContent() {
 export default function Page() {
   return (
     <Suspense fallback={null}>
-      <div className='mx-auto max-w-[1440px] px-[144px] max-[745px]:px-[0]'>
+      <div className={`mx-auto max-w-[1440px] max-[745px]:px-[0] }`}>
         <PageContent />
       </div>
     </Suspense>

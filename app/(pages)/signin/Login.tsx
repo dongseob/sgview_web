@@ -1,10 +1,11 @@
 'use client';
 
+import { postLogin } from '@/app/api/member';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 const EMAIL_MIN = 6;
 const EMAIL_MAX = 100;
@@ -34,7 +35,7 @@ const Login = () => {
   }, [toastMsg]);
 
   // ✅ 로그인 (항상 클릭 가능)
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const idTrim = id.trim();
     const pwTrim = password.trim();
 
@@ -51,8 +52,12 @@ const Login = () => {
       return;
     }
 
-    // ✅ API 없음 → 조건 통과 시 바로 이동
-    router.push('/mypage/consult');
+    const loginRes = await postLogin({ email: id, password });
+    if (loginRes.status === 200) {
+      router.push('/mypage/consult');
+    } else {
+      showToast();
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,48 +65,50 @@ const Login = () => {
   };
 
   return (
-    <div className="w-full pt-[40px] pb-[120px] mx-auto max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]">
-      <div className="w-full max-w-[368px] mx-auto py-[32px] flex flex-col items-center justify-start gap-[32px] max-[745px]:py-[0]">
-        <h3 className="text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]">로그인</h3>
+    <div className='w-full pt-[40px] pb-[120px] mx-auto max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
+      <div className='w-full max-w-[368px] mx-auto py-[32px] flex flex-col items-center justify-start gap-[32px] max-[745px]:py-[0]'>
+        <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>
+          로그인
+        </h3>
 
-        <div className="flex flex-col gap-[24px] w-full">
+        <div className='flex flex-col gap-[24px] w-full'>
           {/* ✅ 아이디(이메일) - 형식검증 제거, 길이/placeholder/maxlength만 적용 */}
-          <div className="flex flex-col gap-[8px] w-full">
-            <p className="text-[#36373A] text-[13px] font-medium">
-              아이디(이메일)<span className="text-[#F6432B]">*</span>
+          <div className='flex flex-col gap-[8px] w-full'>
+            <p className='text-[#36373A] text-[13px] font-medium'>
+              아이디(이메일)<span className='text-[#F6432B]'>*</span>
             </p>
             <input
               ref={idRef}
-              type="text"                         // 형식검증 방지
-              placeholder="아이디(이메일) 입력"
+              type='text' // 형식검증 방지
+              placeholder='아이디(이메일) 입력'
               maxLength={EMAIL_MAX}
               value={id}
               onChange={(e) => setId(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="w-full h-[50px] px-[16px] py-[10px] border rounded-[8px] placeholder:text-[#AFB0B6] text-[15px] font-medium focus:outline-none border-[var(--n-200)]"
+              className='w-full h-[50px] px-[16px] py-[10px] border rounded-[8px] placeholder:text-[#AFB0B6] text-[15px] font-medium focus:outline-none border-[var(--n-200)]'
             />
           </div>
 
           {/* ✅ 비밀번호 - 조합검증 제거, 길이/maxlength만 적용 + 보기/숨김 토글 */}
-          <div className="flex flex-col gap-[8px] w-full">
-            <p className="text-[#36373A] text-[13px] font-medium">
-              비밀번호<span className="text-[#F6432B]">*</span>
+          <div className='flex flex-col gap-[8px] w-full'>
+            <p className='text-[#36373A] text-[13px] font-medium'>
+              비밀번호<span className='text-[#F6432B]'>*</span>
             </p>
-            <div className="relative w-full">
+            <div className='relative w-full'>
               <input
                 ref={pwRef}
                 type={showPw ? 'text' : 'password'}
-                placeholder="비밀번호 입력"
+                placeholder='비밀번호 입력'
                 maxLength={PW_MAX}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="w-full h-[50px] px-[16px] py-[10px] border rounded-[8px] placeholder:text-[#AFB0B6] text-[15px] font-medium focus:outline-none border-[var(--n-200)] pr-[48px]"
+                className='w-full h-[50px] px-[16px] py-[10px] border rounded-[8px] placeholder:text-[#AFB0B6] text-[15px] font-medium focus:outline-none border-[var(--n-200)] pr-[48px]'
               />
               <button
-                type="button"
+                type='button'
                 onClick={() => setShowPw((p) => !p)}
-                className="absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer opacity-50"
+                className='absolute right-[16px] top-1/2 -translate-y-1/2 cursor-pointer opacity-50'
                 aria-label={showPw ? '비밀번호 숨기기' : '비밀번호 보이기'}
               >
                 <Image
@@ -110,7 +117,7 @@ const Login = () => {
                       ? '/images/type=ic-visibility-on@2x.png'
                       : '/images/type=ic-visibility-off@2x.png'
                   }
-                  alt=""
+                  alt=''
                   width={24}
                   height={24}
                 />
@@ -119,26 +126,29 @@ const Login = () => {
           </div>
 
           {/* ✅ 버튼 (항상 활성화) */}
-          <div className="flex flex-col items-center justify-center gap-[24px]">
+          <div className='flex flex-col items-center justify-center gap-[24px]'>
             <button
-              type="button"
+              type='button'
               onClick={handleLogin}
-              className="rounded-[8px] h-[50px] w-full bg-[var(--r-400)] hover:bg-[var(--r-500)] text-white cursor-pointer transition"
+              className='rounded-[8px] h-[50px] w-full bg-[var(--r-400)] hover:bg-[var(--r-500)] text-white cursor-pointer transition'
             >
               로그인
             </button>
 
             {/* 하단 링크 */}
-            <div className="flex items-center justify-center gap-[8px]">
-              <Link href="/find-id" className="text-[14px] text-[var(--n-600)]">
+            <div className='flex items-center justify-center gap-[8px]'>
+              <Link href='/find-id' className='text-[14px] text-[var(--n-600)]'>
                 아이디 찾기
               </Link>
-              <div className="w-[1px] h-[12px] bg-[var(--n-300)]" />
-              <Link href="/find-password" className="text-[14px] text-[var(--n-600)]">
+              <div className='w-[1px] h-[12px] bg-[var(--n-300)]' />
+              <Link
+                href='/find-password'
+                className='text-[14px] text-[var(--n-600)]'
+              >
                 비밀번호 재설정
               </Link>
-              <div className="w-[1px] h-[12px] bg-[var(--n-300)]" />
-              <Link href="/signup" className="text-[14px] text-[var(--n-600)]">
+              <div className='w-[1px] h-[12px] bg-[var(--n-300)]' />
+              <Link href='/signup' className='text-[14px] text-[var(--n-600)]'>
                 회원가입
               </Link>
             </div>
@@ -147,7 +157,9 @@ const Login = () => {
       </div>
 
       {/* ✅ Motion 토스트 (상단 고정) */}
-      <AnimatePresence>{toastMsg && <MotionToast key={toastMsg} message={toastMsg} />}</AnimatePresence>
+      <AnimatePresence>
+        {toastMsg && <MotionToast key={toastMsg} message={toastMsg} />}
+      </AnimatePresence>
     </div>
   );
 };
@@ -178,18 +190,18 @@ function MotionToast({ message }: { message: string }) {
     }
   }, []);
 
-  const initialY = prefersReduced ? 0 : (isMobile ? 20 : -20);
-  const exitY    = prefersReduced ? 0 : (isMobile ? 20 : -20);
+  const initialY = prefersReduced ? 0 : isMobile ? 20 : -20;
+  const exitY = prefersReduced ? 0 : isMobile ? 20 : -20;
 
   return (
     <motion.div
-      role="status"
-      aria-live="polite"
+      role='status'
+      aria-live='polite'
       initial={{ opacity: 0, y: initialY }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: exitY }}
       transition={{ duration: prefersReduced ? 0 : 0.35, ease: 'easeOut' }}
-      className="
+      className='
         fixed z-20
         /* 데스크탑: 상단 중앙 */
         top-[48px] left-1/2 -translate-x-1/2 w-[335px]
@@ -201,7 +213,7 @@ function MotionToast({ message }: { message: string }) {
         bg-[#37383B] text-white text-[14px] font-normal leading-[19.6px]
         shadow-[0_4px_10px_0_rgba(0,0,0,0.10)]
         pointer-events-none
-      "
+      '
     >
       {message}
     </motion.div>

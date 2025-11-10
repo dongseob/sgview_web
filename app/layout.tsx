@@ -4,6 +4,7 @@ import Header from './component/Header';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://istrue.axcorp.ai/"),
   title: '생기뷰(SGView)',
   description: '이스트루에듀',
   openGraph: {
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='ko'>
       <body className='min-w-[375px]'>
         <Header />
         <div className='mx-auto mt-[72px] max-768:min-w-[375px] max-[745px]:mt-[56px]'>

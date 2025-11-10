@@ -114,6 +114,7 @@ const ModalCenter = ({
             background:
               'linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #FFF 20%)',
           }}
+          onClick={() => {onClose && onClose()}}
         >
           <button className='w-full h-[52px] rounded-[8px] bg-[var(--n-800)] text-[var(--n-0)] text-[15px] font-[500] leading-[1.5]'>
             확인

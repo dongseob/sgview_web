@@ -2,7 +2,6 @@
 
 import { TitleInput } from '@/app/component/Input/input';
 import ModalCenter from '@/app/component/Modal/ModalCenter';
-import { serviceTerms } from '@/app/data/serviceTerms';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -147,23 +146,14 @@ const renderContentAsList = (content: string) => {
   const flushNumberedGroup = () => {
     if (currentNumberedGroup.length > 0) {
       renderItems.push(
-        <ol
-          key={renderItems.length}
-          className='list-decimal list-outside ml-[20px] space-y-[4px]'
-        >
+        <ol key={renderItems.length} className='list-decimal list-outside ml-[20px] space-y-[4px]'>
           {currentNumberedGroup.map((item, idx) => (
-            <li
-              key={idx}
-              className='text-[14px] text-[var(--n-700)] leading-[1.6] pl-[4px]'
-            >
+            <li key={idx} className='text-[14px] text-[var(--n-700)] leading-[1.6] pl-[4px]'>
               {item.content}
               {item.subItems && item.subItems.length > 0 && (
                 <ul className='list-none ml-[20px] mt-[4px] space-y-[4px]'>
                   {item.subItems.map((subItem, subIdx) => (
-                    <li
-                      key={subIdx}
-                      className='text-[14px] text-[var(--n-700)] leading-[1.6] flex items-start'
-                    >
+                    <li key={subIdx} className='text-[14px] text-[var(--n-700)] leading-[1.6] flex items-start'>
                       <span className='mr-[4px]'>•</span>
                       <span>{subItem.content}</span>
                     </li>
@@ -187,10 +177,7 @@ const renderContentAsList = (content: string) => {
       flushNumberedGroup();
       // 일반 텍스트 항목 추가
       renderItems.push(
-        <p
-          key={renderItems.length}
-          className='text-[14px] text-[var(--n-700)] leading-[1.6]'
-        >
+        <p key={renderItems.length} className='text-[14px] text-[var(--n-700)] leading-[1.6]'>
           {item.content}
         </p>
       );
@@ -299,10 +286,7 @@ const Signup = () => {
     setAgreePrivacy(checked);
     setAgreeMarketing(checked);
   };
-  const handleIndividualAgree = (
-    type: 'terms' | 'privacy' | 'marketing',
-    checked: boolean
-  ) => {
+  const handleIndividualAgree = (type: 'terms' | 'privacy' | 'marketing', checked: boolean) => {
     if (type === 'terms') setAgreeTerms(checked);
     if (type === 'privacy') setAgreePrivacy(checked);
     if (type === 'marketing') setAgreeMarketing(checked);
@@ -322,27 +306,24 @@ const Signup = () => {
   const handleSignup = async () => {
     if (!isFormValid) return;
     try {
-      const signRes = await fetch(
-        'https://api-istrue.axcorp.ai/api/v1/auth/signup',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            memberType,
-            school,
-            grade: grade?.value,
-            name,
-            email: id,
-            password,
-            phone,
-            agree: {
-              terms: agreeTerms,
-              privacy: agreePrivacy,
-              marketing: agreeMarketing,
-            },
-          }),
-        }
-      );
+      const signRes = await fetch('https://api-istrue.axcorp.ai/api/v1/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          memberType,
+          school,
+          grade: grade?.value,
+          name,
+          email: id,
+          password,
+          phone,
+          agree: {
+            terms: agreeTerms,
+            privacy: agreePrivacy,
+            marketing: agreeMarketing,
+          },
+        }),
+      });
       if (!signRes.ok) {
         setToastOpen({
           msg: '회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.',
@@ -373,16 +354,12 @@ const Signup = () => {
   return (
     <div className='w-full pt-[40px] pb-[120px] mx-auto max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
       <div className='w-full max-w-[368px] mx-auto py-[32px] flex flex-col items-center justify-start gap-[32px] max-[745px]:py-[0]'>
-        <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>
-          회원가입
-        </h3>
+        <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>회원가입</h3>
 
         <div className='flex flex-col gap-[24px] w-full'>
           {/* 회원구분 */}
           <div className='flex flex-col gap-[12px]'>
-            <p className='text-[var(--n-800)] text-[13px] font-medium'>
-              회원구분
-            </p>
+            <p className='text-[var(--n-800)] text-[13px] font-medium'>회원구분</p>
             <div className='flex gap-4'>
               <div className='flex items-center gap-2'>
                 <input
@@ -394,23 +371,9 @@ const Signup = () => {
                   onChange={(e) => setMemberType(e.target.value as 'student')}
                   className='hidden'
                 />
-                <label
-                  htmlFor='student'
-                  className='flex items-center justify-center gap-[8px] cursor-pointer'
-                >
-                  <Image
-                    src={
-                      memberType === 'student'
-                        ? '/images/radio_on.svg'
-                        : '/images/radio_off.svg'
-                    }
-                    alt='check'
-                    width={24}
-                    height={24}
-                  />
-                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>
-                    학생
-                  </span>
+                <label htmlFor='student' className='flex items-center justify-center gap-[8px] cursor-pointer'>
+                  <Image src={memberType === 'student' ? '/images/radio_on.svg' : '/images/radio_off.svg'} alt='check' width={24} height={24} />
+                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>학생</span>
                 </label>
               </div>
               <div className='flex items-center gap-2'>
@@ -423,23 +386,9 @@ const Signup = () => {
                   onChange={(e) => setMemberType(e.target.value as 'parent')}
                   className='hidden'
                 />
-                <label
-                  htmlFor='parent'
-                  className='flex items-center justify-center gap-[8px] cursor-pointer'
-                >
-                  <Image
-                    src={
-                      memberType === 'parent'
-                        ? '/images/radio_on.svg'
-                        : '/images/radio_off.svg'
-                    }
-                    alt='check'
-                    width={24}
-                    height={24}
-                  />
-                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>
-                    학부모
-                  </span>
+                <label htmlFor='parent' className='flex items-center justify-center gap-[8px] cursor-pointer'>
+                  <Image src={memberType === 'parent' ? '/images/radio_on.svg' : '/images/radio_off.svg'} alt='check' width={24} height={24} />
+                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>학부모</span>
                 </label>
               </div>
             </div>
@@ -478,9 +427,7 @@ const Signup = () => {
                 isSearchable={false}
                 isClearable={false}
                 value={grade?.value === '선택' ? null : grade}
-                onChange={(opt) =>
-                  setGrade(opt as { value: string; label: string } | null)
-                }
+                onChange={(opt) => setGrade(opt as { value: string; label: string } | null)}
                 options={[
                   { value: '1', label: '1학년' },
                   { value: '2', label: '2학년' },
@@ -489,12 +436,7 @@ const Signup = () => {
                 components={{
                   DropdownIndicator: () => (
                     <div className='pr-[16px] flex items-center'>
-                      <Image
-                        src='/images/icon-arrow-24.svg'
-                        alt='arrow'
-                        width={24}
-                        height={24}
-                      />
+                      <Image src='/images/icon-arrow-24.svg' alt='arrow' width={24} height={24} />
                     </div>
                   ),
                   IndicatorSeparator: () => null,
@@ -545,11 +487,7 @@ const Signup = () => {
                     lineHeight: '21px',
                     padding: '12px 16px',
                     cursor: 'pointer',
-                    backgroundColor: state.isSelected
-                      ? '#F6432B'
-                      : state.isFocused
-                      ? '#F7F8FC'
-                      : 'white',
+                    backgroundColor: state.isSelected ? '#F6432B' : state.isFocused ? '#F7F8FC' : 'white',
                     color: state.isSelected ? '#FFFFFF' : '#36373A',
                     '&:active': {
                       backgroundColor: state.isSelected ? '#F6432B' : '#F7F8FC',
@@ -616,9 +554,7 @@ const Signup = () => {
               setPassword(v);
               setPasswordError(!validatePassword(v));
               if (passwordConfirm) {
-                setPasswordConfirmError(
-                  !validatePassword(passwordConfirm) || v !== passwordConfirm
-                );
+                setPasswordConfirmError(!validatePassword(passwordConfirm) || v !== passwordConfirm);
               }
             }}
             onblur={(e) => {
@@ -644,8 +580,7 @@ const Signup = () => {
             }}
             onblur={(e) => {
               const v = e.target.value;
-              if (v)
-                setPasswordConfirmError(!validatePassword(v) || v !== password);
+              if (v) setPasswordConfirmError(!validatePassword(v) || v !== password);
             }}
           />
 
@@ -674,31 +609,10 @@ const Signup = () => {
           <div className='flex flex-col gap-[20px]'>
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-[12px]'>
-                <input
-                  type='checkbox'
-                  name='agreeAll'
-                  id='agreeAll'
-                  checked={agreeAll}
-                  onChange={(e) => handleAgreeAll(e.target.checked)}
-                  className='hidden'
-                />
-                <label
-                  htmlFor='agreeAll'
-                  className='flex items-center gap-[12px] cursor-pointer'
-                >
-                  <Image
-                    src={
-                      agreeAll
-                        ? '/images/checkbox_on.svg'
-                        : '/images/checkbox_off.svg'
-                    }
-                    alt='checkbox'
-                    width={24}
-                    height={24}
-                  />
-                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>
-                    전체 동의
-                  </span>
+                <input type='checkbox' name='agreeAll' id='agreeAll' checked={agreeAll} onChange={(e) => handleAgreeAll(e.target.checked)} className='hidden' />
+                <label htmlFor='agreeAll' className='flex items-center gap-[12px] cursor-pointer'>
+                  <Image src={agreeAll ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>전체 동의</span>
                 </label>
               </div>
             </div>
@@ -707,113 +621,53 @@ const Signup = () => {
 
             <div className='flex flex-col gap-[20px]'>
               <div className='flex items-center justify-between'>
-                <label
-                  htmlFor='agreeTerms'
-                  className='flex items-center gap-[12px] cursor-pointer'
-                >
+                <label htmlFor='agreeTerms' className='flex items-center gap-[12px] cursor-pointer'>
                   <input
                     type='checkbox'
                     id='agreeTerms'
                     checked={agreeTerms}
-                    onChange={(e) =>
-                      handleIndividualAgree('terms', e.target.checked)
-                    }
+                    onChange={(e) => handleIndividualAgree('terms', e.target.checked)}
                     className='hidden'
                   />
-                  <Image
-                    src={
-                      agreeTerms
-                        ? '/images/checkbox_on.svg'
-                        : '/images/checkbox_off.svg'
-                    }
-                    alt='checkbox'
-                    width={24}
-                    height={24}
-                  />
-                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>
-                    [필수] 서비스 이용약관
-                  </span>
+                  <Image src={agreeTerms ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[필수] 서비스 이용약관</span>
                 </label>
-                <button
-                  type='button'
-                  className='text-[14px] leading-[1.4] text-[var(--n-400)]'
-                  onClick={() => setShowServiceTerms(true)}
-                >
+                <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowServiceTerms(true)}>
                   보기
                 </button>
               </div>
 
               <div className='flex items-center justify-between'>
-                <label
-                  htmlFor='agreePrivacy'
-                  className='flex items-center gap-[12px] cursor-pointer'
-                >
+                <label htmlFor='agreePrivacy' className='flex items-center gap-[12px] cursor-pointer'>
                   <input
                     type='checkbox'
                     id='agreePrivacy'
                     checked={agreePrivacy}
-                    onChange={(e) =>
-                      handleIndividualAgree('privacy', e.target.checked)
-                    }
+                    onChange={(e) => handleIndividualAgree('privacy', e.target.checked)}
                     className='hidden'
                   />
-                  <Image
-                    src={
-                      agreePrivacy
-                        ? '/images/checkbox_on.svg'
-                        : '/images/checkbox_off.svg'
-                    }
-                    alt='checkbox'
-                    width={24}
-                    height={24}
-                  />
-                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>
-                    [필수] 개인정보 수집 및 이용 동의
-                  </span>
+                  <Image src={agreePrivacy ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <span className='text-[15px] leading-[18px] text-[var(--n-800)]'>[필수] 개인정보 수집 및 이용 동의</span>
                 </label>
-                <button
-                  type='button'
-                  className='text-[14px] leading-[1.4] text-[var(--n-400)]'
-                  onClick={() => setShowPrivacyTerms(true)}
-                >
+                <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowPrivacyTerms(true)}>
                   보기
                 </button>
               </div>
 
               <div className='flex items-center justify-between'>
-                <label
-                  htmlFor='agreeMarketing'
-                  className='flex items-center gap-[12px] cursor-pointer'
-                >
+                <label htmlFor='agreeMarketing' className='flex items-center gap-[12px] cursor-pointer'>
                   <input
                     type='checkbox'
                     id='agreeMarketing'
                     checked={agreeMarketing}
-                    onChange={(e) =>
-                      handleIndividualAgree('marketing', e.target.checked)
-                    }
+                    onChange={(e) => handleIndividualAgree('marketing', e.target.checked)}
                     className='hidden'
                   />
-                  <Image
-                    src={
-                      agreeMarketing
-                        ? '/images/checkbox_on.svg'
-                        : '/images/checkbox_off.svg'
-                    }
-                    alt='checkbox'
-                    width={24}
-                    height={24}
-                  />
-                  <span className='text+[15px] leading-[18px] text-[var(--n-800)]'>
-                    [선택] 마케팅 활용 동의 및 광고 수신 동의
-                  </span>
+                  <Image src={agreeMarketing ? '/images/checkbox_on.svg' : '/images/checkbox_off.svg'} alt='checkbox' width={24} height={24} />
+                  <span className='text+[15px] leading-[18px] text-[var(--n-800)]'>[선택] 마케팅 활용 동의 및 광고 수신 동의</span>
                 </label>
                 {/* ✅ 모달 열기 버튼 추가 */}
-                <button
-                  type='button'
-                  className='text-[14px] leading-[1.4] text-[var(--n-400)]'
-                  onClick={() => setShowMarketingTerms(true)}
-                >
+                <button type='button' className='text-[14px] leading-[1.4] text-[var(--n-400)]' onClick={() => setShowMarketingTerms(true)}>
                   보기
                 </button>
               </div>
@@ -835,105 +689,30 @@ const Signup = () => {
           </button>
         </div>
       </div>
-
-      {/* 이용약관 모달 (이미지) */}
-      <ModalCenter
-        isOpen={showServiceTerms}
-        onClose={() => setShowServiceTerms(false)}
-        title='약관안내'
-        width='375px'
-        height='567px'
-      >
-        <>
-          <>
-            <div className='flex flex-col gap-[24px] max-h-full overflow-y-auto p-[20px] pt-[16px] h-[406px]'>
-              <p className='text-[20px] font-[700] text-[var(--n-800)]'>
-                이용약관
-              </p>
-              {serviceTerms.sections.map((section, sectionIndex) => (
-                <div key={sectionIndex} className='flex flex-col gap-[16px]'>
-                  <h3 className='text-[20px] font-[700] text-[var(--n-800)]'>
-                    {section.chapter}
-                  </h3>
-                  {section.articles ? (
-                    section.articles.map((article, articleIndex) => (
-                      <div
-                        key={articleIndex}
-                        className='flex flex-col gap-[8px]'
-                      >
-                        <h4 className='text-[15px] font-[600] text-[var(--n-800)]'>
-                          {article.number} ({article.title})
-                        </h4>
-                        <div className='text-[14px] text-[var(--n-700)] leading-[1.6]'>
-                          {renderContentAsList(article.content)}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className='text-[14px] text-[var(--n-700)] leading-[1.6]'>
-                      {renderContentAsList(section.content || '')}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
-          {/* <div className='px-[20px] pt-[16px] pb-[20px] max-h-full overflow-y-auto'>
-            <Image
-              src='/images/terms-mo.png'
-              alt='이용약관 이미지'
-              width={335}
-              height={100}
-              className='w-full h-auto'
-              priority
-            />
-          </div> */}
-        </>
-      </ModalCenter>
-
-      {/* 마케팅 활용 동의 모달 (이미지) */}
-      <ModalCenter
-        isOpen={showMarketingTerms}
-        onClose={() => setShowMarketingTerms(false)}
-        title='약관안내'
-        width='375px'
-        height='567px'
-      >
-        <>
-          <div className='px-[20px] pt-[16px] pb-[20px] max-h-full overflow-y-auto'>
-            <Image
-              src='/images/marketing-mo.png'
-              alt='마케팅 활용 동의 이미지'
-              width={335}
-              height={100}
-              className='w-full h-auto -mt-[86px] -mx-[20px]'
-              priority
-            />
+      <ModalCenter isOpen={showServiceTerms} onClose={() => setShowServiceTerms(false)} title='약관 안내' width='375px' height='567px'>
+        <div className='overflow-y-auto max-h-full'>
+          <p className='px-[20px] mt-[12px] text-[20px] text-[#37383B] font-[700]'>이용약관</p>
+          <div className='px-[20px] mt-[16px] pb-[20px]'>
+            <Image src='/images/terms-mo.png' alt='이용약관 이미지' width={335} height={100} className='w-full h-auto' priority />
           </div>
-        </>
+        </div>
       </ModalCenter>
-
-      {/* 개인정보 처리방침 모달 (텍스트) */}
-      <ModalCenter
-        isOpen={showPrivacyTerms}
-        onClose={() => setShowPrivacyTerms(false)}
-        title='약관안내'
-        width='375px'
-        height='567px'
-      >
-        <>
-          <p className='text-[20px] font-[700] text-[var(--n-800)] px-[20px]'>
-            개인정보 처리방침
-          </p>
-          <div className='flex flex-col gap-[16px] max-h-full overflow-y-auto p-[20px] pt-[16px] pb-[216px]'>
-            <p className='text-[14px] text-[var(--n-700)] leading-[1.6]'>
-              개인정보 처리방침 내용을 여기에 표시하세요. (별도 데이터가 있다면
-              연결)
-            </p>
+      <ModalCenter isOpen={showPrivacyTerms} onClose={() => setShowPrivacyTerms(false)} title='약관 안내' width='375px' height='567px'>
+        <div className='overflow-y-auto max-h-full'>
+          <p className='px-[20px] mt-[12px] text-[20px] text-[#37383B] font-[700]'>개인정보처리방침</p>
+          <div className='px-[20px] mt-[16px] pb-[20px]'>
+            <Image src='/images/terms-mo.png' alt='이용약관 이미지' width={335} height={100} className='w-full h-auto' priority />
           </div>
-        </>
+        </div>
       </ModalCenter>
-
+      <ModalCenter isOpen={showMarketingTerms} onClose={() => setShowMarketingTerms(false)} title='약관 안내' width='375px' height='567px'>
+        <div className='overflow-y-auto max-h-full'>
+          <p className='px-[20px] mt-[12px] text-[20px] text-[#37383B] font-[700]'>마케팅 활용 동의 및 광고 수신 동의</p>
+          <div className='px-[20px] mt-[16px] pb-[20px]'>
+            <Image src='/images/marketing-mo.png' alt='이용약관 이미지' width={335} height={100} className='w-full h-auto' priority />
+          </div>
+        </div>
+      </ModalCenter>
       {/* 토스트 */}
       {toastOpen && (
         <div className='fixed bottom-4 right-4 z-[9999]'>

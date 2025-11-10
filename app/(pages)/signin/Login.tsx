@@ -1,6 +1,7 @@
 'use client';
 
 import { postLogin } from '@/app/api/member';
+import { AxiosError } from 'axios';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,8 +26,11 @@ const Login = () => {
   const pwRef = useRef<HTMLInputElement | null>(null);
 
   // ✅ 토스트 메시지 (인풋 밑 표시용 로직 완전 제거)
-  const ERROR_MSG = '아이디 또는 비밀번호가 올바르지 않습니다.';
-  const showToast = useCallback(() => setToastMsg(ERROR_MSG), []);
+
+  const showToast = useCallback(
+    (ERROR_MSG: string) => setToastMsg(ERROR_MSG),
+    []
+  );
 
   useEffect(() => {
     if (!toastMsg) return;
@@ -46,17 +50,52 @@ const Login = () => {
     const pwOk = pwTrim.length >= PW_MIN && pwTrim.length <= PW_MAX;
 
     if (!emailOk || !pwOk) {
-      showToast();
+      showToast('아이디 또는 비밀번호를 확인해주세요.');
       if (!emailOk) idRef.current?.focus();
       else pwRef.current?.focus();
       return;
     }
 
-    const loginRes = await postLogin({ email: id, password });
-    if (loginRes.status === 200) {
-      router.push('/mypage/consult');
-    } else {
-      showToast();
+    try {
+      const loginRes = await postLogin({ email: id, password });
+      if (loginRes.status === 200) {
+        localStorage.setItem('accessToken', loginRes.data.tokens.access_token);
+        localStorage.setItem(
+          'refreshToken',
+          loginRes.data.tokens.refresh_token
+        );
+        router.push('/mypage/consult');
+      } else {
+        showToast('아이디 또는 비밀번호가 올바르지 않습니다.');
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      // 네트워크 에러 또는 서버 에러 처리
+      if (axiosError.response) {
+        // 서버가 응답했지만 에러 상태 코드 (4xx, 5xx)
+        const status = axiosError.response.status;
+        if (status === 401 || status === 403) {
+          const errorData = axiosError.response.data;
+          const errorMessage =
+            typeof errorData === 'object' &&
+            errorData !== null &&
+            'detail' in errorData &&
+            typeof errorData.detail === 'string'
+              ? errorData.detail
+              : '아이디 또는 비밀번호가 올바르지 않습니다.';
+          showToast(errorMessage);
+        } else if (status >= 500) {
+          showToast('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        } else {
+          showToast('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
+        }
+      } else if (axiosError.request) {
+        // 요청은 보냈지만 응답을 받지 못함 (네트워크 에러)
+        showToast('네트워크 오류가 발생했습니다. 연결을 확인해주세요.');
+      } else {
+        // 요청 설정 중 에러
+        showToast('로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      }
     }
   };
 

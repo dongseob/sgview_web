@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { postLogout } from '../api/member';
 
 const HeaderUnified = () => {
   const pathname = usePathname();
@@ -13,10 +14,35 @@ const HeaderUnified = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 모바일 사이드메뉴
   const [scrolledPc, setScrolledPc] = useState(false); // 데스크톱: 76px 기준
   const [scrolledMo, setScrolledMo] = useState(false); // 모바일: 56px 기준
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    // 초기값을 함수로 설정하여 SSR 안전하게 처리
+    if (typeof window !== 'undefined') {
+      return !!localStorage.getItem('accessToken');
+    }
+    return false;
+  });
 
-  // TODO: 실제 로그인 연동
-  const isLoggedIn = false;
   const userName = '이광호';
+
+  // localStorage 변경 감지 및 pathname 변경 시 체크
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem('accessToken');
+      setIsLoggedIn(!!token);
+    };
+
+    // 초기 체크 및 pathname 변경 시 체크
+    checkLoginStatus();
+
+    // storage 이벤트 리스너 (다른 탭에서 로그인/로그아웃 시)
+    window.addEventListener('storage', checkLoginStatus);
+
+    return () => {
+      window.removeEventListener('storage', checkLoginStatus);
+    };
+  }, [pathname]);
 
   // ✅ 스크롤 감지하여 헤더 배경/블러 토글 (PC 76px / MO 56px)
   useEffect(() => {
@@ -81,6 +107,20 @@ const HeaderUnified = () => {
     handleScrollTo(id);
   };
 
+  const handleLogout = async () => {
+    const token = localStorage.getItem('accessToken') || '';
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setIsLoggedIn(false);
+    try {
+      await postLogout(token);
+    } catch (error) {
+      // 로그아웃 API 실패해도 로컬 상태는 이미 업데이트됨
+      console.error('Logout error:', error);
+    }
+    router.push('/');
+  };
+
   return (
     <>
       {/* ====== 데스크톱 고정 헤더 ====== */}
@@ -88,12 +128,21 @@ const HeaderUnified = () => {
         className={[
           'w-full fixed top-0 z-10 transition-all duration-300',
           'max-[745px]:hidden',
-          scrolledPc ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]' : 'bg-white/0',
+          scrolledPc
+            ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]'
+            : 'bg-white/0',
         ].join(' ')}
       >
         <div className='max-w-[1440px] mx-auto px-[144px] py-[16px] flex items-center justify-between w-full'>
           <div className='flex items-center justify-start gap-[69px]'>
-            <Image src='/images/logo.png' alt='logo' width={127} height={34} className='cursor-pointer' onClick={() => router.push('/')} />
+            <Image
+              src='/images/logo.png'
+              alt='logo'
+              width={127}
+              height={34}
+              className='cursor-pointer'
+              onClick={() => router.push('/')}
+            />
             <div>
               <ul className='flex items-center justify-start gap-[24px] font-[500] text-[#1A1B1E]'>
                 <li className='px-[16px] py-[10px]'>
@@ -133,20 +182,37 @@ const HeaderUnified = () => {
             </div>
           </div>
 
-          <div className='flex items-center justify-start gap-[8px]'>
-            <button
-              onClick={() => router.push('/signin')}
-              className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
-            >
-              로그인
-            </button>
-            <button
-              onClick={() => router.push('/signup')}
-              className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'
-            >
-              회원가입
-            </button>
-          </div>
+          {!isLoggedIn ? (
+            <div className='flex items-center justify-start gap-[8px]'>
+              <button
+                onClick={() => router.push('/signin')}
+                className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
+              >
+                로그인
+              </button>
+              <button
+                onClick={() => router.push('/signup')}
+                className='px-[16px] py-[11.5px] bg-[var(--n-800)] text-[14px] leading-[14px] text-[var(--n-0)] rounded-[100px] font-[500]'
+              >
+                회원가입
+              </button>
+            </div>
+          ) : (
+            <div className='flex items-center justify-start gap-[8px]'>
+              <button
+                onClick={() => router.push('/mypage/consult')}
+                className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
+              >
+                마이페이지
+              </button>
+              <button
+                onClick={handleLogout}
+                className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
+              >
+                로그아웃
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -156,23 +222,54 @@ const HeaderUnified = () => {
           'hidden max-[745px]:flex',
           'w-full fixed top-0 z-10 min-w-[375px] h-[56px] items-center justify-between px-[20px]',
           // 모바일: 처음엔 완전 투명, 56px 넘으면 데스크톱과 동일 효과
-          scrolledMo ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]' : 'bg-white/0',
+          scrolledMo
+            ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]'
+            : 'bg-white/0',
           'transition-all duration-300',
         ].join(' ')}
       >
-        <Image src='/images/logo.png' alt='logo' width={89} height={24} onClick={() => router.push('/')} className='cursor-pointer' />
-        <Image src='/images/icon-menu-24.svg' alt='menu' width={24} height={24} className='cursor-pointer' onClick={() => setIsMenuOpen(true)} />
+        <Image
+          src='/images/logo.png'
+          alt='logo'
+          width={89}
+          height={24}
+          onClick={() => router.push('/')}
+          className='cursor-pointer'
+        />
+        <Image
+          src='/images/icon-menu-24.svg'
+          alt='menu'
+          width={24}
+          height={24}
+          className='cursor-pointer'
+          onClick={() => setIsMenuOpen(true)}
+        />
       </div>
 
       {/* ====== 모바일 사이드 메뉴 ====== */}
       {isMenuOpen && (
         <>
-          <div className='fixed inset-0 bg-black/50 z-40 min-w-[375px] hidden max-[745px]:block' onClick={() => setIsMenuOpen(false)} />
+          <div
+            className='fixed inset-0 bg-black/50 z-40 min-w-[375px] hidden max-[745px]:block'
+            onClick={() => setIsMenuOpen(false)}
+          />
           <div className='fixed top-0 right-0 w-full h-full bg-white z-50 shadow-lg min-w-[375px] hidden max-[745px]:block'>
             <div className='flex flex-col h-full'>
               <div className='flex items-center justify-between px-[20px] h-[56px] border-b border-[transparent]'>
-                <Image src='/images/logo.png' alt='logo' width={89} height={24} />
-                <Image src='/images/icon-close-24.svg' alt='close' width={24} height={24} className='cursor-pointer' onClick={() => setIsMenuOpen(false)} />
+                <Image
+                  src='/images/logo.png'
+                  alt='logo'
+                  width={89}
+                  height={24}
+                />
+                <Image
+                  src='/images/icon-close-24.svg'
+                  alt='close'
+                  width={24}
+                  height={24}
+                  className='cursor-pointer'
+                  onClick={() => setIsMenuOpen(false)}
+                />
               </div>
 
               <div className='flex flex-col p-[20px] py-[24px] gap-[32px] overflow-y-auto'>
@@ -249,7 +346,11 @@ const HeaderUnified = () => {
                   >
                     이용방법
                   </button>
-                  <Link href='/consult/apply' className='text-[18px] font-[600] text-[var(--n-800)] hover:text-[#F6432B]' onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    href='/consult/apply'
+                    className='text-[18px] font-[600] text-[var(--n-800)] hover:text-[#F6432B]'
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     입시컨설팅 신청
                   </Link>
                 </div>
@@ -261,7 +362,7 @@ const HeaderUnified = () => {
                     <button
                       className='text-[18px] font-[600] text-[var(--n-800)] text-left'
                       onClick={() => {
-                        // TODO: 로그아웃 처리
+                        handleLogout();
                         setIsMenuOpen(false);
                       }}
                     >
@@ -280,14 +381,21 @@ const HeaderUnified = () => {
         <div className='fixed bottom-0 z-20 w-full bg-[#F3615B] py-[13.5px] flex items-center justify-center max-[745px]:hidden'>
           <div className='flex items-center'>
             <p className='text-white text-[22px] font-[500] leading-[30px] ml-[8px]'>
-              입시경쟁력의 첫걸음! <span className='font-[800]'>생기뷰 분석으로</span>
+              입시경쟁력의 첫걸음!{' '}
+              <span className='font-[800]'>생기뷰 분석으로</span>
             </p>
             <div
               onClick={handleFreeDiagnosis}
               className='ml-[40px] px-[28px] py-[14px] flex text-[20px] font-[700] text-white leading-[28px] bg-[#D84742] rounded-full cursor-pointer'
             >
               무료 진단하기
-              <Image className='ml-[4px]' src='/images/arrow-right-white.png' width={20} height={20} alt='arrow-right-white' />
+              <Image
+                className='ml-[4px]'
+                src='/images/arrow-right-white.png'
+                width={20}
+                height={20}
+                alt='arrow-right-white'
+              />
             </div>
           </div>
         </div>

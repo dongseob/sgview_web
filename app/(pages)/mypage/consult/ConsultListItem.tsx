@@ -1,4 +1,5 @@
 'use client';
+import { ConsultStatus } from '@/app/api/consult';
 import ModalNoClose from '@/app/component/Modal/ModalNoClose';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -11,7 +12,7 @@ const ConsultListItem = ({
   date: string;
   name: string;
   consultant: string;
-  consulting: string;
+  consulting: ConsultStatus;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (

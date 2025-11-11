@@ -144,7 +144,7 @@ const HeaderUnified = () => {
                     type='button'
                     onClick={() => {
                       setIsMenuOpen(false);
-                      goHomeOrScroll('#section1');
+                      goHomeOrScroll('#section3');
                     }}
                     className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
@@ -156,7 +156,7 @@ const HeaderUnified = () => {
                     type='button'
                     onClick={() => {
                       setIsMenuOpen(false);
-                      goHomeOrScroll('#section1');
+                      goHomeOrScroll('#section3');
                     }}
                     className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >

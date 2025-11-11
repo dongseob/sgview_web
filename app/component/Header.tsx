@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { postLogout } from '../api/member';
+import { postLogout, removeTokens } from '../api/member';
 
 const HeaderUnified = () => {
   const pathname = usePathname();
@@ -103,8 +103,8 @@ const HeaderUnified = () => {
 
   const handleLogout = async () => {
     const token = localStorage.getItem('accessToken') || '';
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    // 토큰 제거 (만료 시간 정보 포함)
+    removeTokens();
     setIsLoggedIn(false);
     try {
       await postLogout(token);

@@ -1,5 +1,10 @@
 'use client';
-import { ConsultItem, getConsultList } from '@/app/api/consult';
+import {
+  ConsultItem,
+  ConsultStatus,
+  getConsultList,
+  getConsultProcessingStatus,
+} from '@/app/api/consult';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ConsultListItem from './ConsultListItem';
@@ -16,6 +21,23 @@ const ConsultList = () => {
     };
     fetchConsultList();
   }, []);
+
+  useEffect(() => {
+    if (consultList.length === 0) return;
+
+    const fetchDoclingCallback = async () => {
+      // consultList 배열만큼 순회하며 각 항목의 id를 recordId로 사용
+      for (const item of consultList) {
+        try {
+          const res = await getConsultProcessingStatus(item.id);
+          console.log(res);
+        } catch (error) {
+          console.error(`콜백 호출 실패 (recordId: ${item.id}):`, error);
+        }
+      }
+    };
+    fetchDoclingCallback();
+  }, [consultList]);
 
   return (
     <>
@@ -36,6 +58,20 @@ const ConsultList = () => {
             <div className='flex flex-wrap items-start justify-start gap-[24px]'>
               {consultList &&
                 consultList.map((item) => {
+                  // API 상태값을 컴포넌트에서 사용하는 상태값으로 매핑
+                  const getStatusValue = (status: string) => {
+                    switch (status.toUpperCase()) {
+                      case 'COMPLETED':
+                        return 'complete';
+                      case 'PROCESSING':
+                        return 'in-progress';
+                      case 'UPLOADED':
+                        return 'in-progress';
+                      default:
+                        return status.toLowerCase();
+                    }
+                  };
+
                   return (
                     <ConsultListItem
                       key={item.id + item.student_name}
@@ -44,7 +80,7 @@ const ConsultList = () => {
                       consultant={
                         item.assigned_consultant?.full_name ?? '미배정'
                       }
-                      consulting={item.status}
+                      consulting={getStatusValue(item.status) as ConsultStatus}
                       id={item.id}
                     />
                   );

@@ -126,6 +126,14 @@ export interface ConsultDetail {
   documents: ConsultDocument[];
   review_logs: ReviewLog[];
 }
+
+// 파싱 콜백 응답 타입
+export interface DoclingCallbackResponse {
+  recordId: string;
+  payload: Record<string, unknown>;
+  error?: string;
+}
+
 // 컨설팅 학교 조회
 export const getConsultSchool = async (): Promise<{ data: SchoolItem[] }> => {
   return await client.get('/api/v1/universities');
@@ -175,4 +183,14 @@ export const getConsultDetail = async (
   id: string
 ): Promise<{ data: ConsultDetail }> => {
   return await client.get(`/api/v1/consult/${id}`);
+};
+
+//파싱후 콜백
+export const postDoclingCallback = async (data: DoclingCallbackResponse) => {
+  return await client.post('/api/v1/consult/docling/callback', data);
+};
+
+// 컨설팅 처리 현황
+export const getConsultProcessingStatus = async (id: string) => {
+  return await client.get(`/api/v1/consult/${id}/status`);
 };

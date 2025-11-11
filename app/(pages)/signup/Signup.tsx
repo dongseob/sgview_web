@@ -1,6 +1,6 @@
 'use client';
 
-import { postLogin } from '@/app/api/member';
+import { postLogin, saveTokens } from '@/app/api/member';
 import { TitleInput } from '@/app/component/Input/input';
 import ModalCenter from '@/app/component/Modal/ModalCenter';
 import dynamic from 'next/dynamic';
@@ -398,13 +398,12 @@ const Signup = () => {
       try {
         const loginRes = await postLogin({ email: id, password });
         if (loginRes.status === 200) {
-          localStorage.setItem(
-            'accessToken',
-            loginRes.data.tokens.access_token
-          );
-          localStorage.setItem(
-            'refreshToken',
-            loginRes.data.tokens.refresh_token
+          // 토큰 저장 (만료 시간 포함)
+          saveTokens(
+            loginRes.data.tokens.access_token,
+            loginRes.data.tokens.refresh_token,
+            loginRes.data.tokens.expires_in || 1799,
+            loginRes.data.tokens.refresh_expires_in || 604799
           );
           router.push('/welcome');
         }

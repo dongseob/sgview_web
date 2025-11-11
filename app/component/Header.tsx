@@ -14,23 +14,17 @@ const HeaderUnified = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false); // 모바일 사이드메뉴
   const [scrolledPc, setScrolledPc] = useState(false); // 데스크톱: 76px 기준
   const [scrolledMo, setScrolledMo] = useState(false); // 모바일: 56px 기준
-  const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    // 초기값을 함수로 설정하여 SSR 안전하게 처리
-    if (typeof window !== 'undefined') {
-      return !!localStorage.getItem('accessToken');
-    }
-    return false;
-  });
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // SSR 안전: 항상 false로 시작
 
   const userName = '이광호';
 
-  // localStorage 변경 감지 및 pathname 변경 시 체크
+  // 클라이언트 마운트 후 localStorage 체크 및 pathname 변경 시 체크 (Hydration 에러 방지)
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
     const checkLoginStatus = () => {
       const token = localStorage.getItem('accessToken');
-      setIsLoggedIn(!!token);
+      const newLoggedIn = !!token;
+      // 값이 변경된 경우에만 업데이트
+      setIsLoggedIn((prev) => (prev !== newLoggedIn ? newLoggedIn : prev));
     };
 
     // 초기 체크 및 pathname 변경 시 체크

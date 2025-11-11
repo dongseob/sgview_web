@@ -1,5 +1,6 @@
 'use client';
 
+import { getConsultList } from '@/app/api/consult';
 import { postLogin } from '@/app/api/member';
 import { AxiosError } from 'axios';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
@@ -64,7 +65,20 @@ const Login = () => {
           'refreshToken',
           loginRes.data.tokens.refresh_token
         );
-        router.push('/mypage/consult');
+
+        // 컨설팅 목록 조회하여 아이템 여부 확인
+        try {
+          const consultListRes = await getConsultList();
+          if (consultListRes.data && consultListRes.data.length > 0) {
+            router.push('/mypage/consult');
+          } else {
+            router.push('/welcome');
+          }
+        } catch (consultError) {
+          // 컨설팅 목록 조회 실패 시 기본적으로 welcome 페이지로 이동
+          console.error('컨설팅 목록 조회 실패:', consultError);
+          router.push('/welcome');
+        }
       } else {
         showToast('아이디 또는 비밀번호가 올바르지 않습니다.');
       }

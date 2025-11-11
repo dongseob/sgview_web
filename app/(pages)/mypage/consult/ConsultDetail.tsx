@@ -1,7 +1,11 @@
 'use client';
 
+import {
+  ConsultDetail as ConsultDetailType,
+  getConsultDetail,
+} from '@/app/api/consult';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Attendance from './Attendance';
 import BehaviorOption from './BehaviorOption';
 import CreativeActivity from './CreativeActivity';
@@ -40,6 +44,16 @@ const contentMap: Record<string, { title: string; description: string }> = {
 const ConsultDetail = ({ id }: { id: string }) => {
   const [activeSection, setActiveSection] = useState('grade-trend');
   const content = contentMap[activeSection];
+  const [consultDetails, setConsultDetails] =
+    useState<ConsultDetailType | null>(null);
+  useEffect(() => {
+    const fetchConsultDetail = async () => {
+      const res = await getConsultDetail(id);
+      console.log(res);
+      setConsultDetails(res.data);
+    };
+    fetchConsultDetail();
+  }, [id]);
 
   return (
     <div className='px-[144px] max-[745px]:px-[0]'>

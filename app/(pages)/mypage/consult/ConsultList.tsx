@@ -16,39 +16,7 @@ const ConsultList = () => {
     };
     fetchConsultList();
   }, []);
-  // const consultList = [
-  //   {
-  //     id: 1,
-  //     date: '2025.10.31',
-  //     name: '이*희(고3)',
-  //     consultant: '미배정',
-  //     consulting: 'registered',
-  //   },
 
-  //   {
-  //     id: 1,
-  //     date: '2025.10.31',
-  //     name: '김*지(고3)',
-  //     consultant: '미배정',
-  //     consulting: 'in-progress',
-  //   },
-
-  //   {
-  //     id: 1,
-  //     date: '2025.10.31',
-  //     name: '이*희(고2)',
-  //     consultant: '김하늘',
-  //     consulting: 'complete',
-  //   },
-
-  //   {
-  //     id: 1,
-  //     date: '2025.10.31',
-  //     name: '이*희(고1)',
-  //     consultant: '김하늘',
-  //     consulting: 'cancelled',
-  //   },
-  // ];
   return (
     <>
       {consultList.length > 0 ? (
@@ -58,7 +26,10 @@ const ConsultList = () => {
               <h3 className='text-[28px] font-[700] leading-[1.3] text-[var(--n-800)]'>
                 나의 컨설팅
               </h3>
-              <button className='border border-[var(--n-200)] rounded-[100px] px-[20px] h-[42px] text-[14px] font-[500] text-[var(--n-800)]'>
+              <button
+                onClick={() => router.push('/consult/apply')}
+                className='border border-[var(--n-200)] rounded-[100px] px-[20px] h-[42px] text-[14px] font-[500] text-[var(--n-800)]'
+              >
                 + 새 컨설팅
               </button>
             </div>
@@ -74,6 +45,7 @@ const ConsultList = () => {
                         item.assigned_consultant?.full_name ?? '미배정'
                       }
                       consulting={item.status}
+                      id={item.id}
                     />
                   );
                 })}

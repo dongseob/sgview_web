@@ -2,19 +2,23 @@
 import { ConsultStatus } from '@/app/api/consult';
 import ModalNoClose from '@/app/component/Modal/ModalNoClose';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 const ConsultListItem = ({
   date,
   name,
   consultant,
   consulting,
+  id,
 }: {
   date: string;
   name: string;
   consultant: string;
   consulting: ConsultStatus;
+  id: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   return (
     <div className='w-[269.6666564941406px] h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-[745px]:w-full '>
       <div className='flex flex-col items-start justify-start w-full gap-[20px]'>
@@ -79,7 +83,10 @@ const ConsultListItem = ({
         </div>
       </div>
       <div className='flex items-center justify-start gap-[8px] w-full'>
-        <button className='text-[15px] font-[500] text-[var(--n-800)] h-[52px] w-full rounded-[8px] border border-[var(--n-200)] '>
+        <button
+          onClick={() => router.push(`/mypage/consult?id=${id}`)}
+          className='text-[15px] font-[500] text-[var(--n-800)] h-[52px] w-full rounded-[8px] border border-[var(--n-200)] '
+        >
           생활기록부 {consulting === 'complete' ? '' : '확인'}
         </button>
         {consulting === 'complete' && (

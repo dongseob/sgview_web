@@ -44,6 +44,30 @@ interface LoginData {
   password: string;
 }
 
+// 회원 정보 동의 항목 타입
+export interface MemberAgree {
+  terms: boolean;
+  privacy: boolean;
+  marketing: boolean;
+}
+
+// 회원 정보 타입
+export interface MemberInfo {
+  id: string;
+  email: string;
+  name: string;
+  phone: string;
+  memberType: string;
+  school: string;
+  grade: string;
+  agree: MemberAgree;
+  type: string;
+  is_active: boolean;
+  is_email_verified: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 //회원가입
 export const postSignup = async (data: SignupData) => {
   return await client.post('/api/v1/member/signup', data);
@@ -64,6 +88,6 @@ export const postLogout = async (accessToken: string) => {
 };
 
 //회원정보 조회
-export const getMyInfo = async () => {
+export const getMyInfo = async (): Promise<{ data: MemberInfo }> => {
   return await client.get('/api/v1/auth/user/me');
 };

@@ -1,94 +1,35 @@
 'use client';
 
+import {
+  getConsultMajor,
+  getConsultSchool,
+  MajorItem,
+  postConsultApply,
+  postConsultMajor,
+  postConsultSchool,
+  postMockExam,
+  PostMockExamData,
+  SchoolItem,
+} from '@/app/api/consult';
 import ModalScoreCenter from '@/app/component/Modal/ModalScoreCenter';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 const CreatableSelect = dynamic(() => import('react-select/creatable'), {
   ssr: false,
 });
 
-// 한국 대학교 리스트 (가나다순)
-const universityOptions = [
-  { value: '가톨릭대학교', label: '가톨릭대학교' },
-  { value: '강릉원주대학교', label: '강릉원주대학교' },
-  { value: '강원대학교', label: '강원대학교' },
-  { value: '건국대학교', label: '건국대학교' },
-  { value: '경북대학교', label: '경북대학교' },
-  { value: '경희대학교', label: '경희대학교' },
-  { value: '고려대학교', label: '고려대학교' },
-  { value: '공주대학교', label: '공주대학교' },
-  { value: '광운대학교', label: '광운대학교' },
-  { value: '국민대학교', label: '국민대학교' },
-  { value: '단국대학교', label: '단국대학교' },
-  { value: '동국대학교', label: '동국대학교' },
-  { value: '부산대학교', label: '부산대학교' },
-  { value: '서강대학교', label: '서강대학교' },
-  { value: '서울과학기술대학교', label: '서울과학기술대학교' },
-  { value: '서울대학교', label: '서울대학교' },
-  { value: '서울시립대학교', label: '서울시립대학교' },
-  { value: '성균관대학교', label: '성균관대학교' },
-  { value: '세종대학교', label: '세종대학교' },
-  { value: '숙명여자대학교', label: '숙명여자대학교' },
-  { value: '숭실대학교', label: '숭실대학교' },
-  { value: '안동대학교', label: '안동대학교' },
-  { value: '안산공과대학교', label: '안산공과대학교' },
-  { value: '안산대학교', label: '안산대학교' },
-  { value: '안양대학교', label: '안양대학교' },
-  { value: '연세대학교', label: '연세대학교' },
-  { value: '영남대학교', label: '영남대학교' },
-  { value: '이화여자대학교', label: '이화여자대학교' },
-  { value: '인천대학교', label: '인천대학교' },
-  { value: '인하대학교', label: '인하대학교' },
-  { value: '전남대학교', label: '전남대학교' },
-  { value: '전북대학교', label: '전북대학교' },
-  { value: '제주대학교', label: '제주대학교' },
-  { value: '중앙대학교', label: '중앙대학교' },
-  { value: '충남대학교', label: '충남대학교' },
-  { value: '충북대학교', label: '충북대학교' },
-  { value: '한국외국어대학교', label: '한국외국어대학교' },
-  { value: '한국체육대학교', label: '한국체육대학교' },
-  { value: '한양대학교', label: '한양대학교' },
-  { value: '홍익대학교', label: '홍익대학교' },
-];
-
-// 주요 학과 리스트 (가나다순)
-const majorOptions = [
-  { value: '간호학과', label: '간호학과' },
-  { value: '건축학과', label: '건축학과' },
-  { value: '경영학과', label: '경영학과' },
-  { value: '경제학과', label: '경제학과' },
-  { value: '교육학과', label: '교육학과' },
-  { value: '국어국문학과', label: '국어국문학과' },
-  { value: '기계공학과', label: '기계공학과' },
-  { value: '데이터사이언스학과', label: '데이터사이언스학과' },
-  { value: '디자인학과', label: '디자인학과' },
-  { value: '물리학과', label: '물리학과' },
-  { value: '미디어커뮤니케이션학과', label: '미디어커뮤니케이션학과' },
-  { value: '법학과', label: '법학과' },
-  { value: '사회학과', label: '사회학과' },
-  { value: '산업공학과', label: '산업공학과' },
-  { value: '생명과학과', label: '생명과학과' },
-  { value: '수학과', label: '수학과' },
-  { value: '신소재공학과', label: '신소재공학과' },
-  { value: '심리학과', label: '심리학과' },
-  { value: '약학과', label: '약학과' },
-  { value: '영어영문학과', label: '영어영문학과' },
-  { value: '의예과', label: '의예과' },
-  { value: '전기전자공학과', label: '전기전자공학과' },
-  { value: '정치외교학과', label: '정치외교학과' },
-  { value: '제약학과', label: '제약학과' },
-  { value: '컴퓨터공학과', label: '컴퓨터공학과' },
-  { value: '통계학과', label: '통계학과' },
-  { value: '화학공학과', label: '화학공학과' },
-  { value: '화학과', label: '화학과' },
-  { value: '환경공학과', label: '환경공학과' },
-];
-
 const ConsultApply = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [universityOptions, setUniversityOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [majorOptions, setMajorOptions] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [selectedUniversities, setSelectedUniversities] = useState<
     { value: string; label: string }[]
   >([]);
@@ -96,6 +37,7 @@ const ConsultApply = () => {
     { value: string; label: string }[]
   >([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   // 폼 유효성 검사
   const isFormValid =
@@ -111,7 +53,13 @@ const ConsultApply = () => {
     math_standard: '',
     math_percentile: '',
     math_grade: '',
+    english_subject: '',
     english_grade: '',
+    english_standard: '',
+    english_percentile: '',
+    history_subject: '',
+    history_standard: '',
+    history_percentile: '',
     history_grade: '',
     inquiry1_subject: '',
     inquiry1_standard: '',
@@ -122,6 +70,8 @@ const ConsultApply = () => {
     inquiry2_percentile: '',
     inquiry2_grade: '',
     second_lang_subject: '',
+    second_lang_standard: '',
+    second_lang_percentile: '',
     second_lang_grade: '',
   });
 
@@ -173,10 +123,27 @@ const ConsultApply = () => {
     return filtered;
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setUploadedFile(file);
+
+      // FormData 생성 및 파일 업로드
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const response = await postConsultApply(formData);
+        console.log('파일 업로드 성공:', response.data);
+      } catch (error) {
+        console.error('파일 업로드 실패:', error);
+        alert('파일 업로드에 실패했습니다. 다시 시도해주세요.');
+        // 업로드 실패 시 파일 상태 초기화
+        setUploadedFile(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }
     }
   };
 
@@ -186,6 +153,170 @@ const ConsultApply = () => {
       fileInputRef.current.value = '';
     }
   };
+
+  useEffect(() => {
+    const fetchConsultSchool = async () => {
+      const response = await getConsultSchool();
+      setUniversityOptions(
+        response.data.map((item: SchoolItem) => ({
+          value: item.id,
+          label: item.name,
+        }))
+      );
+    };
+    fetchConsultSchool();
+  }, []);
+
+  useEffect(() => {
+    const fetchConsultMajor = async () => {
+      if (selectedUniversities.length === 0) return;
+      // 마지막으로 선택한 대학만 사용
+      const lastUniversity =
+        selectedUniversities[selectedUniversities.length - 1];
+      const universityIds = [lastUniversity.value];
+      const response = await getConsultMajor(universityIds);
+      setMajorOptions(
+        response.data.map((item: MajorItem) => ({
+          value: item.id,
+          label: item.name,
+        }))
+      );
+    };
+    fetchConsultMajor();
+  }, [selectedUniversities]);
+
+  // 새 대학 생성 핸들러
+  const handleCreateUniversity = async (inputValue: string) => {
+    try {
+      const response = await postConsultSchool({
+        name: inputValue,
+        is_active: true,
+      });
+      // 서버에서 반환된 새 대학 정보를 옵션에 추가
+      const newOption = {
+        value: response.data.id,
+        label: response.data.name,
+      };
+      setUniversityOptions((prev) => [...prev, newOption]);
+      // 새로 생성된 대학을 선택 목록에 추가
+      setSelectedUniversities((prev) => {
+        if (prev.length >= 3) {
+          alert('희망대학은 최대 3개까지만 선택할 수 있습니다.');
+          return prev;
+        }
+        return [...prev, newOption];
+      });
+    } catch (error) {
+      console.error('대학 생성 실패:', error);
+      alert('대학 생성에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 새 학과 생성 핸들러
+  const handleCreateMajor = async (inputValue: string) => {
+    try {
+      // 마지막으로 선택한 대학의 ID 사용
+      if (selectedUniversities.length === 0) {
+        alert('먼저 대학을 선택해주세요.');
+        return;
+      }
+      const lastUniversity =
+        selectedUniversities[selectedUniversities.length - 1];
+      const response = await postConsultMajor(lastUniversity.value, {
+        name: inputValue,
+        is_active: true,
+      });
+      // 서버에서 반환된 새 학과 정보를 옵션에 추가
+      const newOption = {
+        value: response.data.id,
+        label: response.data.name,
+      };
+      setMajorOptions((prev) => [...prev, newOption]);
+      // 새로 생성된 학과를 선택 목록에 추가
+      setSelectedMajors((prev) => {
+        if (prev.length >= 3) {
+          alert('희망학과는 최대 3개까지만 선택할 수 있습니다.');
+          return prev;
+        }
+        return [...prev, newOption];
+      });
+    } catch (error) {
+      console.error('학과 생성 실패:', error);
+      alert('학과 생성에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 분석하기 핸들러
+  const handleAnalyze = async () => {
+    if (!isFormValid) return;
+
+    try {
+      // 선택된 모든 대학과 학과의 이름을 배열로 추출
+      const universityNames = selectedUniversities.map((uni) => uni.label);
+      const majorNames = selectedMajors.map((major) => major.label);
+
+      // 점수 데이터를 API 형식에 맞게 변환
+      const mockExamData: PostMockExamData = {
+        desired_university: universityNames.join(', '),
+        desired_department: majorNames.join(', '),
+        scores: {
+          english: {
+            subject: scores.english_subject || '영어',
+            standard_score: scores.english_standard
+              ? parseFloat(scores.english_standard)
+              : 0,
+            percentile: scores.english_percentile
+              ? parseFloat(scores.english_percentile)
+              : 0,
+            grade: scores.english_grade ? parseFloat(scores.english_grade) : 0,
+          },
+          inquiry1: {
+            subject: scores.inquiry1_subject || '',
+            standard_score: scores.inquiry1_standard
+              ? parseFloat(scores.inquiry1_standard)
+              : 0,
+            percentile: scores.inquiry1_percentile
+              ? parseFloat(scores.inquiry1_percentile)
+              : 0,
+            grade: scores.inquiry1_grade
+              ? parseFloat(scores.inquiry1_grade)
+              : 0,
+          },
+          inquiry2: {
+            subject: scores.inquiry2_subject || '',
+            standard_score: scores.inquiry2_standard
+              ? parseFloat(scores.inquiry2_standard)
+              : 0,
+            percentile: scores.inquiry2_percentile
+              ? parseFloat(scores.inquiry2_percentile)
+              : 0,
+            grade: scores.inquiry2_grade
+              ? parseFloat(scores.inquiry2_grade)
+              : 0,
+          },
+          second_language: {
+            subject: scores.second_lang_subject || '',
+            standard_score: scores.second_lang_standard
+              ? parseFloat(scores.second_lang_standard)
+              : 0,
+            percentile: scores.second_lang_percentile
+              ? parseFloat(scores.second_lang_percentile)
+              : 0,
+            grade: scores.second_lang_grade
+              ? parseFloat(scores.second_lang_grade)
+              : 0,
+          },
+        },
+      };
+
+      const response = await postMockExam(mockExamData);
+      router.push('/consult/apply/analyzing-complete');
+      // TODO: 성공 시 다음 페이지로 이동하거나 결과 표시
+    } catch (error) {
+      alert('분석에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   return (
     <div className='pt-[40px] pb-[120px] max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
       <div className='w-[328px] mx-auto  flex flex-col items-center justify-center gap-[32px] max-[745px]:py-[0]'>
@@ -214,6 +345,7 @@ const ConsultApply = () => {
                 }
                 setSelectedUniversities(universities || []);
               }}
+              onCreateOption={handleCreateUniversity}
               options={universityOptions}
               formatCreateLabel={(inputValue) => `"${inputValue}" 생성`}
               noOptionsMessage={({ inputValue }) =>
@@ -359,6 +491,7 @@ const ConsultApply = () => {
                 }
                 setSelectedMajors(majors || []);
               }}
+              onCreateOption={handleCreateMajor}
               options={majorOptions}
               formatCreateLabel={(inputValue) => `"${inputValue}" 생성`}
               noOptionsMessage={({ inputValue }) =>
@@ -562,10 +695,7 @@ const ConsultApply = () => {
                 ? 'bg-[var(--r-400)] text-white cursor-pointer'
                 : 'bg-[var(--n-100)] text-[var(--n-400)] cursor-not-allowed'
             } rounded-[8px] h-[48px] w-full`}
-            onClick={() => {
-              if (!isFormValid) return;
-              // TODO: 분석하기 로직
-            }}
+            onClick={handleAnalyze}
           >
             분석하기
           </button>
@@ -614,7 +744,7 @@ const ConsultApply = () => {
                   </th>
                   <th
                     colSpan={2}
-                    className='border border-[var(--n-200)] text-left px-[8px] pl-[37px] py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-[745px]:min-w-[206px]'
+                    className='border border-[var(--n-200)] text-center px-[8px]  py-[10px] text-[14px] font-[500] text-[var(--n-800)] min-w-[100px] max-[745px]:min-w-[206px]'
                   >
                     탐구
                   </th>
@@ -629,8 +759,50 @@ const ConsultApply = () => {
                   <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     선택과목
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={tempScores.history_subject || ''}
+                      maxLength={12}
+                      onCompositionStart={() => {
+                        setComposingInputs((prev) =>
+                          new Set(prev).add('history_subject')
+                        );
+                      }}
+                      onCompositionEnd={(e) => {
+                        setComposingInputs((prev) => {
+                          const next = new Set(prev);
+                          next.delete('history_subject');
+                          return next;
+                        });
+                        const textOnly = e.currentTarget.value.replace(
+                          /[^가-힣a-zA-Z\s]/g,
+                          ''
+                        );
+                        setTempScores({
+                          ...tempScores,
+                          history_subject: textOnly,
+                        });
+                      }}
+                      onChange={(e) => {
+                        if (!composingInputs.has('history_subject')) {
+                          const textOnly = e.target.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            history_subject: textOnly,
+                          });
+                        } else {
+                          setTempScores({
+                            ...tempScores,
+                            history_subject: e.target.value,
+                          });
+                        }
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex items-center justify-center'>
@@ -724,8 +896,50 @@ const ConsultApply = () => {
                       className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[13px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={tempScores.english_subject || ''}
+                      maxLength={12}
+                      onCompositionStart={() => {
+                        setComposingInputs((prev) =>
+                          new Set(prev).add('english_subject')
+                        );
+                      }}
+                      onCompositionEnd={(e) => {
+                        setComposingInputs((prev) => {
+                          const next = new Set(prev);
+                          next.delete('english_subject');
+                          return next;
+                        });
+                        const textOnly = e.currentTarget.value.replace(
+                          /[^가-힣a-zA-Z\s]/g,
+                          ''
+                        );
+                        setTempScores({
+                          ...tempScores,
+                          english_subject: textOnly,
+                        });
+                      }}
+                      onChange={(e) => {
+                        if (!composingInputs.has('english_subject')) {
+                          const textOnly = e.target.value.replace(
+                            /[^가-힣a-zA-Z\s]/g,
+                            ''
+                          );
+                          setTempScores({
+                            ...tempScores,
+                            english_subject: textOnly,
+                          });
+                        } else {
+                          setTempScores({
+                            ...tempScores,
+                            english_subject: e.target.value,
+                          });
+                        }
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex gap-[4px]  items-center justify-center'>
@@ -847,7 +1061,7 @@ const ConsultApply = () => {
                       />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px]  '>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px] text-center'>
                     <input
                       type='text'
                       value={tempScores.second_lang_subject}
@@ -889,7 +1103,7 @@ const ConsultApply = () => {
                           });
                         }
                       }}
-                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full max-w-[103px] mx-auto px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                 </tr>
@@ -899,8 +1113,19 @@ const ConsultApply = () => {
                   <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     표준점수
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={tempScores.history_standard || ''}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          history_standard: filtered,
+                        });
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
@@ -930,8 +1155,19 @@ const ConsultApply = () => {
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={tempScores.english_standard || ''}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          english_standard: filtered,
+                        });
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex gap-[4px]'>
@@ -965,8 +1201,19 @@ const ConsultApply = () => {
                       />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px] text-center'>
+                    <input
+                      type='text'
+                      value={tempScores.second_lang_standard || ''}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          second_lang_standard: filtered,
+                        });
+                      }}
+                      className='w-full max-w-[103px] mx-auto px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                 </tr>
 
@@ -975,8 +1222,19 @@ const ConsultApply = () => {
                   <td className='border border-[var(--n-200)] h-[57px] border-l-[0px] px-[8px] py-[8px] text-[14px] font-[500] text-[var(--n-800)] '>
                     백분위
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={tempScores.history_percentile || ''}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          history_percentile: filtered,
+                        });
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <input
@@ -1006,8 +1264,19 @@ const ConsultApply = () => {
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
-                  <td className='border border-[var(--n-200)] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
+                    <input
+                      type='text'
+                      value={tempScores.english_percentile || ''}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          english_percentile: filtered,
+                        });
+                      }}
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex gap-[4px]'>
@@ -1041,8 +1310,19 @@ const ConsultApply = () => {
                       />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[8px] py-[8px] text-center text-[14px] text-[var(--n-400)]'>
-                    -
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px] text-center'>
+                    <input
+                      type='text'
+                      value={tempScores.second_lang_percentile || ''}
+                      onChange={(e) => {
+                        const filtered = handleNumberInput(e.target.value);
+                        setTempScores({
+                          ...tempScores,
+                          second_lang_percentile: filtered,
+                        });
+                      }}
+                      className='w-full max-w-[103px] mx-auto px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                    />
                   </td>
                 </tr>
 
@@ -1101,7 +1381,7 @@ const ConsultApply = () => {
                           english_grade: filtered,
                         });
                       }}
-                      className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]]'
+                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
@@ -1136,7 +1416,7 @@ const ConsultApply = () => {
                       />
                     </div>
                   </td>
-                  <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px]'>
+                  <td className='border border-[var(--n-200)] border-r-[0px] px-[4px] py-[4px] text-center'>
                     <input
                       type='text'
                       value={tempScores.second_lang_grade}
@@ -1147,7 +1427,7 @@ const ConsultApply = () => {
                           second_lang_grade: filtered,
                         });
                       }}
-                      className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
+                      className='w-full max-w-[103px] mx-auto px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
                     />
                   </td>
                 </tr>

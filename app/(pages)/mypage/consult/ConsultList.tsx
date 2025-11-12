@@ -61,11 +61,24 @@ const ConsultList = () => {
                   // API 상태값을 컴포넌트에서 사용하는 상태값으로 매핑
                   const getStatusValue = (status: string) => {
                     switch (status.toUpperCase()) {
+                      case 'UPLOADED':
+                        return 'uploaded';
+
+                      case 'PARSING':
+                        return 'in-progress';
+                      case 'PARSED':
+                        return 'in-progress';
+                      case 'ANALYZING':
+                        return 'in-progress';
+                      case 'READY_FOR_REVIEW':
+                        return 'complete';
+                      case 'UNDER_REVIEW':
+                        return 'in-progress';
                       case 'COMPLETED':
                         return 'complete';
+                      case 'FAILED':
+                        return 'cancelled';
                       case 'PROCESSING':
-                        return 'in-progress';
-                      case 'UPLOADED':
                         return 'in-progress';
                       default:
                         return status.toLowerCase();

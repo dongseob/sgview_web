@@ -318,6 +318,39 @@ const Signup = () => {
     if (e.key === 'Enter' && isFormValid) handleSignup();
   };
 
+  // 휴대폰 번호 입력 필드용 키 핸들러 (숫자만 허용)
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 숫자 키 (0-9), 제어 키 (Backspace, Delete, Tab, Arrow keys 등) 허용
+    const allowedKeys = [
+      'Backspace',
+      'Delete',
+      'Tab',
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowUp',
+      'ArrowDown',
+      'Home',
+      'End',
+    ];
+
+    // 숫자 키 체크 (0-9)
+    const isNumber = /^[0-9]$/.test(e.key);
+    // 제어 키 체크
+    const isAllowedKey = allowedKeys.includes(e.key);
+    // Ctrl/Cmd + A, C, V, X 등 조합 키 허용
+    const isCtrlKey = e.ctrlKey || e.metaKey;
+
+    // 숫자도 아니고 허용된 키도 아니고 Ctrl 조합도 아니면 입력 차단
+    if (!isNumber && !isAllowedKey && !isCtrlKey) {
+      e.preventDefault();
+    }
+
+    // Enter 키는 기본 핸들러로 전달
+    if (e.key === 'Enter' && isFormValid) {
+      handleSignup();
+    }
+  };
+
   // ====== Signup flow ======
   const handleSignup = async () => {
     if (!isFormValid) return;
@@ -714,7 +747,7 @@ const Signup = () => {
             errorMessage='휴대폰 번호는 숫자만 10~11자로 입력해주세요.'
             type='tel'
             maxLength={11}
-            handleKeyDown={handleKeyDown}
+            handleKeyDown={handlePhoneKeyDown}
             onchange={(e) => {
               const onlyDigits = e.target.value.replace(/\D/g, '');
               setPhone(onlyDigits);

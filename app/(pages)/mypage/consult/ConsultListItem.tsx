@@ -74,9 +74,11 @@ const ConsultListItem = ({
               >
                 {consulting === 'cancelled'
                   ? '신청취소'
+                  : consulting === 'uploaded'
+                  ? '신청완료'
                   : consulting === 'in-progress'
-                  ? '검토중'
-                  : '검토완료'}
+                  ? '진단중'
+                  : '진단완료'}
               </p>
             </div>
           </div>

@@ -46,6 +46,24 @@ export interface PostMockExamData {
   desired_university: string;
   desired_department: string;
   scores: {
+    korean: {
+      subject: string;
+      standard_score: number;
+      percentile: number;
+      grade: number;
+    };
+    korean_history: {
+      subject: string;
+      standard_score: number;
+      percentile: number;
+      grade: number;
+    };
+    math: {
+      subject: string;
+      standard_score: number;
+      percentile: number;
+      grade: number;
+    };
     english: {
       subject: string;
       standard_score: number;
@@ -193,4 +211,9 @@ export const postDoclingCallback = async (data: DoclingCallbackResponse) => {
 // 컨설팅 처리 현황
 export const getConsultProcessingStatus = async (id: string) => {
   return await client.get(`/api/v1/consult/${id}/status`);
+};
+
+//희망대학 모의고사 등록 put
+export const putMockExam = async (data: PostMockExamData) => {
+  return await client.put(`/api/v1/user/mock-exam`, data);
 };

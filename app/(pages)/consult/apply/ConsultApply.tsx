@@ -9,9 +9,11 @@ import {
   postConsultSchool,
   postMockExam,
   PostMockExamData,
+  putMockExam,
   SchoolItem,
 } from '@/app/api/consult';
 import ModalScoreCenter from '@/app/component/Modal/ModalScoreCenter';
+import { AxiosError } from 'axios';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -260,6 +262,36 @@ const ConsultApply = () => {
         desired_university: universityNames.join(', '),
         desired_department: majorNames.join(', '),
         scores: {
+          korean: {
+            subject: scores.korean_subject || '',
+            standard_score: scores.korean_standard
+              ? parseFloat(scores.korean_standard)
+              : 0,
+            percentile: scores.korean_percentile
+              ? parseFloat(scores.korean_percentile)
+              : 0,
+            grade: scores.korean_grade ? parseFloat(scores.korean_grade) : 0,
+          },
+          korean_history: {
+            subject: scores.history_subject || '',
+            standard_score: scores.history_standard
+              ? parseFloat(scores.history_standard)
+              : 0,
+            percentile: scores.history_percentile
+              ? parseFloat(scores.history_percentile)
+              : 0,
+            grade: scores.history_grade ? parseFloat(scores.history_grade) : 0,
+          },
+          math: {
+            subject: scores.math_subject || '',
+            standard_score: scores.math_standard
+              ? parseFloat(scores.math_standard)
+              : 0,
+            percentile: scores.math_percentile
+              ? parseFloat(scores.math_percentile)
+              : 0,
+            grade: scores.math_grade ? parseFloat(scores.math_grade) : 0,
+          },
           english: {
             subject: scores.english_subject || '영어',
             standard_score: scores.english_standard
@@ -310,10 +342,105 @@ const ConsultApply = () => {
       };
 
       const response = await postMockExam(mockExamData);
-      router.push('/consult/apply/analyzing-complete');
+      router.push('/consult/processing');
       // TODO: 성공 시 다음 페이지로 이동하거나 결과 표시
     } catch (error) {
-      alert('분석에 실패했습니다. 다시 시도해주세요.');
+      if (error instanceof AxiosError && error.response?.status === 409) {
+        const universityNames = selectedUniversities.map((uni) => uni.label);
+        const majorNames = selectedMajors.map((major) => major.label);
+
+        // 점수 데이터를 API 형식에 맞게 변환
+        const mockExamData: PostMockExamData = {
+          desired_university: universityNames.join(', '),
+          desired_department: majorNames.join(', '),
+          scores: {
+            korean: {
+              subject: scores.korean_subject || '',
+              standard_score: scores.korean_standard
+                ? parseFloat(scores.korean_standard)
+                : 0,
+              percentile: scores.korean_percentile
+                ? parseFloat(scores.korean_percentile)
+                : 0,
+              grade: scores.korean_grade ? parseFloat(scores.korean_grade) : 0,
+            },
+            korean_history: {
+              subject: scores.history_subject || '',
+              standard_score: scores.history_standard
+                ? parseFloat(scores.history_standard)
+                : 0,
+              percentile: scores.history_percentile
+                ? parseFloat(scores.history_percentile)
+                : 0,
+              grade: scores.history_grade
+                ? parseFloat(scores.history_grade)
+                : 0,
+            },
+            math: {
+              subject: scores.math_subject || '',
+              standard_score: scores.math_standard
+                ? parseFloat(scores.math_standard)
+                : 0,
+              percentile: scores.math_percentile
+                ? parseFloat(scores.math_percentile)
+                : 0,
+              grade: scores.math_grade ? parseFloat(scores.math_grade) : 0,
+            },
+            english: {
+              subject: scores.english_subject || '영어',
+              standard_score: scores.english_standard
+                ? parseFloat(scores.english_standard)
+                : 0,
+              percentile: scores.english_percentile
+                ? parseFloat(scores.english_percentile)
+                : 0,
+              grade: scores.english_grade
+                ? parseFloat(scores.english_grade)
+                : 0,
+            },
+            inquiry1: {
+              subject: scores.inquiry1_subject || '',
+              standard_score: scores.inquiry1_standard
+                ? parseFloat(scores.inquiry1_standard)
+                : 0,
+              percentile: scores.inquiry1_percentile
+                ? parseFloat(scores.inquiry1_percentile)
+                : 0,
+              grade: scores.inquiry1_grade
+                ? parseFloat(scores.inquiry1_grade)
+                : 0,
+            },
+            inquiry2: {
+              subject: scores.inquiry2_subject || '',
+              standard_score: scores.inquiry2_standard
+                ? parseFloat(scores.inquiry2_standard)
+                : 0,
+              percentile: scores.inquiry2_percentile
+                ? parseFloat(scores.inquiry2_percentile)
+                : 0,
+              grade: scores.inquiry2_grade
+                ? parseFloat(scores.inquiry2_grade)
+                : 0,
+            },
+            second_language: {
+              subject: scores.second_lang_subject || '',
+              standard_score: scores.second_lang_standard
+                ? parseFloat(scores.second_lang_standard)
+                : 0,
+              percentile: scores.second_lang_percentile
+                ? parseFloat(scores.second_lang_percentile)
+                : 0,
+              grade: scores.second_lang_grade
+                ? parseFloat(scores.second_lang_grade)
+                : 0,
+            },
+          },
+        };
+        await putMockExam(mockExamData);
+        router.push('/consult/processing');
+      } else {
+        alert('분석에 실패했습니다. 다시 시도해주세요.');
+      }
     }
   };
 

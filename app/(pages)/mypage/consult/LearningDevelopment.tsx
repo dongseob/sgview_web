@@ -1,57 +1,37 @@
 import Image from 'next/image';
 import { useState } from 'react';
 
+interface DetailedCharacteristic {
+  curriculum: string;
+  description: string;
+  grade: string;
+  id: string;
+  semester: string | null;
+  subject: string;
+}
+
 // 학년별 테이블 컴포넌트
-const LearningDevelopment = ({ grade }: { grade: string }) => {
+const LearningDevelopment = ({
+  grade,
+  detailedCharacteristics,
+}: {
+  grade: string;
+  detailedCharacteristics: DetailedCharacteristic[];
+}) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  const subjects = [
-    {
-      name: '(1학기)국어',
-      content:
-        '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-    },
-    {
-      name: '(2학기)국어',
-      content:
-        '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-    },
-    {
-      name: '수학',
-      content:
-        '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-    },
-    {
-      name: '영어',
-      content:
-        '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-    },
-    {
-      name: '한국사',
-      content:
-        '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-    },
-    {
-      name: '통합사회',
-      content:
-        '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-    },
-    {
-      name: '통합과과학',
-      content:
-        '언제나 바른 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서 일지를 작성함. 실제 체육 교사가 쓴 글을 통해 그들이 다양한 체육 수업을 준비하는 것을 보고 그들의 노력에 경이를 표하며 꿈을 위해 자신의 마음을 다잡는 모습을 보임. 고등학교 생활을 소재로 수업 시간에 배운 다양한 표현 기법을 활용하여 시를 창작함. 앞으로 학교 생활을 충실히 하여 밝은 미래로 나아가고 싶다는 희망적인 내용을 형상화하여 학교에 대한 긍정적인 관점을 엿볼 수 있는 것이 인상적임. ',
-    },
-    {
-      name: '과학탐구실험',
-      content:
-        '언제나 바른 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서 일지를 작성함. 실제 체육 교사가 쓴 글을 통해 그들이 다양한 체육 수업을 준비하는 것을 보고 그들의 노력에 경이를 표하며 꿈을 위해 자신의 마음을 다잡는 모습을 보임. 고등학교 생활을 소재로 수업 시간에 배운 다양한 표현 기법을 활용하여 시를 창작함. 앞으로 학교 생활을 충실히 하여 밝은 미래로 나아가고 싶다는 희망적인 내용을 형상화하여 학교에 대한 긍정적인 관점을 엿볼 수 있는 것이 인상적임. ',
-    },
-    {
-      name: '(1학기)국어',
-      content:
-        '언제나 바른 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서 일지를 작성함. 실제 체육 교사가 쓴 글을 통해 그들이 다양한 체육 수업을 준비하는 것을 보고 그들의 노력에 경이를 표하며 꿈을 위해 자신의 마음을 다잡는 모습을 보임. 고등학교 생활을 소재로 수업 시간에 배운 다양한 표현 기법을 활용하여 시를 창작함. 앞으로 학교 생활을 충실히 하여 밝은 미래로 나아가고 싶다는 희망적인 내용을 형상화하여 학교에 대한 긍정적인 관점을 엿볼 수 있는 것이 인상적임. ',
-    },
-  ];
+  // 학년에 맞는 데이터 필터링
+  const filteredCharacteristics = detailedCharacteristics.filter(
+    (item) => item.grade === grade
+  );
+
+  // 과목명 포맷팅 함수
+  const formatSubjectName = (item: DetailedCharacteristic) => {
+    if (item.semester) {
+      return `(${item.semester})${item.subject}`;
+    }
+    return item.subject;
+  };
 
   return (
     <div className='mb-[32px] '>
@@ -89,21 +69,32 @@ const LearningDevelopment = ({ grade }: { grade: string }) => {
               </tr>
             </thead>
             <tbody>
-              {subjects.map((subject, index) => (
-                <tr key={index}>
-                  <td
-                    className={`border border-l-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] align-top`}
-                  >
-                    {subject.name}
-                  </td>
-                  <td
-                    className={`
+              {filteredCharacteristics.length > 0 ? (
+                filteredCharacteristics.map((item, index) => (
+                  <tr key={`${item.id}-${index}`}>
+                    <td
+                      className={`border border-l-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] align-top`}
+                    >
+                      {formatSubjectName(item)}
+                    </td>
+                    <td
+                      className={`
                         border border-r-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] leading-[1.6] text-[var(--n-600)]`}
+                    >
+                      {item.description}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={2}
+                    className='border border-l-0 border-r-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-500)] text-center'
                   >
-                    {subject.content}
+                    해당 사항 없음
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

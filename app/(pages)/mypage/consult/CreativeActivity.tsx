@@ -1,4 +1,23 @@
-const CreativeActivity = () => {
+interface CreativeExperience {
+  id: string;
+  grade: string;
+  description: string;
+  activityName: string | null;
+  domain: string;
+}
+
+const CreativeActivity = ({
+  creativeExperiences,
+}: {
+  creativeExperiences: CreativeExperience[];
+}) => {
+  // 학년별로 정렬 (1학년이 먼저 오도록)
+  const sortedExperiences = [...(creativeExperiences || [])].sort((a, b) => {
+    const gradeA = parseInt(a.grade.replace('학년', '')) || 0;
+    const gradeB = parseInt(b.grade.replace('학년', '')) || 0;
+    return gradeA - gradeB;
+  });
+
   return (
     <div>
       <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
@@ -31,79 +50,33 @@ const CreativeActivity = () => {
             </tr>
           </thead>
           <tbody>
-            {[
-              {
-                grade: '1학년',
-                area: '자율활동',
-                hours: '50',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '1학년',
-                area: '동아리활동',
-                hours: '50',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '2학년',
-                area: '자율활동',
-                hours: '60',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '2학년',
-                area: '자율활동',
-                hours: '60',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '2학년',
-                area: '자율활동',
-                hours: '60',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '3학년',
-                area: '자율활동',
-                hours: '50',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '3학년',
-                area: '자율활동',
-                hours: '50',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-              {
-                grade: '3학년',
-                area: '자율활동',
-                hours: '50',
-                content:
-                  '인간이 바로 자세로 앉아 수업을 경청하는 모습이 인상적인 학생으로 자신의 진로와 관련하여 스스로 책을 선정하여 읽으며 독서일지를 작성함. 실제 책을 고치기 또 글을 통해 그들이 다양한 체숙 수업을 준비하는 것을 보고 그들의 노력에 깊이를 표하며 글을 작성함. 또한 다양한 유형의 담화·글·작품을 듣고 읽거나 쓰고 말하면서 폭넓은 지식을 습득하고 적극적으로 사고하며 상호 이해와 소통하는 태도를 지닌다.',
-              },
-            ].map((row, index) => (
-              <tr key={index}>
-                <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-left align-top'>
-                  {row.grade}
-                </td>
-                <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center align-top'>
-                  {row.area}
-                </td>
-                <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center align-top'>
-                  {row.hours}
-                </td>
-                <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] leading-[1.6] text-[var(--n-600)] text-left'>
-                  {row.content}
+            {sortedExperiences.length > 0 ? (
+              sortedExperiences.map((row, index) => (
+                <tr key={`${row.id}-${index}`}>
+                  <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-left align-top'>
+                    {row.grade}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center align-top'>
+                    {row.domain}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center align-top'>
+                    {row.activityName || '-'}
+                  </td>
+                  <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] leading-[1.6] text-[var(--n-600)] text-left'>
+                    {row.description}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={4}
+                  className='border border-l-0 border-r-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-500)] text-center'
+                >
+                  해당 사항 없음
                 </td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

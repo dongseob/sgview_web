@@ -2,15 +2,21 @@ import { ResponsiveBar } from '@nivo/bar';
 import { ResponsiveLine } from '@nivo/line';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { CoreSubject } from './SubjectGrade';
 // 교과별 성적 변화율 테이블 컴포넌트
 const GradeChangeTable = ({
   subject,
   change1_2,
+  tooltipType = 'tag', // 'tag' | 'memo'
+  data,
 }: {
   subject: string;
   change1_2: string; // 1-2학기 성적변화
+  tooltipType?: 'tag' | 'memo';
+  data: CoreSubject[];
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const getChangeColor = (change: string) => {
     if (change === '-') return 'text-[var(--n-800)]';
@@ -18,6 +24,103 @@ const GradeChangeTable = ({
     if (change.startsWith('+')) return 'text-[#D93025]';
     return 'text-[var(--n-800)]';
   };
+
+  // 데이터에서 특정 학년/학기 레코드 찾기
+  const findRecord = (grade: string, semester: string) => {
+    if (!data || data.length === 0) return null;
+
+    // category가 subject와 일치하는 CoreSubject 찾기
+    const coreSubject = data.find((item) => item.category === subject);
+    if (!coreSubject || !coreSubject.subjects) return null;
+
+    // 모든 subjects의 records를 평탄화
+    const allRecords = coreSubject.subjects.flatMap(
+      (subj) => subj.records || []
+    );
+
+    // 해당 학년/학기의 첫 번째 레코드 찾기
+    const record = allRecords.find(
+      (rec) => rec.grade === grade && rec.semester === semester
+    );
+
+    return record || null;
+  };
+
+  // 1-1학기 데이터
+  const record1_1 = findRecord('1학년', '1학기');
+  // 1-2학기 데이터
+  const record1_2 = findRecord('1학년', '2학기');
+  // 2-1학기 데이터
+  const record2_1 = findRecord('2학년', '1학기');
+
+  // 평균 계산
+  const calculateAverage = () => {
+    const records = [record1_1, record1_2, record2_1].filter(
+      (rec) => rec !== null
+    ) as any[];
+
+    if (records.length === 0) {
+      return {
+        rawScore: '',
+        rankGrade: '',
+      };
+    }
+
+    // 원점수 평균 계산
+    const validRawScores = records.filter(
+      (rec) => rec.scores?.raw !== null && rec.scores?.raw !== undefined
+    );
+    const totalRawScore = validRawScores.reduce(
+      (sum, rec) => sum + (rec.scores?.raw || 0),
+      0
+    );
+    const avgRawScore =
+      validRawScores.length > 0
+        ? (totalRawScore / validRawScores.length).toFixed(1)
+        : '';
+
+    // 석차등급 평균 계산 (숫자인 경우만 포함)
+    const validRankGrades = records.filter((rec) => {
+      const rankGrade = rec.rankGrade;
+      return (
+        rankGrade !== null &&
+        rankGrade !== undefined &&
+        typeof rankGrade === 'number' &&
+        !isNaN(rankGrade)
+      );
+    });
+
+    if (validRankGrades.length === 0) {
+      return {
+        rawScore: avgRawScore,
+        rankGrade: '',
+      };
+    }
+
+    const totalRankGrade = validRankGrades.reduce(
+      (sum, rec) => sum + (rec.rankGrade || 0),
+      0
+    );
+    const avgRankGrade = (totalRankGrade / validRankGrades.length).toFixed(2);
+
+    return {
+      rawScore: avgRawScore,
+      rankGrade: avgRankGrade,
+    };
+  };
+
+  const average = calculateAverage();
+
+  // 성적변화율 계산 (1-2학기 기준)
+  const getScoreChangeRate = () => {
+    if (!record1_2?.scoreChangeRate) return '';
+    const rate = record1_2.scoreChangeRate;
+    if (rate === null || rate === undefined) return '';
+    const sign = rate >= 0 ? '+' : '';
+    return `${sign}${rate.toFixed(1)}%`;
+  };
+
+  const scoreChange1_2 = getScoreChangeRate();
 
   return (
     <div>
@@ -73,142 +176,188 @@ const GradeChangeTable = ({
             {/* 1-1학기 */}
             <tr>
               <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                {subject}
+                {record1_1?.curriculum || subject}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                 1-1
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                {subject}
+                {record1_1?.subject || subject}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                89
+                {record1_1?.scores?.raw ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                16.1
+                {record1_1?.scores?.standardDeviation ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                B
+                {record1_1?.achievement ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                3
+                {record1_1?.rankGrade ?? ''}
               </td>
-              <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
+              <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
             </tr>
             {/* 1-2학기 */}
             <tr>
-              <td className='border border-[var(--n-200)] px-[8px] border-l-0 py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
+              <td className='border border-[var(--n-200)] px-[8px] border-l-0 py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                 1-2
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                {subject}
+                {record1_2?.subject || subject}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center relative'>
-                <span
-                  className='text-[14px] font-[400] bg-[var(--r-200)] text-center cursor-pointer'
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
-                >
-                  89
-                </span>
+                {record1_2?.scores?.raw ? (
+                  <span
+                    className='text-[14px] font-[400] bg-[var(--r-200)] text-center cursor-pointer'
+                    onMouseEnter={() => setShowTooltip(true)}
+                    onMouseLeave={() => {
+                      if (!isClicked) {
+                        setShowTooltip(false);
+                      }
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (showTooltip) {
+                        // 호버 상태에서 클릭하면 그대로 켜있도록
+                        setIsClicked(true);
+                      } else {
+                        // 닫혀있으면 열기
+                        setShowTooltip(true);
+                        setIsClicked(true);
+                      }
+                    }}
+                  >
+                    {record1_2.scores.raw}
+                  </span>
+                ) : (
+                  ''
+                )}
                 {showTooltip && (
-                  <div className='absolute bottom-full left-1/2 transform -translate-x-1/2 mb-[8px] z-50'>
-                    <div className='bg-white border-l border-r border-t border-[var(--n-200)] rounded-[8px] px-[12px] py-[8px] shadow-lg min-w-[180px] relative'>
-                      <div className='flex items-center justify-between gap-[12px]'>
-                        <span className='text-[14px] font-[400] text-[var(--n-800)] whitespace-nowrap'>
-                          학업역량, 진로역량
+                  <div className='absolute top-[10px] left-[80px] transform z-50'>
+                    {tooltipType === 'tag' ? (
+                      // 태그 타입 말풍선
+                      <div
+                        className='border-[var(--n-200)] border-[1px] bg-[var(--n-0)] rounded-[12px] px-[16px] py-[18px] relative flex items-center gap-[8px]'
+                        style={{
+                          boxShadow: '0 4px 10px 0 rgba(0, 0, 0, 0.15)',
+                        }}
+                      >
+                        <span className='text-[15px] leading-[18px] font-[600] text-[var(--n-800)] whitespace-nowrap'>
+                          학업역량(5점)
                         </span>
                         <button
-                          onClick={() => setShowTooltip(false)}
-                          className='text-[var(--n-600)] hover:text-[var(--n-800)] text-[14px] leading-none'
+                          onClick={() => {
+                            setShowTooltip(false);
+                            setIsClicked(false);
+                          }}
+                          className='text-[var(--n-400)] hover:text-[var(--n-600)] text-[14px] leading-none w-[16px] h-[16px] flex items-center justify-center'
                         >
-                          ×
+                          <Image
+                            src='/Images/icon-close-24-gray.svg'
+                            alt='close'
+                            width={24}
+                            height={24}
+                          />
                         </button>
                       </div>
-                      {/* 삼각형 포인터 */}
-                      <div className='absolute top-full left-1/2 transform -translate-x-1/2'>
-                        <div className='w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-l-transparent border-r-transparent border-t-transparent'></div>
-                        <div className='w-0 h-0 border-l-[5px] border-r-[5px] border-t-[5px] border-l-transparent border-r-transparent border-t-white absolute top-[0px] left-1/2 transform -translate-x-1/2'></div>
+                    ) : (
+                      // 메모 타입 말풍선
+                      <div className='bg-white rounded-[8px] px-[16px] py-[12px] shadow-lg min-w-[200px] relative'>
+                        <div className='flex items-center justify-between mb-[8px]'>
+                          <span className='text-[14px] font-[500] text-[var(--n-800)]'>
+                            메모
+                          </span>
+                          <button
+                            onClick={() => {
+                              setShowTooltip(false);
+                              setIsClicked(false);
+                            }}
+                            className='text-[var(--n-400)] hover:text-[var(--n-600)] text-[14px] leading-none w-[16px] h-[16px] flex items-center justify-center'
+                          >
+                            ×
+                          </button>
+                        </div>
+                        <p className='text-[14px] font-[400] text-[var(--n-800)]'>
+                          점수가 오른 이유가 뭘까?
+                        </p>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                16.1
+                {record1_2?.scores?.standardDeviation ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                B
+                {record1_2?.achievement ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                3
+                {record1_2?.rankGrade ?? ''}
               </td>
               <td
                 className={`border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] ${getChangeColor(
-                  change1_2
+                  scoreChange1_2
                 )} text-center`}
               >
-                {change1_2}
+                {scoreChange1_2}
               </td>
             </tr>
             {/* 2-1학기 */}
             <tr>
-              <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
+              <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                 2-1
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                {subject}
+                {record2_1?.subject || subject}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                89
+                {record2_1?.scores?.raw ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                16.1
+                {record2_1?.scores?.standardDeviation ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                B
+                {record2_1?.achievement ?? ''}
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                3
+                {record2_1?.rankGrade ?? ''}
               </td>
-              <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[#D93025] text-center'>
-                +9.1%
+              <td
+                className={`border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] ${getChangeColor(
+                  record2_1?.scoreChangeRate
+                    ? `${
+                        record2_1.scoreChangeRate >= 0 ? '+' : ''
+                      }${record2_1.scoreChangeRate.toFixed(1)}%`
+                    : ''
+                )} text-center`}
+              >
+                {record2_1?.scoreChangeRate !== null &&
+                record2_1?.scoreChangeRate !== undefined
+                  ? `${
+                      record2_1.scoreChangeRate >= 0 ? '+' : ''
+                    }${record2_1.scoreChangeRate.toFixed(1)}%`
+                  : ''}
               </td>
             </tr>
             {/* 평균 행 */}
             <tr className='bg-[var(--n-50)]'>
-              <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
-              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
+              <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
+              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                 평균
               </td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                91
+                {average.rawScore}
               </td>
+              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
+              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
               <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
+                {average.rankGrade}
               </td>
-              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
-              <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                2.3
-              </td>
-              <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                -
-              </td>
+              <td className='border border-[var(--n-200)] border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'></td>
             </tr>
           </tbody>
         </table>
@@ -229,7 +378,7 @@ const SubjectTrendChart = ({
   average: number;
   data: { semester: string; grade: number; year: number }[];
 }) => {
-  const chartData = data.map((item) => ({
+  const chartData = (data || []).map((item) => ({
     semester: item.semester,
     grade: item.grade,
   }));
@@ -241,14 +390,18 @@ const SubjectTrendChart = ({
   };
 
   // 커스텀 레이블 레이어 (막대 위에 숫자 표시)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const CustomBarLabels = (props: any) => {
     const { bars } = props;
     return (
       <g>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+        {}
         {bars.map((bar: any) => {
           const value = bar.data.data.grade;
+          const displayValue =
+            value !== null && value !== undefined && !isNaN(value)
+              ? value.toFixed(1)
+              : '0.0';
           return (
             <text
               key={bar.key}
@@ -260,7 +413,7 @@ const SubjectTrendChart = ({
               fontSize={12}
               fontWeight={400}
             >
-              {value.toFixed(1)}
+              {displayValue}
             </text>
           );
         })}
@@ -272,7 +425,11 @@ const SubjectTrendChart = ({
     <div className='bg-white rounded-[8px] border border-[var(--n-200)] p-[24px]'>
       <div className='flex flex-col items-start justify-start gap-[20px]'>
         <h3 className='text-[16px] font-[600] leading-[1.3] text-[var(--n-800)]'>
-          {title} 평균: {average.toFixed(2)} 등급
+          {title} 평균:{' '}
+          {average !== null && average !== undefined
+            ? average.toFixed(2)
+            : '0.00'}{' '}
+          등급
         </h3>
         <div className='flex items-center justify-start gap-[6px]'>
           <div className='flex items-center gap-[6px]'>
@@ -389,21 +546,19 @@ const SubjectTrendChart = ({
 };
 
 // 교과별 내신 성적 막대 차트
-const GradeBarChart = () => {
-  const data = [
-    { subject: '국어', grade: 3.3 },
-    { subject: '영어', grade: 5.5 },
-    { subject: '수학', grade: 4.7 },
-    { subject: '사회', grade: 6.1 },
-    { subject: '과학', grade: 5.0 },
-  ];
+const GradeBarChart = ({ coreSubjects }: { coreSubjects: any }) => {
+  const data =
+    coreSubjects?.map((subject: any) => ({
+      subject: subject.category,
+      grade: subject.averageRankGrade,
+    })) || [];
 
   return (
     <ResponsiveBar
       data={data}
       keys={['grade']}
       indexBy='subject'
-      margin={{ top: 20, right: 0, bottom: 0, left: 30 }}
+      margin={{ top: 20, right: 0, bottom: 30, left: 30 }}
       padding={0.4}
       valueScale={{ type: 'linear', min: 0, max: 9 }}
       indexScale={{ type: 'band', round: true }}
@@ -486,7 +641,7 @@ const GradeBarChart = () => {
 };
 
 // 성적추이 라인 차트
-const GradeLineChart = () => {
+const GradeLineChart = ({ transcript }: { transcript: any }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -520,54 +675,118 @@ const GradeLineChart = () => {
     return acc;
   }, {} as Record<string, number>);
 
+  // 교과 조합별 학기별 평균 계산 함수
+  const calculateSubjectTrend = (
+    subjectNames: string[],
+    allSubjects: any[]
+  ) => {
+    const semesters = [
+      { semester: '1-1', grade: '1학년', semesterNum: '1학기' },
+      { semester: '1-2', grade: '1학년', semesterNum: '2학기' },
+      { semester: '2-1', grade: '2학년', semesterNum: '1학기' },
+      { semester: '2-2', grade: '2학년', semesterNum: '2학기' },
+      { semester: '3-1', grade: '3학년', semesterNum: '1학기' },
+      { semester: '3-2', grade: '3학년', semesterNum: '2학기' },
+    ];
+
+    const result = semesters.map((sem) => {
+      const records: any[] = [];
+
+      // subjectNames가 비어있으면 모든 교과 포함, 아니면 지정된 교과만 포함
+      const subjectsToProcess =
+        !subjectNames || subjectNames.length === 0
+          ? allSubjects || []
+          : allSubjects?.filter((item) =>
+              subjectNames.includes(item.category)
+            ) || [];
+
+      // 각 교과의 레코드 찾기 (학년/학기만 맞춤)
+      subjectsToProcess.forEach((coreSubject: any) => {
+        if (coreSubject?.subjects) {
+          coreSubject.subjects.forEach((subj: any) => {
+            if (subj.records) {
+              subj.records.forEach((rec: any) => {
+                if (
+                  rec.grade === sem.grade &&
+                  rec.semester === sem.semesterNum &&
+                  typeof rec.rankGrade === 'number' &&
+                  !isNaN(rec.rankGrade)
+                ) {
+                  records.push(rec.rankGrade);
+                }
+              });
+            }
+          });
+        }
+      });
+
+      // 평균 계산 (없으면 0)
+      const average =
+        records.length > 0
+          ? records.reduce((sum, grade) => sum + grade, 0) / records.length
+          : 0;
+
+      return {
+        semester: sem.semester,
+        grade: average,
+        year: parseInt(sem.grade.replace('학년', '')) || 1,
+      };
+    });
+
+    return result;
+  };
+
+  // 각 조합별 데이터 계산
+  const 전교과Data = calculateSubjectTrend(
+    transcript?.coreSubjects?.map((item: any) => item.category) || [],
+    transcript?.coreSubjects
+  );
+  const 국영수사과Data = calculateSubjectTrend(
+    ['국어', '영어', '수학', '사회', '과학'],
+    transcript?.coreSubjects
+  );
+  const 국영수사Data = calculateSubjectTrend(
+    ['국어', '영어', '수학', '사회'],
+    transcript?.coreSubjects
+  );
+  const 국영수과Data = calculateSubjectTrend(
+    ['국어', '영어', '수학', '과학'],
+    transcript?.coreSubjects
+  );
+
+  // rawData 생성
   const rawData = [
     {
       id: '전교과',
       color: '#D93025',
-      data: [
-        { x: '1-1학기', y: 6.7 },
-        { x: '1-2학기', y: 6.8 },
-        { x: '2-1학기', y: 2.9 },
-        { x: '2-2학기', y: 4.8 },
-        { x: '3-1학기', y: 3.5 },
-        { x: '3-2학기', y: 4.8 },
-      ],
+      data: 전교과Data.map((item) => ({
+        x: `${item.semester}학기`,
+        y: item.grade,
+      })),
     },
     {
       id: '국영수사과',
       color: '#F6432B',
-      data: [
-        { x: '1-1학기', y: 6.2 },
-        { x: '1-2학기', y: 3.5 },
-        { x: '2-1학기', y: 5.5 },
-        { x: '2-2학기', y: 7.2 },
-        { x: '3-1학기', y: 4.8 },
-        { x: '3-2학기', y: 3 },
-      ],
+      data: 국영수사과Data.map((item) => ({
+        x: `${item.semester}학기`,
+        y: item.grade,
+      })),
     },
     {
       id: '국영수사',
       color: '#F7A39F',
-      data: [
-        { x: '1-1학기', y: 6.2 },
-        { x: '1-2학기', y: 7.5 },
-        { x: '2-1학기', y: 3.8 },
-        { x: '2-2학기', y: 5.6 },
-        { x: '3-1학기', y: 4.0 },
-        { x: '3-2학기', y: 5.7 },
-      ],
+      data: 국영수사Data.map((item) => ({
+        x: `${item.semester}학기`,
+        y: item.grade,
+      })),
     },
     {
       id: '국명수과',
       color: '#FFCDD0',
-      data: [
-        { x: '1-1학기', y: 6.5 },
-        { x: '1-2학기', y: 7.8 },
-        { x: '2-1학기', y: 4.0 },
-        { x: '2-2학기', y: 5.9 },
-        { x: '3-1학기', y: 4.2 },
-        { x: '3-2학기', y: 6.0 },
-      ],
+      data: 국영수과Data.map((item) => ({
+        x: `${item.semester}학기`,
+        y: item.grade,
+      })),
     },
   ];
 
@@ -592,8 +811,8 @@ const GradeLineChart = () => {
       }}
       yScale={{
         type: 'linear',
-        min: 1.5,
-        max: 7.5,
+        min: 0,
+        max: 9,
         stacked: false,
         reverse: false,
       }}
@@ -619,7 +838,7 @@ const GradeLineChart = () => {
         legendPosition: 'middle',
         legendOffset: -50,
         format: (value) => value.toFixed(1),
-        tickValues: [3.0, 4.5, 6.0, 7.5],
+        tickValues: [1.5, 3.0, 4.5, 6.0, 7.5, 9.0],
         renderTick: (tick) => (
           <g transform={`translate(${tick.x - 10},${tick.y + 5})`}>
             <text
@@ -633,7 +852,7 @@ const GradeLineChart = () => {
           </g>
         ),
       }}
-      gridYValues={[3.0, 4.5, 6.0, 7.5]}
+      gridYValues={[1.5, 3.0, 4.5, 6.0, 7.5, 9.0]}
       enableGridX={false}
       colors={(serie) => serie.color}
       lineWidth={1}
@@ -688,10 +907,180 @@ const GradeLineChart = () => {
   );
 };
 
-const GradeTrend = () => {
+const GradeTrend = ({ transcript }: { transcript: any }) => {
   const [isGradeTrendOpen, setIsGradeTrendOpen] = useState(true);
   const [isSubjectTrendOpen, setIsSubjectTrendOpen] = useState(true);
   const [isGradeChangeOpen, setIsGradeChangeOpen] = useState(true);
+
+  // 가장 낮은 값(가장 좋은 등급) 찾기 (같을 경우 전교과 우선)
+  const getLowestGrade = () => {
+    const grades = [
+      {
+        subject: '전교과',
+        grade: transcript?.allAverageGrade,
+      },
+      {
+        subject: '국영수사과',
+        grade: transcript?.combinationAverageRankGrade?.국영수사과,
+      },
+      {
+        subject: '국영수사',
+        grade: transcript?.combinationAverageRankGrade?.국영수사,
+      },
+      {
+        subject: '국영수과',
+        grade: transcript?.combinationAverageRankGrade?.국영수과,
+      },
+    ];
+
+    // 유효한 등급만 필터링 (null, undefined 제외)
+    const validGrades = grades.filter(
+      (item) => item.grade !== null && item.grade !== undefined
+    );
+
+    if (validGrades.length === 0) return { subject: '국영수사과', grade: null };
+
+    // 숫자로 변환하여 가장 작은 값(가장 좋은 등급) 찾기
+    const numericGrades = validGrades.map((item) => ({
+      ...item,
+      numericGrade:
+        typeof item.grade === 'number'
+          ? item.grade
+          : parseFloat(String(item.grade)) || 0,
+    }));
+
+    // NaN 제외
+    const validNumericGrades = numericGrades.filter(
+      (item) => !isNaN(item.numericGrade)
+    );
+
+    if (validNumericGrades.length === 0)
+      return { subject: '국영수사과', grade: null };
+
+    // 가장 작은 값 찾기
+    const minGrade = Math.min(
+      ...validNumericGrades.map((item) => item.numericGrade)
+    );
+
+    // 같은 값이 여러 개 있을 경우 전교과 우선
+    const lowestGradeItem =
+      validNumericGrades.find(
+        (item) => item.numericGrade === minGrade && item.subject === '전교과'
+      ) || validNumericGrades.find((item) => item.numericGrade === minGrade);
+
+    return {
+      subject: lowestGradeItem?.subject ?? '국영수사과',
+      grade: lowestGradeItem?.grade ?? null,
+    };
+  };
+
+  const lowestGradeInfo = getLowestGrade();
+
+  // 교과 조합별 학기별 평균 계산 함수
+  const calculateSubjectTrend = (
+    subjectNames: string[],
+    allSubjects: any[]
+  ) => {
+    const semesters = [
+      { semester: '1-1', grade: '1학년', semesterNum: '1학기' },
+      { semester: '1-2', grade: '1학년', semesterNum: '2학기' },
+      { semester: '2-1', grade: '2학년', semesterNum: '1학기' },
+      { semester: '2-2', grade: '2학년', semesterNum: '2학기' },
+      { semester: '3-1', grade: '3학년', semesterNum: '1학기' },
+      { semester: '3-2', grade: '3학년', semesterNum: '2학기' },
+    ];
+
+    const result = semesters.map((sem) => {
+      const records: any[] = [];
+
+      // subjectNames가 비어있으면 모든 교과 포함, 아니면 지정된 교과만 포함
+      const subjectsToProcess =
+        !subjectNames || subjectNames.length === 0
+          ? allSubjects || []
+          : allSubjects?.filter((item) =>
+              subjectNames.includes(item.category)
+            ) || [];
+
+      // 각 교과의 레코드 찾기 (학년/학기만 맞춤)
+      subjectsToProcess.forEach((coreSubject: any) => {
+        if (coreSubject?.subjects) {
+          coreSubject.subjects.forEach((subj: any) => {
+            if (subj.records) {
+              subj.records.forEach((rec: any) => {
+                if (
+                  rec.grade === sem.grade &&
+                  rec.semester === sem.semesterNum &&
+                  typeof rec.rankGrade === 'number' &&
+                  !isNaN(rec.rankGrade)
+                ) {
+                  records.push(rec.rankGrade);
+                }
+              });
+            }
+          });
+        }
+      });
+
+      // 평균 계산 (없으면 0)
+      const average =
+        records.length > 0
+          ? records.reduce((sum, grade) => sum + grade, 0) / records.length
+          : 0;
+
+      return {
+        semester: sem.semester,
+        grade: average,
+        year: parseInt(sem.grade.replace('학년', '')) || 1,
+      };
+    });
+
+    return result;
+  };
+
+  // 전체 평균 계산
+  const calculateOverallAverage = (data: any[]) => {
+    if (!data || data.length === 0) return 0;
+    const validGrades = data
+      .map((item) => item?.grade)
+      .filter(
+        (grade) =>
+          grade !== null &&
+          grade !== undefined &&
+          !isNaN(grade) &&
+          typeof grade === 'number' &&
+          grade > 0
+      );
+    if (validGrades.length === 0) return 0;
+    return (
+      validGrades.reduce((sum, grade) => sum + grade, 0) / validGrades.length
+    );
+  };
+
+  // 각 타이틀별 데이터 계산
+  const 국수과Data = calculateSubjectTrend(
+    ['국어', '수학', '과학'],
+    transcript?.coreSubjects
+  );
+  const 영사과Data = calculateSubjectTrend(
+    ['영어', '사회', '과학'],
+    transcript?.coreSubjects
+  );
+  const 수과사Data = calculateSubjectTrend(
+    ['수학', '과학', '사회'],
+    transcript?.coreSubjects
+  );
+  const 사회과학Data = calculateSubjectTrend(
+    ['사회', '과학'],
+    transcript?.coreSubjects
+  );
+  const 체육교양Data = calculateSubjectTrend(
+    [],
+    transcript?.physicalArtSubjects
+  );
+  const 전교과Data = calculateSubjectTrend(
+    transcript?.coreSubjects?.map((item: any) => item.category) || [],
+    transcript?.coreSubjects
+  );
 
   return (
     <div className='flex flex-col gap-[32px] '>
@@ -725,28 +1114,28 @@ const GradeTrend = () => {
                 <div className='flex flex-col gap-[12px]'>
                   {[
                     {
-                      subject: '국영수사과',
-                      grade: '2.74',
+                      subject: lowestGradeInfo.subject,
+                      grade: lowestGradeInfo.grade ?? '-',
                       highlight: true,
                     },
                     {
                       subject: '전교과',
-                      grade: '2.75',
+                      grade: transcript?.allAverageGrade,
                       highlight: false,
                     },
                     {
                       subject: '국영수사과',
-                      grade: '2.74',
+                      grade: transcript?.combinationAverageRankGrade.국영수사과,
                       highlight: false,
                     },
                     {
                       subject: '국영수사',
-                      grade: '2.12',
+                      grade: transcript?.combinationAverageRankGrade.국영수사,
                       highlight: false,
                     },
                     {
                       subject: '국영수과',
-                      grade: '2.24',
+                      grade: transcript?.combinationAverageRankGrade.국영수과,
                       highlight: false,
                     },
                   ].map((item, index) => (
@@ -779,7 +1168,7 @@ const GradeTrend = () => {
                   교과별 내신 성적
                 </h3>
                 <div className='h-[175px] w-[377px] max-[745px]:w-full'>
-                  <GradeBarChart />
+                  <GradeBarChart coreSubjects={transcript?.coreSubjects} />
                 </div>
               </div>
             </div>
@@ -813,7 +1202,7 @@ const GradeTrend = () => {
                 </div>
               </div>
               <div className='h-[171px] w-[818px] max-[745px]:w-[297px] '>
-                <GradeLineChart />
+                <GradeLineChart transcript={transcript} />
               </div>
             </div>
           </>
@@ -851,68 +1240,34 @@ const GradeTrend = () => {
             <div className='grid grid-cols-2 gap-[24px] max-md:grid-cols-1 max-[745px]:px-[20px]'>
               <SubjectTrendChart
                 title='국·수·과'
-                average={3.33}
-                data={[
-                  { semester: '1-1', grade: 3.3, year: 1 },
-                  { semester: '1-2', grade: 3.0, year: 1 },
-                  { semester: '2-1', grade: 2.5, year: 2 },
-                  { semester: '2-2', grade: 2.5, year: 2 },
-                  { semester: '3-1', grade: 2.8, year: 3 },
-                ]}
+                average={calculateOverallAverage(국수과Data)}
+                data={국수과Data}
               />
               <SubjectTrendChart
                 title='영·사·과'
-                average={3.88}
-                data={[
-                  { semester: '1-1', grade: 3.3, year: 1 },
-                  { semester: '1-2', grade: 3.0, year: 1 },
-                  { semester: '2-1', grade: 2.5, year: 2 },
-                  { semester: '2-2', grade: 2.5, year: 2 },
-                  { semester: '3-1', grade: 2.8, year: 3 },
-                ]}
+                average={calculateOverallAverage(영사과Data)}
+                data={영사과Data}
               />
               <SubjectTrendChart
                 title='수·과·사'
-                average={3.28}
-                data={[
-                  { semester: '1-1', grade: 3.3, year: 1 },
-                  { semester: '1-2', grade: 3.0, year: 1 },
-                  { semester: '2-1', grade: 2.5, year: 2 },
-                  { semester: '2-2', grade: 2.5, year: 2 },
-                  { semester: '3-1', grade: 2.8, year: 3 },
-                ]}
+                average={calculateOverallAverage(수과사Data)}
+                data={수과사Data}
               />
               <SubjectTrendChart
                 title='사회·과학'
                 subtitle='(진학·수시탐색)'
-                average={3.33}
-                data={[
-                  { semester: '1-1', grade: 3.3, year: 1 },
-                  { semester: '1-2', grade: 3.0, year: 1 },
-                  { semester: '2-1', grade: 2.5, year: 2 },
-                  { semester: '2-2', grade: 2.5, year: 2 },
-                  { semester: '3-1', grade: 2.8, year: 3 },
-                ]}
+                average={calculateOverallAverage(사회과학Data)}
+                data={사회과학Data}
               />
               <SubjectTrendChart
                 title='체육·교양'
-                average={3.84}
-                data={[
-                  { semester: '1-1', grade: 3.3, year: 1 },
-                  { semester: '2-1', grade: 2.5, year: 2 },
-                  { semester: '3-1', grade: 2.8, year: 3 },
-                ]}
+                average={calculateOverallAverage(체육교양Data)}
+                data={체육교양Data}
               />
               <SubjectTrendChart
                 title='전교과'
-                average={3.33}
-                data={[
-                  { semester: '1-1', grade: 3.3, year: 1 },
-                  { semester: '1-2', grade: 3.0, year: 1 },
-                  { semester: '2-1', grade: 2.5, year: 2 },
-                  { semester: '2-2', grade: 2.5, year: 2 },
-                  { semester: '3-1', grade: 2.8, year: 3 },
-                ]}
+                average={calculateOverallAverage(전교과Data)}
+                data={전교과Data}
               />
             </div>
           </>
@@ -944,11 +1299,43 @@ const GradeTrend = () => {
           {/* 과목별 테이블 */}
           {isGradeChangeOpen && (
             <div className='flex flex-col gap-[24px]'>
-              <GradeChangeTable subject='국어' change1_2='-1.1%' />
-              <GradeChangeTable subject='영어' change1_2='-1.1%' />
-              <GradeChangeTable subject='수학' change1_2='-1.1%' />
-              <GradeChangeTable subject='사회' change1_2='-1.1%' />
-              <GradeChangeTable subject='과학' change1_2='0.0%' />
+              <GradeChangeTable
+                subject='국어'
+                change1_2='-1.1%'
+                tooltipType='tag'
+                data={transcript?.coreSubjects.filter(
+                  (subject: any) => subject.category === '국어'
+                )}
+              />
+              <GradeChangeTable
+                subject='영어'
+                change1_2='-1.1%'
+                tooltipType='memo'
+                data={transcript?.coreSubjects.filter(
+                  (subject: any) => subject.category === '영어'
+                )}
+              />
+              <GradeChangeTable
+                subject='수학'
+                change1_2='-1.1%'
+                data={transcript?.coreSubjects.filter(
+                  (subject: any) => subject.category === '수학'
+                )}
+              />
+              <GradeChangeTable
+                subject='사회'
+                change1_2='-1.1%'
+                data={transcript?.coreSubjects.filter(
+                  (subject: any) => subject.category === '사회'
+                )}
+              />
+              <GradeChangeTable
+                subject='과학'
+                change1_2='0.0%'
+                data={transcript?.coreSubjects.filter(
+                  (subject: any) => subject.category === '과학'
+                )}
+              />
             </div>
           )}
         </div>

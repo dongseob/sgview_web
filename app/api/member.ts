@@ -71,14 +71,55 @@ export const checkAndRemoveExpiredTokens = () => {
   }
 };
 
+// 토큰 재발급 중 플래그 (동시 요청 방지)
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (value?: string) => void;
+  reject: (error?: unknown) => void;
+}> = [];
+
+// 큐에 대기 중인 요청 처리
+const processQueue = (error: unknown, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token || undefined);
+    }
+  });
+  failedQueue = [];
+};
+
 // 요청 인터셉터: localStorage에 accessToken이 있으면 Authorization 헤더에 추가
 // 만료된 토큰은 자동으로 제거
 client.interceptors.request.use(
   (config) => {
     // 클라이언트 사이드에서만 localStorage 접근
     if (typeof window !== 'undefined') {
-      // 토큰 만료 체크 및 제거
-      checkAndRemoveExpiredTokens();
+      // 토큰 만료 체크 및 제거 (단, refresh 토큰이 있으면 제거하지 않음)
+      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshTokenExpiresAt = localStorage.getItem(
+        'refreshTokenExpiresAt'
+      );
+      const now = Date.now();
+
+      // refresh 토큰이 없거나 만료된 경우에만 제거
+      if (
+        !refreshToken ||
+        (refreshTokenExpiresAt && now >= parseInt(refreshTokenExpiresAt, 10))
+      ) {
+        checkAndRemoveExpiredTokens();
+      } else {
+        // access 토큰만 만료 체크
+        const accessTokenExpiresAt = localStorage.getItem(
+          'accessTokenExpiresAt'
+        );
+        if (accessTokenExpiresAt && now >= parseInt(accessTokenExpiresAt, 10)) {
+          // access 토큰만 제거 (refresh 토큰은 유지)
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('accessTokenExpiresAt');
+        }
+      }
 
       const accessToken = localStorage.getItem('accessToken');
       if (accessToken) {
@@ -88,6 +129,99 @@ client.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// 응답 인터셉터: 401 에러 시 refresh 토큰으로 재발급
+client.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    const originalRequest = error.config;
+
+    // 401 에러이고, 재시도하지 않은 요청인 경우
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        // 이미 재발급 중이면 큐에 추가
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+            return client(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      // 클라이언트 사이드에서만 처리
+      if (typeof window === 'undefined') {
+        isRefreshing = false;
+        return Promise.reject(error);
+      }
+
+      const refreshToken = localStorage.getItem('refreshToken');
+
+      if (!refreshToken) {
+        isRefreshing = false;
+        processQueue(error, null);
+        removeTokens();
+        // 로그인 페이지로 리다이렉트
+        if (typeof window !== 'undefined') {
+          window.location.href = '/signin';
+        }
+        return Promise.reject(error);
+      }
+
+      try {
+        // refresh 토큰으로 재발급 요청
+        const response = await axios.post(
+          'https://api-istrue.axcorp.ai/api/v1/auth/refresh',
+          {
+            refresh_token: refreshToken,
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        const { access_token, refresh_token, expires_in, refresh_expires_in } =
+          response.data;
+
+        // 새 토큰 저장
+        saveTokens(
+          access_token,
+          refresh_token || refreshToken, // 새 refresh 토큰이 없으면 기존 것 유지
+          expires_in || 1799,
+          refresh_expires_in || 604799
+        );
+
+        // 원래 요청 재시도
+        originalRequest.headers.Authorization = `Bearer ${access_token}`;
+        isRefreshing = false;
+        processQueue(null, access_token);
+        return client(originalRequest);
+      } catch (refreshError) {
+        // refresh 토큰 재발급 실패
+        isRefreshing = false;
+        processQueue(refreshError, null);
+        removeTokens();
+        // 로그인 페이지로 리다이렉트
+        if (typeof window !== 'undefined') {
+          window.location.href = '/signin';
+        }
+        return Promise.reject(refreshError);
+      }
+    }
+
     return Promise.reject(error);
   }
 );
@@ -158,4 +292,11 @@ export const postLogout = async (accessToken: string) => {
 //회원정보 조회
 export const getMyInfo = async (): Promise<{ data: MemberInfo }> => {
   return await client.get('/api/v1/auth/user/me');
+};
+
+//토큰 재발급
+export const postRefreshToken = async (refreshToken: string) => {
+  return await client.post('/api/v1/auth/refresh', {
+    refresh_token: refreshToken,
+  });
 };

@@ -1,4 +1,37 @@
-const Attendance = () => {
+interface Attendance {
+  id: string;
+  notes: string;
+  grade: string;
+  absence: DateCount;
+  absenceFromClass: DateCount;
+  classDays: number;
+  earlyLeave: DateCount;
+  lateness: DateCount;
+}
+
+interface DateCount {
+  other: number;
+  sick: number;
+  unexcused: number;
+}
+
+const Attendance = ({
+  volunteerActivities,
+  attendance,
+  certifications,
+}: {
+  volunteerActivities: {
+    id: string;
+    date: string;
+    grade: string;
+    hours: number;
+    activity: string;
+    organization: string;
+    totalHours: number;
+  }[];
+  attendance: Attendance[];
+  certifications: any;
+}) => {
   return (
     <div>
       <h2 className='text-[24px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[24px] max-[745px]:px-[20px]'>
@@ -103,40 +136,46 @@ const Attendance = () => {
               </tr>
             </thead>
             <tbody>
-              {[
-                {
-                  grade: '1',
-                  days: '190',
-                  remark: '원격수업 0일,개근',
-                },
-                {
-                  grade: '2',
-                  days: '190',
-                  remark: '개근',
-                },
-                {
-                  grade: '3',
-                  days: '190',
-                  remark: '-',
-                },
-              ].map((row, index) => (
+              {attendance.map((row, index) => (
                 <tr key={index}>
                   <td className='border border-[var(--n-200)] px-[8px] border-l-0 py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center w-[100px]'>
                     {row.grade}
                   </td>
                   <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center w-[100px]'>
-                    {row.days}
+                    {row.classDays}
                   </td>
-                  {[...Array(9)].map((_, i) => (
-                    <td
-                      key={i}
-                      className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'
-                    >
-                      0
-                    </td>
-                  ))}
+                  {/* 결석일수 - 첫 번째 그룹 (absence) */}
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.absence.other}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.absence.sick}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.absence.unexcused}
+                  </td>
+                  {/* 결석일수 - 두 번째 그룹 (absenceFromClass) */}
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.absenceFromClass.other}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.absenceFromClass.sick}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.absenceFromClass.unexcused}
+                  </td>
+                  {/* 결석일수 - 세 번째 그룹 (earlyLeave) */}
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.earlyLeave.other}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.earlyLeave.sick}
+                  </td>
+                  <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
+                    {row.earlyLeave.unexcused}
+                  </td>
                   <td className='border border-[var(--n-200)] px-[8px] border-r-0 py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                    {row.remark}
+                    {row.notes}
                   </td>
                 </tr>
               ))}
@@ -181,12 +220,28 @@ const Attendance = () => {
             </thead>
             <tbody>
               <tr>
-                <td
-                  colSpan={5}
-                  className='border border-[var(--n-200)] border-l-0 border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-500)] text-center'
-                >
-                  해당 사항 없음
-                </td>
+                {certifications?.length === 0 ? (
+                  <td
+                    colSpan={5}
+                    className='border border-[var(--n-200)] border-l-0 border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-500)] text-center'
+                  >
+                    해당 사항 없음
+                  </td>
+                ) : (
+                  <td
+                    colSpan={5}
+                    className='border border-[var(--n-200)] border-l-0 border-r-0 px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-500)] text-center'
+                  >
+                    {certifications?.map((item: any) => (
+                      <div key={item.id}>
+                        <p>{item.name}</p>
+                        <p>{item.number}</p>
+                        <p>{item.date}</p>
+                        <p>{item.organization}</p>
+                      </div>
+                    ))}
+                  </td>
+                )}
               </tr>
             </tbody>
           </table>
@@ -229,148 +284,7 @@ const Attendance = () => {
               </tr>
             </thead>
             <tbody>
-              {[
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-                {
-                  grade: '1',
-                  date: '2023.03.08',
-                  place: '(학교생활기록부)',
-                  activity: '봉사활동 5시간24분',
-                  hours: '5',
-                },
-              ].map((row, index) => (
+              {volunteerActivities?.map((row, index) => (
                 <tr key={index}>
                   <td className='border border-[var(--n-200)] border-l-0 px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center'>
                     {row.grade}
@@ -379,7 +293,7 @@ const Attendance = () => {
                     {row.date}
                   </td>
                   <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
-                    {row.place}
+                    {row.organization}
                   </td>
                   <td className='border border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-800)] text-center'>
                     {row.activity}

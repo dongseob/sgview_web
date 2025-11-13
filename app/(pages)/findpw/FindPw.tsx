@@ -1,11 +1,7 @@
 'use client';
-
-import { getConsultList } from '@/app/api/consult';
-import { postLogin, saveTokens } from '@/app/api/member';
+import { postResetPassword } from '@/app/api/member';
 import { AxiosError } from 'axios';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -14,7 +10,7 @@ const EMAIL_MAX = 100;
 const PW_MIN = 8;
 const PW_MAX = 64;
 
-const Login = () => {
+const FindPw = () => {
   const router = useRouter();
 
   const [id, setId] = useState('');
@@ -60,31 +56,15 @@ const Login = () => {
     }
 
     try {
-      const loginRes = await postLogin({ email: id, password });
-      if (loginRes.status === 200) {
-        // 토큰 저장 (만료 시간 포함)
-        saveTokens(
-          loginRes.data.tokens.access_token,
-          loginRes.data.tokens.refresh_token,
-          loginRes.data.tokens.expires_in || 1799,
-          loginRes.data.tokens.refresh_expires_in || 604799
-        );
-
-        // 컨설팅 목록 조회하여 아이템 여부 확인
-        try {
-          const consultListRes = await getConsultList();
-          if (consultListRes.data && consultListRes.data.length > 0) {
-            router.push('/mypage/consult');
-          } else {
-            router.push('/welcome');
-          }
-        } catch (consultError) {
-          // 컨설팅 목록 조회 실패 시 기본적으로 welcome 페이지로 이동
-          console.error('컨설팅 목록 조회 실패:', consultError);
-          router.push('/welcome');
-        }
+      const resetPasswordRes = await postResetPassword({
+        email: id,
+        new_password: password,
+      });
+      if (resetPasswordRes.status === 200) {
+        alert('비밀번호 재설정 성공');
+        router.push('/signin');
       } else {
-        showToast('아이디 또는 비밀번호가 올바르지 않습니다.');
+        showToast('비밀번호 재설정 실패');
       }
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -105,14 +85,18 @@ const Login = () => {
         } else if (status >= 500) {
           showToast('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
         } else {
-          showToast('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
+          showToast(
+            '비밀번호 재설정에 실패했습니다. 잠시 후 다시 시도해주세요.'
+          );
         }
       } else if (axiosError.request) {
         // 요청은 보냈지만 응답을 받지 못함 (네트워크 에러)
         showToast('네트워크 오류가 발생했습니다. 연결을 확인해주세요.');
       } else {
         // 요청 설정 중 에러
-        showToast('로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        showToast(
+          '비밀번호 재설정 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
+        );
       }
     }
   };
@@ -139,7 +123,7 @@ const Login = () => {
     <div className='w-full pt-[40px] pb-[120px] mx-auto max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
       <div className='w-full max-w-[368px] mx-auto py-[32px] flex flex-col items-center justify-start gap-[32px] max-[745px]:py-[0]'>
         <h3 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)]'>
-          로그인
+          비밀번호 재설정
         </h3>
 
         <div className='flex flex-col gap-[24px] w-full'>
@@ -246,87 +230,13 @@ const Login = () => {
                   : 'bg-[var(--r-400)] hover:bg-[var(--r-500)] text-white cursor-pointer transition'
               }`}
             >
-              로그인
+              비밀번호 재설정
             </button>
-
-            {/* 하단 링크 */}
-            <div className='flex items-center justify-center gap-[8px]'>
-              <Link href='/findid' className='text-[14px] text-[var(--n-600)]'>
-                아이디 찾기
-              </Link>
-              <div className='w-[1px] h-[12px] bg-[var(--n-300)]' />
-              <Link href='/findpw' className='text-[14px] text-[var(--n-600)]'>
-                비밀번호 재설정
-              </Link>
-              <div className='w-[1px] h-[12px] bg-[var(--n-300)]' />
-              <Link href='/signup' className='text-[14px] text-[var(--n-600)]'>
-                회원가입
-              </Link>
-            </div>
           </div>
         </div>
       </div>
-
-      {/* ✅ Motion 토스트 (상단 고정) */}
-      <AnimatePresence>
-        {toastMsg && <MotionToast key={toastMsg} message={toastMsg} />}
-      </AnimatePresence>
     </div>
   );
 };
 
-export default Login;
-
-export function MotionToast({ message }: { message: string }) {
-  const prefersReduced = useReducedMotion();
-
-  // ✅ SSR-safe 초기값 (모바일 여부 즉시 반영)
-  const [isMobile, setIsMobile] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(max-width: 745px)').matches;
-  });
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const mq = window.matchMedia('(max-width: 745px)');
-    const update = () => setIsMobile(mq.matches);
-    update();
-
-    if (mq.addEventListener) {
-      mq.addEventListener('change', update);
-      return () => mq.removeEventListener('change', update);
-    } else {
-      mq.addListener(update);
-      return () => mq.removeListener(update);
-    }
-  }, []);
-
-  const initialY = prefersReduced ? 0 : isMobile ? 20 : -20;
-  const exitY = prefersReduced ? 0 : isMobile ? 20 : -20;
-
-  return (
-    <motion.div
-      role='status'
-      aria-live='polite'
-      initial={{ opacity: 0, y: initialY }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: exitY }}
-      transition={{ duration: prefersReduced ? 0 : 0.35, ease: 'easeOut' }}
-      className='
-        fixed z-20
-        /* 데스크탑: 상단 중앙 */
-        top-[48px] left-1/2 -translate-x-1/2 w-[335px]
-        /* 모바일: 하단 + 좌우 20px 여백 */
-        max-[745px]:top-auto max-[745px]:bottom-[32px]
-        max-[745px]:left-[20px] max-[745px]:right-[20px]
-        max-[745px]:-translate-x-0 max-[745px]:w-auto
-        p-[16px] rounded-[8px]
-        bg-[#37383B] text-white text-[14px] font-normal leading-[19.6px]
-        shadow-[0_4px_10px_0_rgba(0,0,0,0.10)]
-        pointer-events-none
-      '
-    >
-      {message}
-    </motion.div>
-  );
-}
+export default FindPw;

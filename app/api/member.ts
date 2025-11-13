@@ -300,3 +300,16 @@ export const postRefreshToken = async (refreshToken: string) => {
     refresh_token: refreshToken,
   });
 };
+
+//아이디 찾기
+export const postFindId = async (data: { name: string; phone: string }) => {
+  return await client.post('/api/v1/auth/find-id', data);
+};
+
+//비밀번호 재설정
+export const postResetPassword = async (data: {
+  email: string;
+  new_password: string;
+}) => {
+  return await client.post('/api/v1/auth/reset-password', data);
+};

@@ -217,3 +217,8 @@ export const getConsultProcessingStatus = async (id: string) => {
 export const putMockExam = async (data: PostMockExamData) => {
   return await client.put(`/api/v1/user/mock-exam`, data);
 };
+
+//컨설팅 신청 취소
+export const postConsultCancel = async (id: string) => {
+  return await client.post(`/api/v1/consult/${id}/cancel`);
+};

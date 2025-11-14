@@ -172,8 +172,22 @@ client.interceptors.response.use(
         isRefreshing = false;
         processQueue(error, null);
         removeTokens();
-        // 로그인 페이지로 리다이렉트
-        if (typeof window !== 'undefined') {
+        // 로그인/회원가입 API는 리다이렉트하지 않음
+        const isAuthEndpoint =
+          originalRequest.url?.includes('/auth/login') ||
+          originalRequest.url?.includes('/auth/signup') ||
+          originalRequest.url?.includes('/auth/find-id') ||
+          originalRequest.url?.includes('/auth/reset-password');
+        // 이미 로그인 페이지에 있으면 리다이렉트하지 않음
+        const isOnSigninPage =
+          typeof window !== 'undefined' &&
+          window.location.pathname === '/signin';
+        // 로그인 페이지로 리다이렉트 (인증 엔드포인트가 아니고, 이미 로그인 페이지가 아닌 경우만)
+        if (
+          typeof window !== 'undefined' &&
+          !isAuthEndpoint &&
+          !isOnSigninPage
+        ) {
           window.location.href = '/signin';
         }
         return Promise.reject(error);
@@ -214,8 +228,22 @@ client.interceptors.response.use(
         isRefreshing = false;
         processQueue(refreshError, null);
         removeTokens();
-        // 로그인 페이지로 리다이렉트
-        if (typeof window !== 'undefined') {
+        // 로그인/회원가입 API는 리다이렉트하지 않음
+        const isAuthEndpoint =
+          originalRequest.url?.includes('/auth/login') ||
+          originalRequest.url?.includes('/auth/signup') ||
+          originalRequest.url?.includes('/auth/find-id') ||
+          originalRequest.url?.includes('/auth/reset-password');
+        // 이미 로그인 페이지에 있으면 리다이렉트하지 않음
+        const isOnSigninPage =
+          typeof window !== 'undefined' &&
+          window.location.pathname === '/signin';
+        // 로그인 페이지로 리다이렉트 (인증 엔드포인트가 아니고, 이미 로그인 페이지가 아닌 경우만)
+        if (
+          typeof window !== 'undefined' &&
+          !isAuthEndpoint &&
+          !isOnSigninPage
+        ) {
           window.location.href = '/signin';
         }
         return Promise.reject(refreshError);

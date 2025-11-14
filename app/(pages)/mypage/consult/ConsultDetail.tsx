@@ -1,7 +1,12 @@
 'use client';
 
-import { getConsultDetail, getConsultList } from '@/app/api/consult';
+import {
+  getConsultDetail,
+  getConsultList,
+  postConsultCancel,
+} from '@/app/api/consult';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Attendance from './Attendance';
 import BehaviorOption from './BehaviorOption';
@@ -45,6 +50,7 @@ const ConsultDetail = ({ id }: { id: string }) => {
   const content = contentMap[activeSection];
 
   const [consultDetails, setConsultDetails] = useState<any | null>(null);
+  const router = useRouter();
   useEffect(() => {
     const fetchConsultDetail = async () => {
       const res = await getConsultDetail(id);
@@ -112,6 +118,17 @@ const ConsultDetail = ({ id }: { id: string }) => {
     }
   };
 
+  const handleCancelConsult = async () => {
+    const res = await postConsultCancel(id);
+    console.log(res);
+    if (res.status === 200) {
+      alert('컨설팅 신청이 취소되었습니다.');
+      router.push('/mypage/consult');
+    } else {
+      alert('컨설팅 신청 취소에 실패했습니다.');
+    }
+  };
+
   return (
     <div className='px-[144px] max-[745px]:px-[0]'>
       <div className='flex gap-[24px] max-[745px]:flex-col max-[745px]:gap-[0px]'>
@@ -125,7 +142,10 @@ const ConsultDetail = ({ id }: { id: string }) => {
           {/* 헤더 영역 */}
           <div className='mb-[32px]'>
             {/* 뒤로가기 */}
-            <button className='flex items-center gap-[4px] text-[15px] text-[var(--n-600)] bg-[var(--n-50)] h-[41px] px-[16px] rounded-[1000px] max-[745px]:hidden'>
+            <button
+              onClick={() => router.push('/mypage/consult')}
+              className='flex items-center gap-[4px] text-[15px] text-[var(--n-600)] bg-[var(--n-50)] h-[41px] px-[16px] rounded-[1000px] max-[745px]:hidden'
+            >
               <Image
                 src='/Images/icon-left-arrow-16.svg'
                 alt='arrow-left'
@@ -185,7 +205,10 @@ const ConsultDetail = ({ id }: { id: string }) => {
                   {consultDetails?.studentInformation?.grade})
                 </h1>
                 <div className='flex gap-[8px]'>
-                  <button className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--r-400)] border border-[var(--r-400)] rounded-[100px] h-[40px]'>
+                  <button
+                    onClick={handleCancelConsult}
+                    className='px-[16px] py-[8px] text-[15px] font-[500] text-[var(--r-400)] border border-[var(--r-400)] rounded-[100px] h-[40px]'
+                  >
                     신청취소
                   </button>
                 </div>

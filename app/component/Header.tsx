@@ -101,6 +101,17 @@ const HeaderUnified = () => {
     handleScrollTo(id);
   };
 
+  // 로그인 체크 후 페이지 이동
+  const handleNavigateWithAuth = (path: string) => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      alert('로그인 후 이용해주세요.');
+      router.push('/signin');
+      return;
+    }
+    router.push(path);
+  };
+
   const handleLogout = async () => {
     const token = localStorage.getItem('accessToken') || '';
     // 토큰 제거 (만료 시간 정보 포함)
@@ -166,7 +177,7 @@ const HeaderUnified = () => {
                 <li className='px-[16px] py-[10px]'>
                   <button
                     type='button'
-                    onClick={() => router.push('/consult/apply')}
+                    onClick={() => handleNavigateWithAuth('/consult/apply')}
                     className='text-[16px] leading-[16px] cursor-pointer bg-transparent border-0 hover:text-[#F6432B]'
                   >
                     입시컨설팅 신청
@@ -194,7 +205,7 @@ const HeaderUnified = () => {
           ) : (
             <div className='flex items-center justify-start gap-[8px]'>
               <button
-                onClick={() => router.push('/mypage/consult')}
+                onClick={() => handleNavigateWithAuth('/mypage/consult')}
                 className='px-[16px] py-[11.5px] text-[14px] leading-[14px] text-[var(--n-800)] border border-[var(--n-200)] rounded-[100px] font-[500]'
               >
                 마이페이지
@@ -276,20 +287,24 @@ const HeaderUnified = () => {
                         {userName}님
                       </p>
                       <div className='flex flex-col gap-[8px] w-full'>
-                        <Link
-                          href='/consult/apply'
+                        <button
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            handleNavigateWithAuth('/consult/apply');
+                          }}
                           className='bg-[var(--n-800)] text-white rounded-[8px] h-[52px] flex items-center justify-center text-[15px] font-[600] w-full'
-                          onClick={() => setIsMenuOpen(false)}
                         >
                           AI 생기부 분석하기
-                        </Link>
-                        <Link
-                          href='/mypage'
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsMenuOpen(false);
+                            handleNavigateWithAuth('/mypage/consult');
+                          }}
                           className='text-[15px] font-[500] h-[52px] text-[var(--n-600)] text-center w-full border border-[var(--n-200)] rounded-[8px] flex items-center justify-center'
-                          onClick={() => setIsMenuOpen(false)}
                         >
                           마이페이지
-                        </Link>
+                        </button>
                       </div>
                     </>
                   ) : (
@@ -340,13 +355,15 @@ const HeaderUnified = () => {
                   >
                     이용방법
                   </button>
-                  <Link
-                    href='/consult/apply'
-                    className='text-[18px] font-[600] text-[var(--n-800)] hover:text-[#F6432B]'
-                    onClick={() => setIsMenuOpen(false)}
+                  <button
+                    className='text-[18px] font-[600] text-[var(--n-800)] hover:text-[#F6432B] text-left'
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      handleNavigateWithAuth('/consult/apply');
+                    }}
                   >
                     입시컨설팅 신청
-                  </Link>
+                  </button>
                 </div>
 
                 {/* 로그인 상태일 때만 */}

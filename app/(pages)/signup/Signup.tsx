@@ -228,6 +228,10 @@ const Signup = () => {
     label: '선택',
   });
 
+  // 한글 입력 조합 상태 관리 (각 필드별)
+  const [isComposingSchool, setIsComposingSchool] = useState(false);
+  const [isComposingName, setIsComposingName] = useState(false);
+
   const [showServiceTerms, setShowServiceTerms] = useState(false);
   const [showPrivacyTerms, setShowPrivacyTerms] = useState(false);
   const [showMarketingTerms, setShowMarketingTerms] = useState(false); // ✅ 추가
@@ -313,8 +317,14 @@ const Signup = () => {
     setAgreeAll(newTerms && newPrivacy && newMarketing);
   };
 
-  // 학교용 키 핸들러 (한글, 영문, 숫자, 공백만 허용)
+  // 학교용 키 핸들러 (한글 조합 중에는 차단하지 않음)
   const handleSchoolKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 조합 중이면 모든 키 허용
+    if (isComposingSchool) {
+      if (e.key === 'Enter' && isFormValid) handleSignup();
+      return;
+    }
+
     const allowedKeys = [
       'Backspace',
       'Delete',
@@ -331,8 +341,8 @@ const Signup = () => {
     const isAllowedKey = allowedKeys.includes(e.key);
     const isCtrlKey = e.ctrlKey || e.metaKey;
 
-    // 한글, 영문, 숫자만 허용
-    const isValidChar = /^[가-힣a-zA-Z0-9\s]$/.test(e.key);
+    // 영문, 숫자만 허용 (한글은 조합 이벤트로 처리)
+    const isValidChar = /^[a-zA-Z0-9\s]$/.test(e.key);
 
     if (!isValidChar && !isAllowedKey && !isCtrlKey) {
       e.preventDefault();
@@ -341,8 +351,14 @@ const Signup = () => {
     if (e.key === 'Enter' && isFormValid) handleSignup();
   };
 
-  // 이름용 키 핸들러 (한글, 영문, 공백만 허용)
+  // 이름용 키 핸들러 (한글 조합 중에는 차단하지 않음)
   const handleNameKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // 조합 중이면 모든 키 허용
+    if (isComposingName) {
+      if (e.key === 'Enter' && isFormValid) handleSignup();
+      return;
+    }
+
     const allowedKeys = [
       'Backspace',
       'Delete',
@@ -359,8 +375,8 @@ const Signup = () => {
     const isAllowedKey = allowedKeys.includes(e.key);
     const isCtrlKey = e.ctrlKey || e.metaKey;
 
-    // 한글, 영문만 허용
-    const isValidChar = /^[가-힣a-zA-Z\s]$/.test(e.key);
+    // 영문만 허용 (한글은 조합 이벤트로 처리)
+    const isValidChar = /^[a-zA-Z\s]$/.test(e.key);
 
     if (!isValidChar && !isAllowedKey && !isCtrlKey) {
       e.preventDefault();
@@ -599,7 +615,23 @@ const Signup = () => {
             errorMessage='학교명은 2~50자로 입력해주세요.'
             maxLength={50}
             handleKeyDown={handleSchoolKeyDown}
+            onCompositionStart={() => setIsComposingSchool(true)}
+            onCompositionEnd={(e) => {
+              setIsComposingSchool(false);
+              let v = e.currentTarget.value;
+              // 특수문자와 이모지 제거
+              v = v.replace(/[^가-힣a-zA-Z0-9\s]/g, '');
+              // 이모지 제거
+              v = v.replace(
+                /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{FE00}-\u{FE0F}]/gu,
+                ''
+              );
+              e.currentTarget.value = v;
+              setSchool(v);
+              setSchoolError(!validateSchool(v));
+            }}
             onchange={(e) => {
+              if (isComposingSchool) return; // 조합 중이면 onChange 무시
               let v = e.target.value;
               // 특수문자와 이모지 제거
               v = v.replace(/[^가-힣a-zA-Z0-9\s]/g, '');
@@ -724,7 +756,23 @@ const Signup = () => {
             errorMessage='이름은 2~30자로 입력해주세요.'
             maxLength={30}
             handleKeyDown={handleNameKeyDown}
+            onCompositionStart={() => setIsComposingName(true)}
+            onCompositionEnd={(e) => {
+              setIsComposingName(false);
+              let v = e.currentTarget.value;
+              // 숫자, 특수문자와 이모지 제거 (한글, 영문, 공백만 허용)
+              v = v.replace(/[^가-힣a-zA-Z\s]/g, '');
+              // 이모지 제거
+              v = v.replace(
+                /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{FE00}-\u{FE0F}]/gu,
+                ''
+              );
+              e.currentTarget.value = v;
+              setName(v);
+              setNameError(!validateName(v));
+            }}
             onchange={(e) => {
+              if (isComposingName) return; // 조합 중이면 onChange 무시
               let v = e.target.value;
               // 숫자, 특수문자와 이모지 제거 (한글, 영문, 공백만 허용)
               v = v.replace(/[^가-힣a-zA-Z\s]/g, '');
@@ -774,7 +822,13 @@ const Signup = () => {
             type='password'
             passwordIcon={true}
             onchange={(e) => {
-              const v = e.target.value;
+              let v = e.target.value;
+              // 이모지 제거
+              v = v.replace(
+                /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{FE00}-\u{FE0F}]/gu,
+                ''
+              );
+              e.target.value = v;
               setPassword(v);
               setPasswordError(!validatePassword(v));
               if (passwordConfirm) {
@@ -800,7 +854,13 @@ const Signup = () => {
             maxLength={64}
             handleKeyDown={handleKeyDown}
             onchange={(e) => {
-              const v = e.target.value;
+              let v = e.target.value;
+              // 이모지 제거
+              v = v.replace(
+                /[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{FE00}-\u{FE0F}]/gu,
+                ''
+              );
+              e.target.value = v;
               setPasswordConfirm(v);
               setPasswordConfirmError(!validatePassword(v) || v !== password);
             }}

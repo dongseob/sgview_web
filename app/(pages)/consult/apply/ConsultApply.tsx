@@ -41,10 +41,6 @@ const ConsultApply = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
-  // 폼 유효성 검사
-  const isFormValid =
-    selectedUniversities.length > 0 && selectedMajors.length > 0;
-
   // 모의고사 점수 상태
   const [scores, setScores] = useState({
     korean_subject: '',
@@ -79,6 +75,12 @@ const ConsultApply = () => {
 
   // 점수 입력 여부 확인
   const hasScoreInput = Object.values(scores).some((value) => value !== '');
+
+  // 폼 유효성 검사 (대학, 학과 선택 + 점수 입력 필수)
+  const isFormValid =
+    selectedUniversities.length > 0 &&
+    selectedMajors.length > 0 &&
+    hasScoreInput;
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
@@ -125,6 +127,111 @@ const ConsultApply = () => {
     return filtered;
   };
 
+  // 표준점수 입력 처리 (0~200, 정수만)
+  const handleStandardScoreInput = (value: string): string => {
+    // 숫자만 허용 (소수점 제외)
+    const filtered = value.replace(/[^\d]/g, '');
+    if (filtered === '') return '';
+
+    // 입력 중간에도 범위 체크 - 3자리 이상이면 먼저 체크
+    if (filtered.length >= 3) {
+      const numValue = parseInt(filtered, 10);
+      if (!isNaN(numValue) && numValue > 200) {
+        return '200';
+      }
+      // 200으로 시작하는 경우만 허용 (200, 2000... -> 200)
+      if (filtered.startsWith('200')) {
+        if (filtered.length > 3) {
+          return '200';
+        }
+      }
+      // 201 이상으로 시작하면 200으로 제한
+      if (filtered.length === 3) {
+        const firstThree = parseInt(filtered.substring(0, 3), 10);
+        if (firstThree > 200) {
+          return '200';
+        }
+      }
+    }
+
+    const numValue = parseInt(filtered, 10);
+    if (isNaN(numValue)) return '';
+
+    // 최종 범위 체크
+    if (numValue > 200) {
+      return '200';
+    }
+    if (numValue < 0) {
+      return '0';
+    }
+
+    return filtered;
+  };
+
+  // 백분위 입력 처리 (0~100, 정수만)
+  const handlePercentileInput = (value: string): string => {
+    // 숫자만 허용 (소수점 제외)
+    const filtered = value.replace(/[^\d]/g, '');
+    if (filtered === '') return '';
+
+    // 입력 중간에도 범위 체크 - 3자리 이상이면 먼저 체크
+    if (filtered.length >= 3) {
+      const numValue = parseInt(filtered, 10);
+      if (!isNaN(numValue) && numValue > 100) {
+        return '100';
+      }
+      // 100으로 시작하는 경우만 허용 (100, 1000... -> 100)
+      if (filtered.startsWith('100')) {
+        if (filtered.length > 3) {
+          return '100';
+        }
+      }
+      // 101 이상으로 시작하면 100으로 제한
+      if (filtered.length === 3) {
+        const firstThree = parseInt(filtered.substring(0, 3), 10);
+        if (firstThree > 100) {
+          return '100';
+        }
+      }
+    }
+
+    const numValue = parseInt(filtered, 10);
+    if (isNaN(numValue)) return '';
+
+    // 최종 범위 체크
+    if (numValue > 100) {
+      return '100';
+    }
+    if (numValue < 0) {
+      return '0';
+    }
+
+    return filtered;
+  };
+
+  // 등급 입력 처리 (1~9, 정수만)
+  const handleGradeInput = (value: string): string => {
+    // 숫자만 허용 (소수점 제외)
+    const filtered = value.replace(/[^\d]/g, '');
+    if (filtered === '') return '';
+
+    const numValue = parseInt(filtered, 10);
+    if (isNaN(numValue)) return '';
+
+    // 입력 중간에도 범위 체크
+    // 9를 초과하는 값이 입력되면 즉시 9로 제한
+    if (numValue > 9) {
+      return '9';
+    }
+    if (numValue < 1) {
+      // 0이 입력되면 빈 문자열 반환 (1~9만 허용)
+      if (numValue === 0) return '';
+      return '1';
+    }
+
+    return filtered;
+  };
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -159,12 +266,13 @@ const ConsultApply = () => {
   useEffect(() => {
     const fetchConsultSchool = async () => {
       const response = await getConsultSchool();
-      setUniversityOptions(
-        response.data.map((item: SchoolItem) => ({
+      const options = response.data
+        .map((item: SchoolItem) => ({
           value: item.id,
           label: item.name,
         }))
-      );
+        .sort((a, b) => a.label.localeCompare(b.label, 'ko'));
+      setUniversityOptions(options);
     };
     fetchConsultSchool();
   }, []);
@@ -177,12 +285,13 @@ const ConsultApply = () => {
         selectedUniversities[selectedUniversities.length - 1];
       const universityIds = [lastUniversity.value];
       const response = await getConsultMajor(universityIds);
-      setMajorOptions(
-        response.data.map((item: MajorItem) => ({
+      const options = response.data
+        .map((item: MajorItem) => ({
           value: item.id,
           label: item.name,
         }))
-      );
+        .sort((a, b) => a.label.localeCompare(b.label, 'ko'));
+      setMajorOptions(options);
     };
     fetchConsultMajor();
   }, [selectedUniversities]);
@@ -199,7 +308,10 @@ const ConsultApply = () => {
         value: response.data.id,
         label: response.data.name,
       };
-      setUniversityOptions((prev) => [...prev, newOption]);
+      setUniversityOptions((prev) => {
+        const updated = [...prev, newOption];
+        return updated.sort((a, b) => a.label.localeCompare(b.label, 'ko'));
+      });
       // 새로 생성된 대학을 선택 목록에 추가
       setSelectedUniversities((prev) => {
         if (prev.length >= 3) {
@@ -233,7 +345,10 @@ const ConsultApply = () => {
         value: response.data.id,
         label: response.data.name,
       };
-      setMajorOptions((prev) => [...prev, newOption]);
+      setMajorOptions((prev) => {
+        const updated = [...prev, newOption];
+        return updated.sort((a, b) => a.label.localeCompare(b.label, 'ko'));
+      });
       // 새로 생성된 학과를 선택 목록에 추가
       setSelectedMajors((prev) => {
         if (prev.length >= 3) {
@@ -439,7 +554,6 @@ const ConsultApply = () => {
         await putMockExam(mockExamData);
         router.push('/consult/processing');
       } else {
-        alert('분석에 실패했습니다. 다시 시도해주세요.');
       }
     }
   };
@@ -1245,7 +1359,9 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.history_standard || ''}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleStandardScoreInput(
+                          e.target.value
+                        );
                         setTempScores({
                           ...tempScores,
                           history_standard: filtered,
@@ -1259,7 +1375,9 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.korean_standard}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleStandardScoreInput(
+                          e.target.value
+                        );
                         setTempScores({
                           ...tempScores,
                           korean_standard: filtered,
@@ -1273,7 +1391,9 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.math_standard}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleStandardScoreInput(
+                          e.target.value
+                        );
                         setTempScores({
                           ...tempScores,
                           math_standard: filtered,
@@ -1287,7 +1407,9 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.english_standard || ''}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleStandardScoreInput(
+                          e.target.value
+                        );
                         setTempScores({
                           ...tempScores,
                           english_standard: filtered,
@@ -1302,7 +1424,9 @@ const ConsultApply = () => {
                         type='text'
                         value={tempScores.inquiry1_standard}
                         onChange={(e) => {
-                          const filtered = handleNumberInput(e.target.value);
+                          const filtered = handleStandardScoreInput(
+                            e.target.value
+                          );
                           setTempScores({
                             ...tempScores,
                             inquiry1_standard: filtered,
@@ -1318,7 +1442,9 @@ const ConsultApply = () => {
                         type='text'
                         value={tempScores.inquiry2_standard}
                         onChange={(e) => {
-                          const filtered = handleNumberInput(e.target.value);
+                          const filtered = handleStandardScoreInput(
+                            e.target.value
+                          );
                           setTempScores({
                             ...tempScores,
                             inquiry2_standard: filtered,
@@ -1333,7 +1459,9 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.second_lang_standard || ''}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleStandardScoreInput(
+                          e.target.value
+                        );
                         setTempScores({
                           ...tempScores,
                           second_lang_standard: filtered,
@@ -1354,7 +1482,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.history_percentile || ''}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handlePercentileInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           history_percentile: filtered,
@@ -1368,7 +1496,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.korean_percentile}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handlePercentileInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           korean_percentile: filtered,
@@ -1382,7 +1510,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.math_percentile}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handlePercentileInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           math_percentile: filtered,
@@ -1396,7 +1524,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.english_percentile || ''}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handlePercentileInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           english_percentile: filtered,
@@ -1411,7 +1539,9 @@ const ConsultApply = () => {
                         type='text'
                         value={tempScores.inquiry1_percentile}
                         onChange={(e) => {
-                          const filtered = handleNumberInput(e.target.value);
+                          const filtered = handlePercentileInput(
+                            e.target.value
+                          );
                           setTempScores({
                             ...tempScores,
                             inquiry1_percentile: filtered,
@@ -1427,7 +1557,9 @@ const ConsultApply = () => {
                         type='text'
                         value={tempScores.inquiry2_percentile}
                         onChange={(e) => {
-                          const filtered = handleNumberInput(e.target.value);
+                          const filtered = handlePercentileInput(
+                            e.target.value
+                          );
                           setTempScores({
                             ...tempScores,
                             inquiry2_percentile: filtered,
@@ -1442,7 +1574,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.second_lang_percentile || ''}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handlePercentileInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           second_lang_percentile: filtered,
@@ -1463,7 +1595,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.history_grade}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleGradeInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           history_grade: filtered,
@@ -1477,7 +1609,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.korean_grade}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleGradeInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           korean_grade: filtered,
@@ -1491,7 +1623,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.math_grade}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleGradeInput(e.target.value);
                         setTempScores({ ...tempScores, math_grade: filtered });
                       }}
                       className='w-full px-[8px] py-[4px] text-[14px] text-center border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--n-800)]'
@@ -1502,7 +1634,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.english_grade}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleGradeInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           english_grade: filtered,
@@ -1517,7 +1649,7 @@ const ConsultApply = () => {
                         type='text'
                         value={tempScores.inquiry1_grade}
                         onChange={(e) => {
-                          const filtered = handleNumberInput(e.target.value);
+                          const filtered = handleGradeInput(e.target.value);
                           setTempScores({
                             ...tempScores,
                             inquiry1_grade: filtered,
@@ -1533,7 +1665,7 @@ const ConsultApply = () => {
                         type='text'
                         value={tempScores.inquiry2_grade}
                         onChange={(e) => {
-                          const filtered = handleNumberInput(e.target.value);
+                          const filtered = handleGradeInput(e.target.value);
                           setTempScores({
                             ...tempScores,
                             inquiry2_grade: filtered,
@@ -1548,7 +1680,7 @@ const ConsultApply = () => {
                       type='text'
                       value={tempScores.second_lang_grade}
                       onChange={(e) => {
-                        const filtered = handleNumberInput(e.target.value);
+                        const filtered = handleGradeInput(e.target.value);
                         setTempScores({
                           ...tempScores,
                           second_lang_grade: filtered,

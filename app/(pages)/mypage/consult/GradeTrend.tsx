@@ -1125,17 +1125,18 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
                     },
                     {
                       subject: '국영수사과',
-                      grade: transcript?.combinationAverageRankGrade.국영수사과,
+                      grade:
+                        transcript?.combinationAverageRankGrade?.국영수사과,
                       highlight: false,
                     },
                     {
                       subject: '국영수사',
-                      grade: transcript?.combinationAverageRankGrade.국영수사,
+                      grade: transcript?.combinationAverageRankGrade?.국영수사,
                       highlight: false,
                     },
                     {
                       subject: '국영수과',
-                      grade: transcript?.combinationAverageRankGrade.국영수과,
+                      grade: transcript?.combinationAverageRankGrade?.국영수과,
                       highlight: false,
                     },
                   ].map((item, index) => (
@@ -1303,7 +1304,7 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
                 subject='국어'
                 change1_2='-1.1%'
                 tooltipType='tag'
-                data={transcript?.coreSubjects.filter(
+                data={transcript?.coreSubjects?.filter(
                   (subject: any) => subject.category === '국어'
                 )}
               />
@@ -1311,28 +1312,28 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
                 subject='영어'
                 change1_2='-1.1%'
                 tooltipType='memo'
-                data={transcript?.coreSubjects.filter(
+                data={transcript?.coreSubjects?.filter(
                   (subject: any) => subject.category === '영어'
                 )}
               />
               <GradeChangeTable
                 subject='수학'
                 change1_2='-1.1%'
-                data={transcript?.coreSubjects.filter(
+                data={transcript?.coreSubjects?.filter(
                   (subject: any) => subject.category === '수학'
                 )}
               />
               <GradeChangeTable
                 subject='사회'
                 change1_2='-1.1%'
-                data={transcript?.coreSubjects.filter(
+                data={transcript?.coreSubjects?.filter(
                   (subject: any) => subject.category === '사회'
                 )}
               />
               <GradeChangeTable
                 subject='과학'
                 change1_2='0.0%'
-                data={transcript?.coreSubjects.filter(
+                data={transcript?.coreSubjects?.filter(
                   (subject: any) => subject.category === '과학'
                 )}
               />

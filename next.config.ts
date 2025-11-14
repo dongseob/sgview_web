@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true, // 정적 export 시 이미지 최적화 비활성화 필요
   },
-  trailingSlash: true,
+  trailingSlash: false,
 };
 
 export default nextConfig;

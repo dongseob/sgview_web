@@ -381,6 +381,7 @@ const SubjectTrendChart = ({
   const chartData = (data || []).map((item) => ({
     semester: item.semester,
     grade: item.grade,
+    year: item.year,
   }));
 
   const getColor = (year: number) => {
@@ -454,10 +455,7 @@ const SubjectTrendChart = ({
       </div>
       <div className='h-[200px]'>
         <ResponsiveBar
-          data={chartData.map((item, index) => ({
-            ...item,
-            year: data[index].year,
-          }))}
+          data={chartData}
           keys={['grade']}
           indexBy='semester'
           margin={{ top: 20, right: 0, bottom: 20, left: 20 }}
@@ -1037,6 +1035,62 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
     return result;
   };
 
+  // 체육·교양 전용 성적 추이 계산 함수
+  const calculatePhysicalArtTrend = (physicalArtSubjects: any[]) => {
+    const semesters = [
+      { semester: '1-1', grade: '1학년', semesterNum: '1학기' },
+      { semester: '1-2', grade: '1학년', semesterNum: '2학기' },
+      { semester: '2-1', grade: '2학년', semesterNum: '1학기' },
+      { semester: '2-2', grade: '2학년', semesterNum: '2학기' },
+      { semester: '3-1', grade: '3학년', semesterNum: '1학기' },
+      { semester: '3-2', grade: '3학년', semesterNum: '2학기' },
+    ];
+
+    const result = semesters.map((sem) => {
+      const records: any[] = [];
+      console.log('physicalArtSubjects', physicalArtSubjects);
+      // physicalArtSubjects 배열 순회
+      if (physicalArtSubjects && Array.isArray(physicalArtSubjects)) {
+        physicalArtSubjects.forEach((categoryItem: any) => {
+          // 각 카테고리의 subjects 배열 순회
+          if (categoryItem?.subjects && Array.isArray(categoryItem.subjects)) {
+            categoryItem.subjects.forEach((subj: any) => {
+              console.log('subj', subj);
+              // 각 subject의 records 배열 순회
+              if (subj.records && Array.isArray(subj.records)) {
+                subj.records.forEach((rec: any) => {
+                  console.log('rec', rec);
+                  if (
+                    rec.grade === sem.grade &&
+                    rec.semester === sem.semesterNum &&
+                    typeof rec.rankGrade === 'number' &&
+                    !isNaN(rec.rankGrade)
+                  ) {
+                    records.push(rec.rankGrade);
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+      console.log('records', records);
+      // 평균 계산 (없으면 0)
+      const average =
+        records.length > 0
+          ? records.reduce((sum, grade) => sum + grade, 0) / records.length
+          : 0;
+
+      return {
+        semester: sem.semester,
+        grade: average,
+        year: parseInt(sem.grade.replace('학년', '')) || 1,
+      };
+    });
+
+    return result;
+  };
+
   // 전체 평균 계산
   const calculateOverallAverage = (data: any[]) => {
     if (!data || data.length === 0) return 0;
@@ -1073,9 +1127,8 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
     ['사회', '과학'],
     transcript?.coreSubjects
   );
-  const 체육교양Data = calculateSubjectTrend(
-    [],
-    transcript?.physicalArtSubjects
+  const 체육교양Data = calculatePhysicalArtTrend(
+    transcript?.physicalArtSubjects || []
   );
   const 전교과Data = calculateSubjectTrend(
     transcript?.coreSubjects?.map((item: any) => item.category) || [],

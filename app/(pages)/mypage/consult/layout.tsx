@@ -4,6 +4,7 @@ import React from 'react';
 export const metadata: Metadata = {
   title: '나의 컨설팅 | 생기뷰(SGView)',
   openGraph: {
+    title: '나의 컨설팅 | 생기뷰(SGView)',
     url: 'https://istrue.axcorp.ai/mypage/consult',
     images: [
       {

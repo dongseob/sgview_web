@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: '회원가입 | 생기뷰(SGView)',
   openGraph: {
+    title: '회원가입 | 생기뷰(SGView)',
     url: 'https://istrue.axcorp.ai/signup',
     images: [
       {

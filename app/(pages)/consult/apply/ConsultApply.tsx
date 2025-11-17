@@ -101,6 +101,17 @@ const ConsultApply = () => {
 
   // 저장 버튼 클릭 시 실제 scores에 반영
   const handleSaveScores = () => {
+    // tempScores 안에 "공백(스페이스)만 입력된 값"이 있는지 체크
+    const hasOnlySpaceInput = Object.values(tempScores).some((value) => {
+      // 문자열이면서, 빈 문자열은 아니고, trim 했을 때 빈 문자열이면 => 공백만 입력된 경우
+      return typeof value === 'string' && value !== '' && value.trim() === '';
+    });
+  
+    if (hasOnlySpaceInput) {
+      alert('공백(스페이스)만 입력된 칸이 있습니다. 내용을 지우거나 값을 다시 입력해주세요.');
+      return;
+    }
+  
     setScores(tempScores);
     setIsOpenScore(false);
   };

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { postLogout, removeTokens } from '../api/member';
 
 const HeaderUnified = () => {
@@ -15,6 +15,7 @@ const HeaderUnified = () => {
   const [scrolledPc, setScrolledPc] = useState(false); // 데스크톱: 76px 기준
   const [scrolledMo, setScrolledMo] = useState(false); // 모바일: 56px 기준
   const [isLoggedIn, setIsLoggedIn] = useState(false); // SSR 안전: 항상 false로 시작
+  const pendingScrollId = React.useRef<string | null>(null); // 메뉴 닫힌 후 스크롤할 ID
 
   const userName = '이광호';
 
@@ -38,6 +39,50 @@ const HeaderUnified = () => {
     };
   }, [pathname]);
 
+  // 스무스 스크롤 이동
+  const handleScrollTo = React.useCallback((id: string) => {
+    // body 스크롤이 잠겨있으면 먼저 해제
+    if (
+      document.body.style.position === 'fixed' ||
+      document.body.style.overflow === 'hidden'
+    ) {
+      const savedScrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+
+      // 저장된 스크롤 위치로 복원
+      if (savedScrollY) {
+        const scrollY = parseInt(savedScrollY.replace('-', ''), 10);
+        window.scrollTo(0, scrollY);
+      }
+    }
+
+    // 요소를 찾을 때까지 재시도
+    const tryScroll = (attempts = 0) => {
+      const el = document.querySelector(id);
+      if (!el) {
+        if (attempts < 20) {
+          setTimeout(() => tryScroll(attempts + 1), 100);
+          return;
+        }
+        console.warn(`Element ${id} not found after ${attempts} attempts`);
+        return;
+      }
+
+      // 모바일 헤더 높이 (56px) 또는 데스크톱 헤더 높이 (76px) 고려
+      const headerOffset = window.innerWidth <= 745 ? 56 : 72;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = Math.max(0, elementPosition - headerOffset);
+
+      // 스크롤 실행
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    };
+
+    tryScroll();
+  }, []);
+
   // ✅ 스크롤 감지하여 헤더 배경/블러 토글 (PC 76px / MO 56px)
   useEffect(() => {
     const onScroll = () => {
@@ -58,41 +103,67 @@ const HeaderUnified = () => {
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
-      return () => {
-        const top = document.body.style.top;
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        if (top) window.scrollTo(0, parseInt(top) * -1);
-      };
     } else {
-      const top = document.body.style.top;
+      // 메뉴가 닫힐 때 body 스크롤 복원
+      const savedScrollY = document.body.style.top;
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
       document.body.style.overflow = '';
-      if (top) window.scrollTo(0, parseInt(top) * -1);
+
+      // 저장된 스크롤 위치로 복원
+      if (savedScrollY) {
+        const scrollY = parseInt(savedScrollY.replace('-', ''), 10);
+        window.scrollTo(0, scrollY);
+      }
+
+      // pendingScrollId가 있으면 스크롤 실행 (홈 페이지인 경우만)
+      if (pendingScrollId.current && pathname === '/') {
+        const scrollId = pendingScrollId.current;
+        pendingScrollId.current = null;
+
+        // body 스크롤이 완전히 복원된 후 스크롤 실행
+        setTimeout(() => {
+          handleScrollTo(scrollId);
+        }, 300);
+      }
     }
-  }, [isMenuOpen]);
+  }, [isMenuOpen, handleScrollTo, pathname]);
+
+  // pathname이 '/'로 변경되고 pendingScrollId가 있으면 스크롤 실행
+  useEffect(() => {
+    if (pathname === '/' && pendingScrollId.current && !isMenuOpen) {
+      const scrollId = pendingScrollId.current;
+      pendingScrollId.current = null;
+
+      // 페이지 로드 완료 후 스크롤
+      setTimeout(() => {
+        handleScrollTo(scrollId);
+      }, 500);
+    }
+  }, [pathname, handleScrollTo, isMenuOpen]);
 
   const handleFreeDiagnosis = () => {
     if (isLoggedIn) router.push('/consult-apply');
     else router.push('/signin');
   };
 
-  // 스무스 스크롤 이동
-  const handleScrollTo = (id: string) => {
-    const el = document.querySelector(id);
-    if (!el) return;
-    const headerOffset = 72;
-    const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-    const offsetPosition = elementPosition - headerOffset;
-    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-  };
-
   // 홈이 아니면 홈으로 이동 후 스크롤, 홈이면 바로 스크롤
-  const goHomeOrScroll = (id: string) => {
+  const goHomeOrScroll = (id: string, closeMenu = false) => {
+    // 모바일 메뉴가 열려있으면 먼저 닫고 스크롤 ID 저장
+    if (closeMenu && isMenuOpen) {
+      pendingScrollId.current = id;
+      setIsMenuOpen(false);
+
+      // 홈이 아니면 홈으로 이동
+      if (pathname !== '/') {
+        router.push('/');
+        // 홈으로 이동 후에도 스크롤 ID는 유지 (useEffect에서 처리)
+      }
+      return;
+    }
+
+    // 메뉴가 닫혀있거나 데스크톱인 경우
     if (pathname !== '/') {
       router.push('/');
       setTimeout(() => handleScrollTo(id), 1000);
@@ -340,8 +411,7 @@ const HeaderUnified = () => {
                   <button
                     className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
                     onClick={() => {
-                      setIsMenuOpen(false);
-                      goHomeOrScroll('#section1');
+                      goHomeOrScroll('#section3mo-content', true);
                     }}
                   >
                     서비스 소개
@@ -349,8 +419,7 @@ const HeaderUnified = () => {
                   <button
                     className='text-[18px] font-[600] text-[var(--n-800)] text-left hover:text-[#F6432B]'
                     onClick={() => {
-                      setIsMenuOpen(false);
-                      goHomeOrScroll('#section1');
+                      goHomeOrScroll('#section3mo-content', true);
                     }}
                   >
                     이용방법

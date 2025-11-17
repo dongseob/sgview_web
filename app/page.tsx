@@ -35,6 +35,19 @@ export default function Home() {
   const router = useRouter();
   const prefersReduced = useReducedMotion();
 
+  // 무료 진단받기 버튼 클릭 핸들러
+  const handleFreeDiagnosis = () => {
+    const token =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('accessToken')
+        : null;
+    if (token) {
+      router.push('/consult/apply');
+    } else {
+      router.push('/signin');
+    }
+  };
+
   // Swiper ref & 자동재생 제어 타이머
   const swiperRef = React.useRef<SwiperType | null>(null);
   const resumeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -138,15 +151,14 @@ export default function Home() {
             variants={vFadeUp}
             className='text-[#686A6F] text-[20px] font-[400] leading-[30px] opacity-80 mt-[16px] max-[745px]:text-[16px] max-[745px]:leading-[24px] -tracking-[0.24px]'
           >
-            AI 기반 분석과 전문가의 통찰로 완성되는 맞춤형 진로 리포트
+            <span className='max-[745px]:hidden'>AI 기반 분석과 </span>
+            전문가의 통찰로 완성되는 맞춤형 진로 리포트
           </motion.p>
 
           <motion.div
             variants={vFadeUp}
             className='py-[16px] px-[28px] bg-[#F6432B] rounded-full flex items-center gap-[4px] mt-[36px] max-[745px]:mt-[32px] cursor-pointer'
-            onClick={() => {
-              router.push('/consult/apply');
-            }}
+            onClick={handleFreeDiagnosis}
           >
             <p className='text-white text-[18px] font-[700] leading-[24px] max-[745px]:text-[16px]'>
               무료 진단받기
@@ -237,7 +249,10 @@ export default function Home() {
         </picture>
 
         {/* 모바일: 컨테이너 + 타이틀 + 스와이퍼 */}
-        <div className='hidden max-[745px]:flex max-[745px]:w-full max-[745px]:py-[64px] max-[745px]:flex-col max-[745px]:gap-y-[32px] bg-[#f7f8fc]'>
+        <div
+          id='section3mo-content'
+          className='hidden max-[745px]:flex max-[745px]:w-full max-[745px]:py-[64px] max-[745px]:flex-col max-[745px]:gap-y-[32px] bg-[#f7f8fc]'
+        >
           <p className='text-[#16171a] text-[28px] font-[700] leading-[36.4px] ml-[24px]'>
             생기뷰 분석 과정
           </p>

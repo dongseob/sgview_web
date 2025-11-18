@@ -11,13 +11,22 @@ import ConsultListItem from './ConsultListItem';
 
 const ConsultList = () => {
   const [consultList, setConsultList2] = useState<ConsultItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const fetchConsultList = async () => {
-      const res = await getConsultList();
-      console.log(res);
-      setConsultList2(res.data);
+      try {
+        setIsLoading(true);
+        const res = await getConsultList();
+        console.log(res);
+        setConsultList2(res.data);
+      } catch (error) {
+        console.error('컨설팅 목록 조회 실패:', error);
+        setConsultList2([]);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchConsultList();
   }, []);
@@ -38,6 +47,19 @@ const ConsultList = () => {
     };
     fetchDoclingCallback();
   }, [consultList]);
+
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center min-h-[400px]'>
+        <div className='flex flex-col items-center justify-center gap-[16px]'>
+          <div className='w-[40px] h-[40px] border-4 border-[var(--n-200)] border-t-[var(--r-400)] rounded-full animate-spin' />
+          <p className='text-[16px] font-[400] text-[var(--n-600)]'>
+            로딩 중...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

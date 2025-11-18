@@ -203,7 +203,7 @@ const HeaderUnified = () => {
       <div
         className={[
           'w-full fixed top-0 z-10 transition-all duration-300',
-          'max-[745px]:hidden',
+          'max-[1024px]:hidden',
           scrolledPc
             ? 'bg-[rgba(255,255,255,0.9)] backdrop-blur-[5px]'
             : 'bg-white/0',
@@ -295,7 +295,7 @@ const HeaderUnified = () => {
       {/* ====== 모바일 상단 바 (햄버거) ====== */}
       <div
         className={[
-          'hidden max-[745px]:flex',
+          'hidden max-[1024px]:flex',
           'w-full fixed top-0 z-10 min-w-[375px] h-[56px] items-center justify-between px-[20px]',
           // 모바일: 처음엔 완전 투명, 56px 넘으면 데스크톱과 동일 효과
           scrolledMo
@@ -326,10 +326,10 @@ const HeaderUnified = () => {
       {isMenuOpen && (
         <>
           <div
-            className='fixed inset-0 bg-black/50 z-40 min-w-[375px] hidden max-[745px]:block'
+            className='fixed inset-0 bg-black/50 z-40 min-w-[375px] hidden max-[1024px]:block'
             onClick={() => setIsMenuOpen(false)}
           />
-          <div className='fixed top-0 right-0 w-full h-full bg-white z-50 shadow-lg min-w-[375px] hidden max-[745px]:block'>
+          <div className='fixed top-0 right-0 w-full h-full bg-white z-50 shadow-lg min-w-[375px] hidden max-[1024px]:block'>
             <div className='flex flex-col h-full'>
               <div className='flex items-center justify-between px-[20px] h-[56px] border-b border-[transparent]'>
                 <Image

@@ -192,7 +192,7 @@ export default function Home() {
             'linear-gradient(180deg, #FEEEED 0%, #FFF 100%), linear-gradient(180deg, #FFF 0%, #999 100%)',
         }}
       >
-        <div className='pt-[152px] max-[745px]:pt-[120px] flex flex-col items-center'>
+        <div className='pt-[152px] max-[1024px]:pt-[120px] flex flex-col items-center'>
           <motion.p
             variants={vFadeUp}
             className='text-[#16171A] text-center text-[58px] font-[700] leading-[75.4px] max-[745px]:text-[32px] max-[745px]:leading-[44.8px] -tracking-[0.5px]'
@@ -253,7 +253,10 @@ export default function Home() {
         className='flex justify-center'
       >
         <picture>
-          <source srcSet='/images/section1-mo.png' media='(max-width: 745px)' />
+          <source
+            srcSet='/images/section1-mo.png'
+            media='(max-width: 1024px)'
+          />
           <Image
             src='/images/section1.png'
             width={1440}
@@ -272,7 +275,10 @@ export default function Home() {
         className='flex justify-center'
       >
         <picture>
-          <source srcSet='/images/section2-mo.png' media='(max-width: 745px)' />
+          <source
+            srcSet='/images/section2-mo.png'
+            media='(max-width: 1024px)'
+          />
           <Image
             src='/images/section2.png'
             width={1440}
@@ -291,7 +297,10 @@ export default function Home() {
       >
         {/* 데스크톱: 기존 이미지 */}
         <picture className='block max-[745px]:hidden' id='section3'>
-          <source srcSet='/images/section3-mo.png' media='(max-width: 745px)' />
+          <source
+            srcSet='/images/section3-mo.png'
+            media='(max-width: 1024px)'
+          />
           <Image
             src='/images/section3.png'
             width={1440}
@@ -303,7 +312,7 @@ export default function Home() {
         {/* 모바일: 컨테이너 + 타이틀 + 스와이퍼 */}
         <div
           id='section3mo-content'
-          className='hidden max-[745px]:flex max-[745px]:w-full max-[745px]:py-[64px] max-[745px]:flex-col max-[745px]:gap-y-[32px] bg-[#f7f8fc]'
+          className='hidden max-[1024px]:flex max-[1024px]:w-full max-[1024px]:py-[64px] max-[1024px]:flex-col max-[1024px]:gap-y-[32px] bg-[#f7f8fc]'
         >
           <p className='text-[#16171a] text-[28px] font-[700] leading-[36.4px] ml-[24px]'>
             생기뷰 분석 과정
@@ -340,30 +349,30 @@ export default function Home() {
         viewport={sectionViewport}
         className='
           py-[100px] pl-[144px] flex gap-[24px] w-full max-w-[1440px] mx-auto
-          max-[745px]:px-[20px] max-[745px]:py-[40px]
-          max-[745px]:pl-[20px]
-          max-[745px]:flex-col max-[745px]:gap-[40px]
+          max-[1024px]:px-[20px] max-[1024px]:py-[40px]
+          max-[1024px]:pl-[20px]
+          max-[1024px]:flex-col max-[1024px]:gap-[40px]
         '
       >
         {/* 왼쪽 타이틀 & 내비게이션 */}
         <motion.div
           variants={vFadeUp}
-          className='w-[270px] flex flex-col gap-[32px] shrink-0 max-[745px]:w-full'
+          className='w-[270px] flex flex-col gap-[32px] shrink-0 max-[1024px]:w-full'
         >
           <p
             className='
               text-[#16171A] text-[42px] font-[700] leading-[130%]
-              max-[745px]:text-[28px] max-[745px]:leading-[140%]
-              max-[745px]:whitespace-nowrap
+              max-[1024px]:text-[28px] max-[1024px]:leading-[140%]
+              max-[1024px]:whitespace-nowrap
             '
           >
             생기뷰의
-            <br className='max-[745px]:hidden' />
+            <br className='max-[1024px]:hidden' />
             생생한 후기
           </p>
 
           {/* prev/next 버튼: 모바일에서 숨김 */}
-          <div className='flex gap-[16px] max-[745px]:hidden'>
+          <div className='flex gap-[16px] max-[1024px]:hidden'>
             <button
               type='button'
               onClick={onPrev}
@@ -396,13 +405,13 @@ export default function Home() {
         {/* 스와이퍼 영역 */}
         <motion.div
           variants={vFadeUp}
-          className='relative flex-1 min-w-0 max-[745px]:w-full'
+          className='relative flex-1 min-w-0 max-[1024px]:w-full'
         >
           {/* 좌측 Gradient */}
           <div
             className='
               pointer-events-none absolute left-0 top-0 h-full w-[95px]
-              max-[745px]:hidden
+              max-[1024px]:hidden
             '
             style={{
               background:
@@ -415,7 +424,7 @@ export default function Home() {
           <div
             className='
               pointer-events-none absolute right-0 top-0 h-full w-[95px]
-              max-[745px]:hidden
+              max-[1024px]:hidden
             '
             style={{
               background:

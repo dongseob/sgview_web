@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     url: 'https://istrue.axcorp.ai/signin',
     images: [
       {
-        url: '/images/og.png',
+        url: '/images/og-1200x630.png',
         width: 800,
         height: 600,
         alt: 'OG images',

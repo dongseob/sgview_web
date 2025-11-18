@@ -73,7 +73,7 @@ export default function Home() {
     scheduleResume();
   };
 
-  // ✅ 리뷰 데이터 교체
+  // ✅ 리뷰 데이터
   const reviews = [
     {
       id: 1,
@@ -123,14 +123,69 @@ export default function Home() {
   const vFadeUp = prefersReduced ? undefined : fadeUp;
   const vContainer = prefersReduced ? undefined : containerStagger;
 
+  // ✅ 모바일 가로모드 감지
+  const [isMobileLandscape, setIsMobileLandscape] = React.useState(false);
+
+  React.useEffect(() => {
+    const check = () => {
+      if (typeof window === 'undefined') return;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      // 기준은 필요하면 조정 가능 (여기선 1024 이하 + 가로가 더 넓을 때)
+      setIsMobileLandscape(w <= 1024 && w > h);
+    };
+
+    check();
+    window.addEventListener('resize', check);
+    window.addEventListener('orientationchange', check);
+    return () => {
+      window.removeEventListener('resize', check);
+      window.removeEventListener('orientationchange', check);
+    };
+  }, []);
+
+  // ✅ 공통 inView props: 모바일 가로에서는 항상 visible
+  const commonInViewProps = React.useMemo(() => {
+    if (prefersReduced) {
+      // 모션 최소화 선호 시: 스크롤 트리거 사용 안 함
+      return {};
+    }
+
+    if (isMobileLandscape) {
+      return {
+        initial: 'visible' as const,
+        animate: 'visible' as const,
+      };
+    }
+
+    return {
+      initial: 'hidden' as const,
+      whileInView: 'visible' as const,
+    };
+  }, [isMobileLandscape, prefersReduced]);
+
+  const headerViewport =
+    !prefersReduced && !isMobileLandscape
+      ? { once: true, amount: 0.25 }
+      : undefined;
+
+  const sectionViewport =
+    !prefersReduced && !isMobileLandscape
+      ? { once: true, amount: 0.2 }
+      : undefined;
+
+  const reviewCardViewport =
+    !prefersReduced && !isMobileLandscape
+      ? { once: true, amount: 0.3 }
+      : undefined;
+
   return (
     <div className='mx-auto -mt-[76px]'>
       {/* 헤더 섹션 */}
       <motion.div
         variants={vContainer}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true, amount: 0.25 }}
+        {...commonInViewProps}
+        viewport={headerViewport}
         className='mx-auto -pt-[72px] pb-[40px]'
         style={{
           background:
@@ -193,9 +248,8 @@ export default function Home() {
       {/* 섹션1 */}
       <motion.div
         variants={vFadeUp}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true, amount: 0.2 }}
+        {...commonInViewProps}
+        viewport={sectionViewport}
         className='flex justify-center'
       >
         <picture>
@@ -213,9 +267,8 @@ export default function Home() {
       {/* 섹션2 */}
       <motion.div
         variants={vFadeUp}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true, amount: 0.2 }}
+        {...commonInViewProps}
+        viewport={sectionViewport}
         className='flex justify-center'
       >
         <picture>
@@ -232,9 +285,8 @@ export default function Home() {
       {/* 섹션3 */}
       <motion.div
         variants={vFadeUp}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true, amount: 0.2 }}
+        {...commonInViewProps}
+        viewport={sectionViewport}
         className='flex justify-center'
       >
         {/* 데스크톱: 기존 이미지 */}
@@ -284,9 +336,8 @@ export default function Home() {
       {/* 섹션4 - 후기 */}
       <motion.div
         variants={vContainer}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true, amount: 0.2 }}
+        {...commonInViewProps}
+        viewport={sectionViewport}
         className='
           py-[100px] pl-[144px] flex gap-[24px] w-full max-w-[1440px] mx-auto
           max-[745px]:px-[20px] max-[745px]:py-[40px]
@@ -397,11 +448,12 @@ export default function Home() {
           >
             {reviews.map((r) => (
               <SwiperSlide key={r.id}>
+                {/* ✅ Swiper 안에서는 whileInView 대신 고정 animate 사용 */}
                 <motion.div
                   variants={vFadeUp}
-                  initial='hidden'
-                  whileInView='visible'
-                  viewport={{ once: true, amount: 0.3 }}
+                  initial={prefersReduced ? undefined : 'hidden'}
+                  animate={prefersReduced ? undefined : 'visible'}
+                  // viewport는 사용 안 함 (수평 슬라이더 + overflow 때문에 inView 버그 방지)
                   className='flex flex-col w-full bg-white'
                 >
                   <div className='flex gap-[2px]'>

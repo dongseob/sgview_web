@@ -136,7 +136,7 @@ const Attendance = ({
               </tr>
             </thead>
             <tbody>
-              {attendance.map((row, index) => (
+              {attendance?.map((row, index) => (
                 <tr key={index}>
                   <td className='border border-[var(--n-200)] px-[8px] border-l-0 py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center w-[100px]'>
                     {row.grade}

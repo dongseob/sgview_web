@@ -24,8 +24,6 @@ const FindPw = () => {
   const idRef = useRef<HTMLInputElement | null>(null);
   const pwRef = useRef<HTMLInputElement | null>(null);
 
-  // ✅ 토스트 메시지 (인풋 밑 표시용 로직 완전 제거)
-
   const showToast = useCallback(
     (ERROR_MSG: string) => setToastMsg(ERROR_MSG),
     []
@@ -45,8 +43,8 @@ const FindPw = () => {
     // 아이디: 길이만 체크 (형식검증 X)
     const emailOk = idTrim.length >= EMAIL_MIN && idTrim.length <= EMAIL_MAX;
 
-    // 비밀번호: 길이만 체크 (조합검증 X)
-    const pwOk = pwTrim.length >= PW_MIN && pwTrim.length <= PW_MAX;
+    // 비밀번호: 길이만 체크 (조합검증 X) —> 실제 에러 여부는 passwordError가 이미 관리 중
+    const pwOk = pwTrim.length >= PW_MIN && pwTrim.length <= PW_MAX && !passwordError;
 
     if (!emailOk || !pwOk) {
       showToast('아이디 또는 비밀번호를 확인해주세요.');
@@ -68,9 +66,7 @@ const FindPw = () => {
       }
     } catch (error) {
       const axiosError = error as AxiosError;
-      // 네트워크 에러 또는 서버 에러 처리
       if (axiosError.response) {
-        // 서버가 응답했지만 에러 상태 코드 (4xx, 5xx)
         const status = axiosError.response.status;
         if (status === 401 || status === 403) {
           const errorData = axiosError.response.data;
@@ -90,10 +86,8 @@ const FindPw = () => {
           );
         }
       } else if (axiosError.request) {
-        // 요청은 보냈지만 응답을 받지 못함 (네트워크 에러)
         showToast('네트워크 오류가 발생했습니다. 연결을 확인해주세요.');
       } else {
-        // 요청 설정 중 에러
         showToast(
           '비밀번호 재설정 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.'
         );
@@ -108,9 +102,15 @@ const FindPw = () => {
     return emailRegex.test(trimmed);
   };
 
+  // ✅ 여기: 회원가입과 동일한 규칙으로 변경
+  // 영문 대/소문자 + 특수문자 포함 8자 이상
   const validatePassword = (pwd: string) => {
     const trimmed = pwd.trim();
-    return trimmed.length >= PW_MIN && trimmed.length <= PW_MAX;
+    if (trimmed.length < PW_MIN || trimmed.length > PW_MAX) return false;
+    if (!/[A-Z]/.test(trimmed)) return false;
+    if (!/[a-z]/.test(trimmed)) return false;
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(trimmed)) return false;
+    return true;
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -127,14 +127,14 @@ const FindPw = () => {
         </h3>
 
         <div className='flex flex-col gap-[24px] w-full'>
-          {/* ✅ 아이디(이메일) - 형식검증 제거, 길이/placeholder/maxlength만 적용 */}
+          {/* 아이디(이메일) */}
           <div className='flex flex-col gap-[8px] w-full'>
             <p className='text-[#36373A] text-[13px] font-medium'>
               아이디(이메일)<span className='text-[#F6432B]'>*</span>
             </p>
             <input
               ref={idRef}
-              type='text' // 형식검증 방지
+              type='text'
               placeholder='아이디(이메일) 입력'
               maxLength={EMAIL_MAX}
               value={id}
@@ -160,9 +160,10 @@ const FindPw = () => {
                 idError ? 'border-[var(--r-400)]' : 'border-[var(--n-200)]'
               }`}
             />
+            {/* (선택) 이메일 에러 문구도 띄우고 싶으면 여기에 추가 */}
           </div>
 
-          {/* ✅ 비밀번호 - 조합검증 제거, 길이/maxlength만 적용 + 보기/숨김 토글 */}
+          {/* 비밀번호 */}
           <div className='flex flex-col gap-[8px] w-full'>
             <p className='text-[#36373A] text-[13px] font-medium'>
               비밀번호<span className='text-[#F6432B]'>*</span>
@@ -216,9 +217,16 @@ const FindPw = () => {
                 />
               </button>
             </div>
+
+            {/* ✅ 여기 추가: Signup에서 쓰던 문구 그대로 노출 */}
+            {passwordError && password && (
+              <p className='text-[12px] text-[var(--r-400)] mt-[4px]'>
+                영문 대·소문자, 특수문자 포함 8자 이상 입력해주세요.
+              </p>
+            )}
           </div>
 
-          {/* ✅ 버튼 (입력값과 에러 상태에 따라 활성화/비활성화) */}
+          {/* 버튼 */}
           <div className='flex flex-col items-center justify-center gap-[24px]'>
             <button
               type='button'
@@ -235,6 +243,15 @@ const FindPw = () => {
           </div>
         </div>
       </div>
+
+      {/* 토스트 */}
+      {toastMsg && (
+        <div className='fixed bottom-4 right-4 z-[9999]'>
+          <div className='min-w-[260px] max-w-[320px] rounded-[10px] bg-[var(--n-900)] text-white px-4 py-3 shadow-lg'>
+            <p className='text-[14px]'>{toastMsg}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

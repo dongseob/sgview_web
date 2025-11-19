@@ -2,17 +2,29 @@
 
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Analyzing = () => {
+  const router = useRouter();
   const [dots, setDots] = useState(1);
 
   useEffect(() => {
+    // ... 기존 점 움직임 인터벌
     const interval = setInterval(() => {
       setDots((prev) => (prev >= 3 ? 1 : prev + 1));
-    }, 800); // 0.8초 간격
+    }, 800);
 
-    return () => clearInterval(interval);
-  }, []);
+    // 5초 뒤 자동 이동
+    const timer = setTimeout(() => {
+      router.push('/mypage/consult');
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timer);
+    };
+  }, [router]);
+
 
   return (
     <div className='pt-[40px] pb-[120px] max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>

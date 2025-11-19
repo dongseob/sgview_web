@@ -1146,7 +1146,7 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
             교과별 등급추이
           </h3>
           <Image
-            src='/Images/icon-arrow-24.svg'
+            src='/Images/icon-arrow-24-2.svg'
             alt='arrow'
             width={24}
             height={24}
@@ -1273,7 +1273,7 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
             교과별 성적 추이도
           </h3>
           <Image
-            src='/Images/icon-arrow-24.svg'
+            src='/Images/icon-arrow-24-2.svg'
             alt='arrow'
             width={24}
             height={24}
@@ -1340,7 +1340,7 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
               교과별 성적 변화율
             </h3>
             <Image
-              src='/Images/icon-arrow-24.svg'
+              src='/Images/icon-arrow-24-2.svg'
               alt='arrow'
               width={24}
               height={24}

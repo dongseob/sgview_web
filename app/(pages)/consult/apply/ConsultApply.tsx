@@ -79,8 +79,7 @@ const ConsultApply = () => {
   // 폼 유효성 검사 (대학, 학과 선택 + 점수 입력 필수)
   const isFormValid =
     selectedUniversities.length > 0 &&
-    selectedMajors.length > 0 &&
-    hasScoreInput;
+    selectedMajors.length > 0;
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
@@ -609,7 +608,7 @@ const ConsultApply = () => {
                 DropdownIndicator: () => (
                   <div className='pr-[16px] flex items-center'>
                     <Image
-                      src='/images/icon-arrow-24.svg'
+                      src='/Images/icon-arrow-24-2.svg'
                       alt='arrow'
                       width={24}
                       height={24}
@@ -755,7 +754,7 @@ const ConsultApply = () => {
                 DropdownIndicator: () => (
                   <div className='pr-[16px] flex items-center'>
                     <Image
-                      src='/images/icon-arrow-24.svg'
+                      src='/Images/icon-arrow-24-2.svg'
                       alt='arrow'
                       width={24}
                       height={24}
@@ -1028,7 +1027,7 @@ const ConsultApply = () => {
                           return next;
                         });
                         const textOnly = e.currentTarget.value.replace(
-                          /[^가-힣a-zA-Z\s]/g,
+                          /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                           ''
                         );
                         setTempScores({
@@ -1039,7 +1038,7 @@ const ConsultApply = () => {
                       onChange={(e) => {
                         if (!composingInputs.has('history_subject')) {
                           const textOnly = e.target.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({
@@ -1074,7 +1073,7 @@ const ConsultApply = () => {
                             return next;
                           });
                           const textOnly = e.currentTarget.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({
@@ -1085,7 +1084,7 @@ const ConsultApply = () => {
                         onChange={(e) => {
                           if (!composingInputs.has('korean_subject')) {
                             const textOnly = e.target.value.replace(
-                              /[^가-힣a-zA-Z\s]/g,
+                              /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                               ''
                             );
                             setTempScores({
@@ -1120,7 +1119,7 @@ const ConsultApply = () => {
                           return next;
                         });
                         const textOnly = e.currentTarget.value.replace(
-                          /[^가-힣a-zA-Z\s]/g,
+                          /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                           ''
                         );
                         setTempScores({
@@ -1131,7 +1130,7 @@ const ConsultApply = () => {
                       onChange={(e) => {
                         if (!composingInputs.has('math_subject')) {
                           const textOnly = e.target.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({
@@ -1165,7 +1164,7 @@ const ConsultApply = () => {
                           return next;
                         });
                         const textOnly = e.currentTarget.value.replace(
-                          /[^가-힣a-zA-Z\s]/g,
+                          /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                           ''
                         );
                         setTempScores({
@@ -1176,7 +1175,7 @@ const ConsultApply = () => {
                       onChange={(e) => {
                         if (!composingInputs.has('english_subject')) {
                           const textOnly = e.target.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({
@@ -1211,7 +1210,7 @@ const ConsultApply = () => {
                             return next;
                           });
                           const textOnly = e.currentTarget.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({
@@ -1222,7 +1221,7 @@ const ConsultApply = () => {
                         onChange={(e) => {
                           if (!composingInputs.has('inquiry1_subject')) {
                             const textOnly = e.target.value.replace(
-                              /[^가-힣a-zA-Z\s]/g,
+                              /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                               ''
                             );
                             setTempScores({
@@ -1284,7 +1283,7 @@ const ConsultApply = () => {
                             return next;
                           });
                           const textOnly = e.currentTarget.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({
@@ -1295,7 +1294,7 @@ const ConsultApply = () => {
                         onChange={(e) => {
                           if (!composingInputs.has('inquiry2_subject')) {
                             const textOnly = e.target.value.replace(
-                              /[^가-힣a-zA-Z\s]/g,
+                              /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                               ''
                             );
                             setTempScores({
@@ -1330,7 +1329,7 @@ const ConsultApply = () => {
                           return next;
                         });
                         const textOnly = e.currentTarget.value.replace(
-                          /[^가-힣a-zA-Z\s]/g,
+                          /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                           ''
                         );
                         setTempScores({
@@ -1341,7 +1340,7 @@ const ConsultApply = () => {
                       onChange={(e) => {
                         if (!composingInputs.has('second_lang_subject')) {
                           const textOnly = e.target.value.replace(
-                            /[^가-힣a-zA-Z\s]/g,
+                            /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z\s]/g,
                             ''
                           );
                           setTempScores({

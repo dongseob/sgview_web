@@ -21,7 +21,7 @@ const LearningDevelopment = ({
   const [isOpen, setIsOpen] = useState(true);
 
   // 학년에 맞는 데이터 필터링
-  const filteredCharacteristics = detailedCharacteristics.filter(
+  const filteredCharacteristics = detailedCharacteristics?.filter(
     (item) => item.grade === grade
   );
 
@@ -46,7 +46,7 @@ const LearningDevelopment = ({
           {grade}
         </span>
         <Image
-          src='/Images/icon-arrow-24.svg'
+          src='/Images/icon-arrow-24-2.svg'
           alt='arrow'
           width={24}
           height={24}
@@ -69,7 +69,7 @@ const LearningDevelopment = ({
               </tr>
             </thead>
             <tbody>
-              {filteredCharacteristics.length > 0 ? (
+              {filteredCharacteristics?.length > 0 ? (
                 filteredCharacteristics.map((item, index) => (
                   <tr key={`${item.id}-${index}`}>
                     <td

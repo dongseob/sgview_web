@@ -5,6 +5,7 @@ const menuItems = [
   { id: 'creative-activity', label: '창의적 체험활동' },
   { id: 'behavior-opinion', label: '행동특성 및 종합의견' },
   { id: 'attendance', label: '출결/자격증/봉사' },
+  { id: 'summary', label: '진단요약' },
 ];
 
 interface LeftMenuProps {

@@ -15,6 +15,7 @@ import GradeTrend from './GradeTrend';
 import LearningDevelopment from './LearningDevelopment';
 import LeftMenu from './LeftMenu';
 import SubjectGrade from './SubjectGrade';
+import Summary from './Summary';
 
 const contentMap: Record<string, { title: string; description: string }> = {
   'grade-trend': {
@@ -40,6 +41,10 @@ const contentMap: Record<string, { title: string; description: string }> = {
   attendance: {
     title: '출결/자격증/봉사',
     description: '출결, 자격증, 봉사활동 내역을 확인할 수 있습니다.',
+  },
+  summary: {
+    title: '요약',
+    description: '요약을 확인할 수 있습니다.',
   },
 };
 
@@ -295,6 +300,9 @@ const ConsultDetail = ({ id }: { id: string }) => {
               attendance={consultDetails?.attendance}
               certifications={consultDetails?.certifications}
             />
+          )}
+          {activeSection === 'summary' && (
+            <Summary processedData={consultDetails?.processed_data} />
           )}
         </main>
       </div>

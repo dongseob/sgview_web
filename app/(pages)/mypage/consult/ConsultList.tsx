@@ -5,6 +5,7 @@ import {
   getConsultList,
   getConsultProcessingStatus,
 } from '@/app/api/consult';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ConsultListItem from './ConsultListItem';
@@ -52,10 +53,18 @@ const ConsultList = () => {
     return (
       <div className='flex items-center justify-center min-h-[400px]'>
         <div className='flex flex-col items-center justify-center gap-[16px]'>
-          <div className='w-[40px] h-[40px] border-4 border-[var(--n-200)] border-t-[var(--r-400)] rounded-full animate-spin' />
-          <p className='text-[16px] font-[400] text-[var(--n-600)]'>
-            로딩 중...
+          <Image
+            src='/images/loader.png'
+            width={72}
+            height={72}
+            alt='loader'
+          ></Image>
+          <p className='text-[24px] leading-[1.3] text-[var(--n-800)] font-[700]'>
+            로딩 중입니다
           </p>
+          <span className='text-[16px] leading-[1.5] font-[400] spacing-[-0.24px] text-[var(--n-600)]'>
+            잠시만 기다려주세요
+          </span>
         </div>
       </div>
     );

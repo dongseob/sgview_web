@@ -19,6 +19,13 @@ const ConsultListItem = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  const maskName = (name: string) => {
+    if (!name) return '';
+    if (name.length === 1) return name;
+    if (name.length === 2) return name[0] + '*';
+    return name[0] + '*'.repeat(name.length - 2) + name[name.length - 1];
+  };
   return (
     <div className='w-[269.6666564941406px] h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-[745px]:w-full '>
       <div className='flex flex-col items-start justify-start w-full gap-[20px]'>
@@ -36,7 +43,7 @@ const ConsultListItem = ({
             />
           </div>
           <h3 className='text-[18px] leading-[1.5] font-[700] text-[var(--n-800)]'>
-            {name}
+            {maskName(name)}
           </h3>
         </div>
         <div className='flex flex-col items-start justify-start w-full gap-[12px]'>

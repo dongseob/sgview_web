@@ -460,7 +460,7 @@ const SubjectTrendChart = ({
           indexBy='semester'
           margin={{ top: 20, right: 0, bottom: 20, left: 20 }}
           padding={0.5}
-          valueScale={{ type: 'linear', min: 0, max: 5 }}
+          valueScale={{ type: 'linear', min: 0.5, max: 9.5 }}
           indexScale={{ type: 'band', round: true }}
           colors={(bar) => {
             const dataItem = bar.data as {
@@ -489,9 +489,9 @@ const SubjectTrendChart = ({
             legendPosition: 'middle',
             legendOffset: -35,
             format: (value) => value.toString(),
-            tickValues: [1, 3, 5],
+            tickValues: [2.0, 4.0, 6.0, 8.0],
           }}
-          gridYValues={[1, 3, 5]}
+          gridYValues={[2.0, 4.0, 6.0, 8.0]}
           theme={{
             background: 'transparent',
             grid: {
@@ -556,9 +556,9 @@ const GradeBarChart = ({ coreSubjects }: { coreSubjects: any }) => {
       data={data}
       keys={['grade']}
       indexBy='subject'
-      margin={{ top: 20, right: 0, bottom: 30, left: 30 }}
+      margin={{ top: 20, right: 0, bottom: 30, left: 40 }}
       padding={0.4}
-      valueScale={{ type: 'linear', min: 0, max: 9 }}
+      valueScale={{ type: 'linear', min: 0.5, max: 9.5 }}
       indexScale={{ type: 'band', round: true }}
       colors={['#F6432B']}
       borderRadius={2}
@@ -572,10 +572,10 @@ const GradeBarChart = ({ coreSubjects }: { coreSubjects: any }) => {
       axisLeft={{
         tickSize: 0,
         tickPadding: 8,
-        format: (value) => value.toFixed(1),
-        tickValues: [1.5, 3.0, 4.5, 6.0, 7.5, 9.0],
+        format: (v) => `${Number(v)}등급`,
+        tickValues: [2.0, 4.0, 6.0, 8.0],
       }}
-      gridYValues={[1.5, 3.0, 4.5, 6.0, 7.5, 9.0]}
+      gridYValues={[2.0, 4.0, 6.0, 8.0]}
       enableLabel={false}
       isInteractive={true}
       tooltip={({ indexValue, value }) => {
@@ -801,7 +801,7 @@ const GradeLineChart = ({ transcript }: { transcript: any }) => {
   return (
     <ResponsiveLine
       data={data}
-      margin={{ top: 20, right: 0, bottom: 50, left: 30 }}
+      margin={{ top: 20, right: 0, bottom: 50, left: 60 }}
       xScale={{
         type: 'linear',
         min: 0.5, // y축에서 약간 떨어짐
@@ -809,8 +809,8 @@ const GradeLineChart = ({ transcript }: { transcript: any }) => {
       }}
       yScale={{
         type: 'linear',
-        min: 0,
-        max: 9,
+        min: 0.5,
+        max: 9.5,
         stacked: false,
         reverse: false,
       }}
@@ -835,8 +835,8 @@ const GradeLineChart = ({ transcript }: { transcript: any }) => {
         legend: '',
         legendPosition: 'middle',
         legendOffset: -50,
-        format: (value) => value.toFixed(1),
-        tickValues: [1.5, 3.0, 4.5, 6.0, 7.5, 9.0],
+        format: (v) => `${Number(v)}`,
+        tickValues: [2.0, 4.0, 6.0, 8.0],
         renderTick: (tick) => (
           <g transform={`translate(${tick.x - 10},${tick.y + 5})`}>
             <text
@@ -845,12 +845,12 @@ const GradeLineChart = ({ transcript }: { transcript: any }) => {
               fontSize={13}
               fill={'#AFB0B6'} // ✅ tick 값에 따라 색 지정
             >
-              {tick.value}
+              {tick.value}등급
             </text>
           </g>
         ),
       }}
-      gridYValues={[1.5, 3.0, 4.5, 6.0, 7.5, 9.0]}
+      gridYValues={[2.0, 4.0, 6.0, 8.0]}
       enableGridX={false}
       colors={(serie) => serie.color}
       lineWidth={1}
@@ -1146,7 +1146,7 @@ const GradeTrend = ({ transcript }: { transcript: any }) => {
             교과별 등급추이
           </h3>
           <Image
-            src='/images/icon-arrow-24.svg'
+            src='/Images/icon-arrow-24-2.svg'
             alt='arrow'
             width={24}
             height={24}

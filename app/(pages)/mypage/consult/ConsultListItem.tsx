@@ -27,20 +27,13 @@ const ConsultListItem = ({
     return name[0] + '*'.repeat(name.length - 2) + name[name.length - 1];
   };
   return (
-    <div className='w-[269.6666564941406px] h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-[745px]:w-full '>
+    <div className='w-full h-[239px] border border-[var(--n-200)] rounded-[12px] p-[20px] flex flex-col items-start justify-start gap-[24px] max-[745px]:w-full '>
       <div className='flex flex-col items-start justify-start w-full gap-[20px]'>
         <div className='flex flex-col items-start justify-start w-full'>
           <div className='flex items-center justify-between w-full'>
             <p className='text-[14px] leading-[1.4] font-[400] text-[var(--n-400)]'>
               {date}
             </p>
-            <Image
-              src='/images/icon-close-24-gray.svg'
-              alt='arrow-right'
-              width={20}
-              height={20}
-              onClick={() => setIsOpen(true)}
-            />
           </div>
           <h3 className='text-[18px] leading-[1.5] font-[700] text-[var(--n-800)]'>
             {maskName(name)}
@@ -92,12 +85,14 @@ const ConsultListItem = ({
         </div>
       </div>
       <div className='flex items-center justify-start gap-[8px] w-full'>
-        <button
-          onClick={() => router.push(`/mypage/consult?id=${id}`)}
-          className='text-[15px] font-[500] text-[var(--n-800)] h-[52px] w-full rounded-[8px] border border-[var(--n-200)] '
-        >
-          생활기록부 {consulting === 'complete' ? '' : '확인'}
-        </button>
+        {consulting !== 'complete' && (
+          <button
+            onClick={() => router.push(`/mypage/consult?id=${id}`)}
+            className='text-[15px] font-[500] text-[var(--n-800)] h-[52px] w-full rounded-[8px] border border-[var(--n-200)] '
+          >
+            생활기록부 {consulting === 'complete' ? '' : '확인'}
+          </button>
+        )}
         {consulting === 'complete' && (
           <button className='text-[15px] font-[500]  bg-[var(--r-400)] text-[var(--n-0)] h-[52px] w-full rounded-[8px]  '>
             진단결과

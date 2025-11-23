@@ -13,7 +13,9 @@ import ConsultListItem from './ConsultListItem';
 const ConsultList = () => {
   const [consultList, setConsultList2] = useState<ConsultItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
   const router = useRouter();
+  const itemsPerPage = 4;
 
   useEffect(() => {
     const fetchConsultList = async () => {
@@ -48,6 +50,19 @@ const ConsultList = () => {
     };
     fetchDoclingCallback();
   }, [consultList]);
+
+  // 페이지네이션 계산
+  const totalPages = Math.ceil(consultList.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = consultList.slice(startIndex, endIndex);
+
+  // consultList가 변경되면 첫 페이지로 리셋
+  useEffect(() => {
+    if (consultList.length > 0) {
+      setCurrentPage(1);
+    }
+  }, [consultList.length]);
 
   if (isLoading) {
     return (
@@ -86,49 +101,106 @@ const ConsultList = () => {
                 + 새 컨설팅
               </button>
             </div>
-            <div className='flex flex-wrap items-start justify-start gap-[24px]'>
-              {consultList &&
-                consultList.map((item) => {
-                  // API 상태값을 컴포넌트에서 사용하는 상태값으로 매핑
-                  const getStatusValue = (status: string) => {
-                    switch (status.toUpperCase()) {
-                      case 'UPLOADED':
-                        return 'uploaded';
+            <div className='flex flex-col gap-[24px] w-full'>
+              <div className='gap-[24px] grid grid-cols-2 max-[745px]:grid-cols-1 w-full'>
+                {currentItems &&
+                  currentItems.map((item) => {
+                    // API 상태값을 컴포넌트에서 사용하는 상태값으로 매핑
+                    const getStatusValue = (status: string) => {
+                      switch (status.toUpperCase()) {
+                        case 'UPLOADED':
+                          return 'uploaded';
 
-                      case 'PARSING':
-                        return 'in-progress';
-                      case 'PARSED':
-                        return 'in-progress';
-                      case 'ANALYZING':
-                        return 'in-progress';
-                      case 'READY_FOR_REVIEW':
-                        return 'complete';
-                      case 'UNDER_REVIEW':
-                        return 'in-progress';
-                      case 'COMPLETED':
-                        return 'complete';
-                      case 'FAILED':
-                        return 'cancelled';
-                      case 'PROCESSING':
-                        return 'in-progress';
-                      default:
-                        return status.toLowerCase();
-                    }
-                  };
-
-                  return (
-                    <ConsultListItem
-                      key={item.id + item.student_name}
-                      date={item.created_at.split('T')[0]}
-                      name={item.student_name}
-                      consultant={
-                        item.assigned_consultant?.full_name ?? '미배정'
+                        case 'PARSING':
+                          return 'in-progress';
+                        case 'PARSED':
+                          return 'in-progress';
+                        case 'ANALYZING':
+                          return 'in-progress';
+                        case 'READY_FOR_REVIEW':
+                          return 'complete';
+                        case 'UNDER_REVIEW':
+                          return 'in-progress';
+                        case 'COMPLETED':
+                          return 'complete';
+                        case 'FAILED':
+                          return 'cancelled';
+                        case 'PROCESSING':
+                          return 'in-progress';
+                        default:
+                          return status.toLowerCase();
                       }
-                      consulting={getStatusValue(item.status) as ConsultStatus}
-                      id={item.id}
+                    };
+
+                    return (
+                      <ConsultListItem
+                        key={item.id + item.student_name}
+                        date={item.created_at.split('T')[0]}
+                        name={item.student_name}
+                        consultant={
+                          item.assigned_consultant?.full_name ?? '미배정'
+                        }
+                        consulting={
+                          getStatusValue(item.status) as ConsultStatus
+                        }
+                        id={item.id}
+                      />
+                    );
+                  })}
+              </div>
+
+              {/* 페이지네이션 */}
+              {totalPages > 1 && (
+                <div className='flex items-center justify-center gap-[12px] mt-[24px]'>
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(1, prev - 1))
+                    }
+                    disabled={currentPage === 1}
+                    className='w-[24px] h-[24px] flex items-center justify-center text-[16px] font-[400] text-[var(--n-400)] disabled:opacity-50 disabled:cursor-not-allowed hover:text-[var(--n-600)]'
+                  >
+                    <Image
+                      src='/Images/icon-left-arrow-16-2.svg'
+                      alt='arrow-right'
+                      width={20}
+                      height={20}
                     />
-                  );
-                })}
+                  </button>
+
+                  <div className='flex items-center gap-[8px]'>
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`min-w-[28px] h-[28px] rounded-[8px] text-[14px] font-[400] flex items-center justify-center ${
+                            currentPage === page
+                              ? 'bg-[var(--n-200)] text-[var(--n-800)]'
+                              : 'text-[var(--n-600)] hover:text-[var(--n-800)]'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      )
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(totalPages, prev + 1))
+                    }
+                    disabled={currentPage === totalPages}
+                    className='w-[24px] h-[24px] flex items-center justify-center text-[16px] font-[400] text-[var(--n-600)] disabled:opacity-50 disabled:cursor-not-allowed hover:text-[var(--n-800)]'
+                  >
+                    <Image
+                      src='/Images/icon-24.svg'
+                      alt='arrow-right'
+                      width={20}
+                      height={20}
+                    />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,0 +1,49 @@
+name: S3 CloudFront Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "배포할 브랜치를 선택하세요"
+        required: true
+        default: "main"
+
+env:
+  AWS_REGION: ap-northeast-2
+
+jobs:
+  deploy-web:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Build Web
+        run: |
+          yarn install
+          yarn build
+
+      - name: Deploy to S3 & CloudFront
+        run: |
+          # Web 배포
+          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET }}/ \
+            --delete --exact-timestamps
+
+          # CloudFront 무효화
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_ID }} \
+            --paths "/*" \
+            --no-cli-pager

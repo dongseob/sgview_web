@@ -398,7 +398,7 @@ export default function Home() {
                       );
                     })}
                   </div>
-                  <div className='mt-[16px] text-[#36373A] text-[15px] leading-[24px] break-keep'>{r.text}</div>
+                  <div className='mt-[16px] text-[#36373A] text-[15px] leading-[24px] break-keep max-[745px]:line-clamp-5'>{r.text}</div>
                   <div className='mt-[32px] text-[16px] font-[600]'>{r.name}</div>
                 </motion.div>
               </SwiperSlide>

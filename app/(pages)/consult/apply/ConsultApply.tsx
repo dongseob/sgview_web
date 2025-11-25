@@ -106,9 +106,6 @@ const ConsultApply = () => {
     });
 
     if (hasOnlySpaceInput) {
-      alert(
-        '공백(스페이스)만 입력된 칸이 있습니다. 내용을 지우거나 값을 다시 입력해주세요.'
-      );
       return;
     }
 
@@ -609,7 +606,7 @@ const ConsultApply = () => {
                 DropdownIndicator: () => (
                   <div className='pr-[16px] flex items-center'>
                     <Image
-                      src='/Images/icon-arrow-24-2.svg'
+                      src='/images/icon-arrow-24-2.svg'
                       alt='arrow'
                       width={24}
                       height={24}
@@ -755,7 +752,7 @@ const ConsultApply = () => {
                 DropdownIndicator: () => (
                   <div className='pr-[16px] flex items-center'>
                     <Image
-                      src='/Images/icon-arrow-24-2.svg'
+                      src='/images/icon-arrow-24-2.svg'
                       alt='arrow'
                       width={24}
                       height={24}

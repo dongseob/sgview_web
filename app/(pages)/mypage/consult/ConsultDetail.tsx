@@ -152,7 +152,7 @@ const ConsultDetail = ({ id }: { id: string }) => {
               className='flex items-center gap-[4px] text-[15px] text-[var(--n-600)] bg-[var(--n-50)] h-[41px] px-[16px] rounded-[1000px] max-[745px]:hidden'
             >
               <Image
-                src='/images/icon-left-arrow-16-2.svg'
+                src='/icon/icon-left-arrow-16-2.svg'
                 alt='arrow-left'
                 width={16}
                 height={16}

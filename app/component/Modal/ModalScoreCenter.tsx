@@ -87,7 +87,7 @@ const ModalScoreCenter = ({
             </h3>
             <button className='' onClick={onClose}>
               <Image
-                src={`/images/icon-close-24.svg`}
+                src={`/icon/icon-close-24.svg`}
                 alt='close'
                 width={20}
                 height={20}

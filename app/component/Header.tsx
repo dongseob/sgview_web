@@ -212,7 +212,7 @@ const HeaderUnified = () => {
         <div className='max-w-[1440px] mx-auto px-[144px] py-[16px] flex items-center justify-between w-full'>
           <div className='flex items-center justify-start gap-[69px]'>
             <Image
-              src='/images/logo.png'
+              src='/icon/logo.png'
               alt='logo'
               width={127}
               height={34}
@@ -305,7 +305,7 @@ const HeaderUnified = () => {
         ].join(' ')}
       >
         <Image
-          src='/images/logo.png'
+          src='/icon/logo.png'
           alt='logo'
           width={89}
           height={24}
@@ -313,7 +313,7 @@ const HeaderUnified = () => {
           className='cursor-pointer'
         />
         <Image
-          src='/images/icon-menu-24.svg'
+          src='/icon/icon-menu-24.svg'
           alt='menu'
           width={24}
           height={24}
@@ -332,14 +332,9 @@ const HeaderUnified = () => {
           <div className='fixed top-0 right-0 w-full h-full bg-white z-50 shadow-lg min-w-[375px] hidden max-[1024px]:block'>
             <div className='flex flex-col h-full'>
               <div className='flex items-center justify-between px-[20px] h-[56px] border-b border-[transparent]'>
+                <Image src='/icon/logo.png' alt='logo' width={89} height={24} />
                 <Image
-                  src='/images/logo.png'
-                  alt='logo'
-                  width={89}
-                  height={24}
-                />
-                <Image
-                  src='/images/icon-close-24.svg'
+                  src='/icon/icon-close-24.svg'
                   alt='close'
                   width={24}
                   height={24}
@@ -471,7 +466,7 @@ const HeaderUnified = () => {
               무료 진단하기
               <Image
                 className='ml-[4px]'
-                src='/images/arrow-right-white.png'
+                src='/icon/arrow-right-white.png'
                 width={20}
                 height={20}
                 alt='arrow-right-white'

@@ -46,7 +46,7 @@ const LearningDevelopment = ({
           {grade}
         </span>
         <Image
-          src='/images/icon-arrow-24-2.svg'
+          src='/icon/icon-arrow-24-2.svg'
           alt='arrow'
           width={24}
           height={24}

@@ -55,7 +55,7 @@ const ConsultListItem = ({
             <div className='flex items-center justify-start gap-[4px]'>
               {consulting === 'complete' && (
                 <Image
-                  src='/images/ic-check-small.svg'
+                  src='/icon/ic-check-small.svg'
                   alt='check'
                   width={16}
                   height={16}

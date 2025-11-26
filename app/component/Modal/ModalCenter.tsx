@@ -97,7 +97,7 @@ const ModalCenter = ({
             </h3>
             <button onClick={onClose}>
               <Image
-                src='/images/icon-close-24.svg'
+                src='/icon/icon-close-24.svg'
                 alt='close'
                 width={20}
                 height={20}
@@ -114,7 +114,9 @@ const ModalCenter = ({
             background:
               'linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #FFF 20%)',
           }}
-          onClick={() => {onClose && onClose()}}
+          onClick={() => {
+            onClose && onClose();
+          }}
         >
           <button className='w-full h-[52px] rounded-[8px] bg-[var(--n-800)] text-[var(--n-0)] text-[15px] font-[500] leading-[1.5]'>
             확인

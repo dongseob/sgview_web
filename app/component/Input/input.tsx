@@ -97,8 +97,8 @@ export const TitleInput = forwardRef<HTMLInputElement, TitleInputProps>(
               <Image
                 src={
                   showPassword
-                    ? '/images/type=ic-visibility-on@2x.png'
-                    : '/images/type=ic-visibility-off@2x.png'
+                    ? '/icon/type=ic-visibility-on@2x.png'
+                    : '/icon/type=ic-visibility-off@2x.png'
                 }
                 alt=''
                 width={24}

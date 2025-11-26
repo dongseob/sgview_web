@@ -44,7 +44,8 @@ const FindPw = () => {
     const emailOk = idTrim.length >= EMAIL_MIN && idTrim.length <= EMAIL_MAX;
 
     // 비밀번호: 길이만 체크 (조합검증 X) —> 실제 에러 여부는 passwordError가 이미 관리 중
-    const pwOk = pwTrim.length >= PW_MIN && pwTrim.length <= PW_MAX && !passwordError;
+    const pwOk =
+      pwTrim.length >= PW_MIN && pwTrim.length <= PW_MAX && !passwordError;
 
     if (!emailOk || !pwOk) {
       showToast('아이디 또는 비밀번호를 확인해주세요.');
@@ -208,8 +209,8 @@ const FindPw = () => {
                 <Image
                   src={
                     showPw
-                      ? '/images/type=ic-visibility-on@2x.png'
-                      : '/images/type=ic-visibility-off@2x.png'
+                      ? '/icon/type=ic-visibility-on@2x.png'
+                      : '/icon/type=ic-visibility-off@2x.png'
                   }
                   alt=''
                   width={24}

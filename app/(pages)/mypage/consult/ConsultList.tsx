@@ -69,7 +69,7 @@ const ConsultList = () => {
       <div className='flex items-center justify-center min-h-[400px]'>
         <div className='flex flex-col items-center justify-center gap-[16px]'>
           <Image
-            src='/images/loader.png'
+            src='/icon/loader.png'
             width={72}
             height={72}
             alt='loader'
@@ -160,7 +160,7 @@ const ConsultList = () => {
                     className='w-[24px] h-[24px] flex items-center justify-center text-[16px] font-[400] text-[var(--n-400)] disabled:opacity-50 disabled:cursor-not-allowed hover:text-[var(--n-600)]'
                   >
                     <Image
-                      src='/Images/icon-left-arrow-16-2.svg'
+                      src='/icon/icon-left-arrow-16-3.svg'
                       alt='arrow-right'
                       width={20}
                       height={20}
@@ -193,7 +193,7 @@ const ConsultList = () => {
                     className='w-[24px] h-[24px] flex items-center justify-center text-[16px] font-[400] text-[var(--n-600)] disabled:opacity-50 disabled:cursor-not-allowed hover:text-[var(--n-800)]'
                   >
                     <Image
-                      src='/Images/icon-24.svg'
+                      src='/icon/icon-24-3.svg'
                       alt='arrow-right'
                       width={20}
                       height={20}

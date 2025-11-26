@@ -1,5 +1,5 @@
-import React from 'react';
 import type { Metadata } from 'next';
+import React from 'react';
 
 export const metadata: Metadata = {
   title: '로그인 | 생기뷰(SGView)',
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     url: 'https://istrue.axcorp.ai/signin',
     images: [
       {
-        url: '/images/og-1200x630.png',
+        url: '/icon/og-1200x630.png',
         width: 800,
         height: 600,
         alt: 'OG images',

@@ -37,7 +37,10 @@ export default function Home() {
 
   // 무료 진단받기 버튼 클릭 핸들러
   const handleFreeDiagnosis = () => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+    const token =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('accessToken')
+        : null;
     if (token) {
       router.push('/consult/apply');
     } else {
@@ -161,11 +164,20 @@ export default function Home() {
     };
   }, [isMobileLandscape, prefersReduced]);
 
-  const headerViewport = !prefersReduced && !isMobileLandscape ? { once: true, amount: 0.25 } : undefined;
+  const headerViewport =
+    !prefersReduced && !isMobileLandscape
+      ? { once: true, amount: 0.25 }
+      : undefined;
 
-  const sectionViewport = !prefersReduced && !isMobileLandscape ? { once: true, amount: 0.2 } : undefined;
+  const sectionViewport =
+    !prefersReduced && !isMobileLandscape
+      ? { once: true, amount: 0.2 }
+      : undefined;
 
-  const reviewCardViewport = !prefersReduced && !isMobileLandscape ? { once: true, amount: 0.3 } : undefined;
+  const reviewCardViewport =
+    !prefersReduced && !isMobileLandscape
+      ? { once: true, amount: 0.3 }
+      : undefined;
 
   return (
     <div className='mx-auto -mt-[76px]'>
@@ -176,7 +188,8 @@ export default function Home() {
         viewport={headerViewport}
         className='mx-auto -pt-[72px] pb-[40px]'
         style={{
-          background: 'linear-gradient(180deg, #FEEEED 0%, #FFF 100%), linear-gradient(180deg, #FFF 0%, #999 100%)',
+          background:
+            'linear-gradient(180deg, #FEEEED 0%, #FFF 100%), linear-gradient(180deg, #FFF 0%, #999 100%)',
         }}
       >
         <div className='pt-[152px] max-[1024px]:pt-[120px] flex flex-col items-center'>
@@ -202,13 +215,23 @@ export default function Home() {
             className='py-[16px] px-[28px] bg-[#F6432B] rounded-full flex items-center gap-[4px] mt-[36px] max-[745px]:mt-[32px] cursor-pointer'
             onClick={handleFreeDiagnosis}
           >
-            <p className='text-white text-[18px] font-[700] leading-[24px] max-[745px]:text-[16px]'>무료 진단받기</p>
-            <Image src={'/images/arrow-right-white.png'} width={20} height={20} alt='arrow-right-white' />
+            <p className='text-white text-[18px] font-[700] leading-[24px] max-[745px]:text-[16px]'>
+              무료 진단받기
+            </p>
+            <Image
+              src={'/icon/arrow-right-white.png'}
+              width={20}
+              height={20}
+              alt='arrow-right-white'
+            />
           </motion.div>
 
-          <motion.div variants={vFadeUp} className='mt-[32px] flex justify-center'>
+          <motion.div
+            variants={vFadeUp}
+            className='mt-[32px] flex justify-center'
+          >
             <Image
-              src='/images/headerSection-folder.png'
+              src='/icon/headerSection-folder.png'
               alt='headerSection-folder'
               priority
               width={442}
@@ -223,27 +246,58 @@ export default function Home() {
       </motion.div>
 
       {/* 섹션1 */}
-      <motion.div variants={vFadeUp} {...commonInViewProps} viewport={sectionViewport} className='flex justify-center'>
+      <motion.div
+        variants={vFadeUp}
+        {...commonInViewProps}
+        viewport={sectionViewport}
+        className='flex justify-center'
+      >
         <picture>
-          <source srcSet='/images/section1-mo.png' media='(max-width: 1024px)' />
-          <Image src='/images/section1.png' width={1440} height={100} alt='section1' id='section1' />
+          <source srcSet='/icon/section1-mo.png' media='(max-width: 1024px)' />
+          <Image
+            src='/icon/section1.png'
+            width={1440}
+            height={100}
+            alt='section1'
+            id='section1'
+          />
         </picture>
       </motion.div>
 
       {/* 섹션2 */}
-      <motion.div variants={vFadeUp} {...commonInViewProps} viewport={sectionViewport} className='flex justify-center'>
+      <motion.div
+        variants={vFadeUp}
+        {...commonInViewProps}
+        viewport={sectionViewport}
+        className='flex justify-center'
+      >
         <picture>
-          <source srcSet='/images/section2-mo.png' media='(max-width: 1024px)' />
-          <Image src='/images/section2.png' width={1440} height={100} alt='section2' />
+          <source srcSet='/icon/section2-mo.png' media='(max-width: 1024px)' />
+          <Image
+            src='/icon/section2.png'
+            width={1440}
+            height={100}
+            alt='section2'
+          />
         </picture>
       </motion.div>
 
       {/* 섹션3 */}
-      <motion.div variants={vFadeUp} {...commonInViewProps} viewport={sectionViewport} className='flex justify-center'>
+      <motion.div
+        variants={vFadeUp}
+        {...commonInViewProps}
+        viewport={sectionViewport}
+        className='flex justify-center'
+      >
         {/* 데스크톱: 기존 이미지 */}
         <picture className='block max-[745px]:hidden' id='section3'>
-          <source srcSet='/images/section3-mo.png' media='(max-width: 1024px)' />
-          <Image src='/images/section3.png' width={1440} height={100} alt='section3' />
+          <source srcSet='/icon/section3-mo.png' media='(max-width: 1024px)' />
+          <Image
+            src='/icon/section3.png'
+            width={1440}
+            height={100}
+            alt='section3'
+          />
         </picture>
 
         {/* 모바일: 컨테이너 + 타이틀 + 스와이퍼 */}
@@ -251,7 +305,9 @@ export default function Home() {
           id='section3mo-content'
           className='hidden max-[1024px]:flex max-[1024px]:w-full max-[1024px]:py-[64px] max-[1024px]:flex-col max-[1024px]:gap-y-[32px] bg-[#f7f8fc]'
         >
-          <p className='text-[#16171a] text-[28px] font-[700] leading-[36.4px] ml-[24px]'>생기뷰 분석 과정</p>
+          <p className='text-[#16171a] text-[28px] font-[700] leading-[36.4px] ml-[24px]'>
+            생기뷰 분석 과정
+          </p>
 
           <Swiper
             className='w-full'
@@ -275,7 +331,12 @@ export default function Home() {
             {[1, 2, 3, 4, 5].map((n) => (
               <SwiperSlide key={n} className='flex-none'>
                 <div className='relative w-full aspect-[200/235] rounded-[8px] overflow-hidden'>
-                  <Image src={`/images/section3-mo-content${n}.png`} alt={`section3-mo-content${n}`} fill className='object-cover' />
+                  <Image
+                    src={`/icon/section3-mo-content${n}.png`}
+                    alt={`section3-mo-content${n}`}
+                    fill
+                    className='object-cover'
+                  />
                 </div>
               </SwiperSlide>
             ))}
@@ -296,7 +357,10 @@ export default function Home() {
         '
       >
         {/* 왼쪽 타이틀 & 내비게이션 */}
-        <motion.div variants={vFadeUp} className='w-[270px] flex flex-col gap-[32px] shrink-0 max-[1024px]:w-full'>
+        <motion.div
+          variants={vFadeUp}
+          className='w-[270px] flex flex-col gap-[32px] shrink-0 max-[1024px]:w-full'
+        >
           <p
             className='
               text-[#16171A] text-[42px] font-[700] leading-[130%]
@@ -311,17 +375,40 @@ export default function Home() {
 
           {/* prev/next 버튼: 모바일에서 숨김 */}
           <div className='flex gap-[16px] max-[1024px]:hidden'>
-            <button type='button' onClick={onPrev} aria-label='이전 후기' className='cursor-pointer'>
-              <Image src='/images/button-prev.png' width={40} height={40} alt='button-prev' />
+            <button
+              type='button'
+              onClick={onPrev}
+              aria-label='이전 후기'
+              className='cursor-pointer'
+            >
+              <Image
+                src='/icon/button-prev.png'
+                width={40}
+                height={40}
+                alt='button-prev'
+              />
             </button>
-            <button type='button' onClick={onNext} aria-label='다음 후기' className='cursor-pointer'>
-              <Image src='/images/button-next.png' width={40} height={40} alt='button-next' />
+            <button
+              type='button'
+              onClick={onNext}
+              aria-label='다음 후기'
+              className='cursor-pointer'
+            >
+              <Image
+                src='/icon/button-next.png'
+                width={40}
+                height={40}
+                alt='button-next'
+              />
             </button>
           </div>
         </motion.div>
 
         {/* 스와이퍼 영역 */}
-        <motion.div variants={vFadeUp} className='relative flex-1 min-w-0 max-[1024px]:w-full'>
+        <motion.div
+          variants={vFadeUp}
+          className='relative flex-1 min-w-0 max-[1024px]:w-full'
+        >
           {/* 좌측 Gradient */}
           <div
             className='
@@ -329,7 +416,8 @@ export default function Home() {
               max-[1024px]:hidden
             '
             style={{
-              background: 'linear-gradient(90deg, #FFF 0%, rgba(255, 255, 255, 0) 58.5%)',
+              background:
+                'linear-gradient(90deg, #FFF 0%, rgba(255, 255, 255, 0) 58.5%)',
               zIndex: 10,
             }}
           />
@@ -341,7 +429,8 @@ export default function Home() {
               max-[1024px]:hidden
             '
             style={{
-              background: 'linear-gradient(270deg, #FFF 0%, rgba(255, 255, 255, 0) 58.5%)',
+              background:
+                'linear-gradient(270deg, #FFF 0%, rgba(255, 255, 255, 0) 58.5%)',
               zIndex: 10,
             }}
           />
@@ -390,7 +479,11 @@ export default function Home() {
                       return (
                         <Image
                           key={idx}
-                          src={filled ? '/images/star-red.png' : '/images/star-gray.png'}
+                          src={
+                            filled
+                              ? '/icon/star-red.png'
+                              : '/icon/star-gray.png'
+                          }
                           width={20}
                           height={20}
                           alt={filled ? 'star-red' : 'star-gray'}
@@ -398,8 +491,12 @@ export default function Home() {
                       );
                     })}
                   </div>
-                  <div className='mt-[16px] text-[#36373A] text-[15px] leading-[24px] break-keep max-[745px]:line-clamp-5'>{r.text}</div>
-                  <div className='mt-[32px] text-[16px] font-[600]'>{r.name}</div>
+                  <div className='mt-[16px] text-[#36373A] text-[15px] leading-[24px] break-keep max-[745px]:line-clamp-5'>
+                    {r.text}
+                  </div>
+                  <div className='mt-[32px] text-[16px] font-[600]'>
+                    {r.name}
+                  </div>
                 </motion.div>
               </SwiperSlide>
             ))}

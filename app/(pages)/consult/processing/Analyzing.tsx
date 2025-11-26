@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const Analyzing = () => {
   const router = useRouter();
@@ -25,7 +25,6 @@ const Analyzing = () => {
     };
   }, [router]);
 
-
   return (
     <div className='pt-[40px] pb-[120px] max-[745px]:pt-[32px] max-[745px]:pb-[32px] max-[745px]:px-[20px]'>
       <div className='w-[328px] mx-auto py-[32px] flex flex-col items-center justify-center gap-[32px] max-[745px]:py-[0]'>
@@ -41,7 +40,7 @@ const Analyzing = () => {
           </p>
         </div>
         <Image
-          src='/images/img-loading@3x.png'
+          src='/icon/img-loading@3x.png'
           alt='loading'
           width={244}
           height={184}

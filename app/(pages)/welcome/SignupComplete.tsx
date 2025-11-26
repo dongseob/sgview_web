@@ -20,7 +20,7 @@ const SignupComplete = () => {
       <div className='w-[328px] mx-auto py-[32px] flex flex-col items-center justify-center gap-[32px] max-[745px]:py-[0] max-[745px]:w-full'>
         <div className='flex flex-col items-center justify-center gap-[20px]'>
           <Image
-            src='/images/ic-system-option-on.svg'
+            src='/icon/ic-system-option-on.svg'
             alt='radio_on'
             width={40}
             height={40}

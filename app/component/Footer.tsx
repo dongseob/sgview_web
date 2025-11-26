@@ -54,7 +54,7 @@ const Footer = () => {
           {/* 로고 + 회사정보 */}
           <div className='flex flex-col items-start justify-start gap-[24px]'>
             <Image
-              src='/images/logo.png'
+              src='/icon/logo.png'
               alt='logo'
               width={127}
               height={34}
@@ -82,9 +82,13 @@ const Footer = () => {
 
         {/* 우측: 블로그 아이콘 */}
         <div className='flex items-center justify-start gap-[8px] max-[745px]:order-last max-[745px]:pt-[8px]'>
-          <Link target='blank' href='https://www.threads.com/@istrue_sam' className='inline-block'>
+          <Link
+            target='blank'
+            href='https://www.threads.com/@istrue_sam'
+            className='inline-block'
+          >
             <Image
-              src='/images/icon-thread.png'
+              src='/icon/icon-thread.png'
               alt='thread'
               width={48}
               height={48}

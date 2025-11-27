@@ -4,13 +4,13 @@ import Header from './component/Header';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://istrue.axcorp.ai/'),
+  metadataBase: new URL('https://sgview.kr/'),
   title: '생기뷰(SGView)',
   description: '이스트루에듀',
   openGraph: {
     title: '생기뷰(SGView)',
     description: '이스트루에듀',
-    url: 'https://istrue.axcorp.ai/',
+    url: 'https://sgview.kr/',
     siteName: '생기뷰(SGView)',
     images: [
       {

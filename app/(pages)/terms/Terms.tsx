@@ -9,7 +9,7 @@ const Terms = () => {
         </h1>
         <div className='block max-[745px]:hidden mx-auto'>
           <Image
-            src={'/icon/terms.png'}
+            src={'/icon/terms-2.png'}
             width={916}
             height={100}
             alt='terms'
@@ -17,7 +17,7 @@ const Terms = () => {
         </div>
         <div className='hidden max-[745px]:block mx-auto'>
           <Image
-            src={'/icon/terms-mo.png'}
+            src={'/icon/terms-mo-2.png'}
             width={335}
             height={100}
             alt='terms'

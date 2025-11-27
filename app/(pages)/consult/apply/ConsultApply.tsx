@@ -135,106 +135,106 @@ const ConsultApply = () => {
     return filtered;
   };
 
-  // 표준점수 입력 처리 (0~200, 정수만)
+  // 표준점수 입력 처리 (0~200, 정수, 최대 3자리)
   const handleStandardScoreInput = (value: string): string => {
-    // 숫자만 허용 (소수점 제외)
-    const filtered = value.replace(/[^\d]/g, '');
+    let filtered = value.replace(/[^\d]/g, '');
     if (filtered === '') return '';
 
-    // 입력 중간에도 범위 체크 - 3자리 이상이면 먼저 체크
-    if (filtered.length >= 3) {
-      const numValue = parseInt(filtered, 10);
-      if (!isNaN(numValue) && numValue > 200) {
-        return '200';
-      }
-      // 200으로 시작하는 경우만 허용 (200, 2000... -> 200)
-      if (filtered.startsWith('200')) {
-        if (filtered.length > 3) {
-          return '200';
-        }
-      }
-      // 201 이상으로 시작하면 200으로 제한
-      if (filtered.length === 3) {
-        const firstThree = parseInt(filtered.substring(0, 3), 10);
-        if (firstThree > 200) {
-          return '200';
-        }
-      }
-    }
+    // 최대 3자리까지만 허용
+    filtered = filtered.slice(0, 3);
+
+    // 앞자리 0 정리 (단, 모든 자리가 0이면 0 유지)
+    filtered = filtered.replace(/^0+(?=\d)/, '');
+    if (filtered === '') filtered = '0';
 
     const numValue = parseInt(filtered, 10);
     if (isNaN(numValue)) return '';
 
-    // 최종 범위 체크
-    if (numValue > 200) {
-      return '200';
-    }
-    if (numValue < 0) {
-      return '0';
-    }
+    if (numValue > 200) return '200';
+    if (numValue < 0) return '0';
 
-    return filtered;
+    return numValue.toString();
   };
 
-  // 백분위 입력 처리 (0~100, 정수만)
+  // 백분위 입력 처리 (0~100, 정수, 최대 3자리)
   const handlePercentileInput = (value: string): string => {
-    // 숫자만 허용 (소수점 제외)
-    const filtered = value.replace(/[^\d]/g, '');
+    let filtered = value.replace(/[^\d]/g, '');
     if (filtered === '') return '';
 
-    // 입력 중간에도 범위 체크 - 3자리 이상이면 먼저 체크
-    if (filtered.length >= 3) {
-      const numValue = parseInt(filtered, 10);
-      if (!isNaN(numValue) && numValue > 100) {
-        return '100';
-      }
-      // 100으로 시작하는 경우만 허용 (100, 1000... -> 100)
-      if (filtered.startsWith('100')) {
-        if (filtered.length > 3) {
-          return '100';
-        }
-      }
-      // 101 이상으로 시작하면 100으로 제한
-      if (filtered.length === 3) {
-        const firstThree = parseInt(filtered.substring(0, 3), 10);
-        if (firstThree > 100) {
-          return '100';
-        }
-      }
-    }
+    filtered = filtered.slice(0, 3);
+    filtered = filtered.replace(/^0+(?=\d)/, '');
+    if (filtered === '') filtered = '0';
 
     const numValue = parseInt(filtered, 10);
     if (isNaN(numValue)) return '';
 
-    // 최종 범위 체크
-    if (numValue > 100) {
-      return '100';
-    }
-    if (numValue < 0) {
-      return '0';
-    }
+    if (numValue > 100) return '100';
+    if (numValue < 0) return '0';
 
-    return filtered;
+    return numValue.toString();
   };
 
-  // 등급 입력 처리 (1~9, 정수만)
+  // 등급 입력 처리 (1~9, 소수점 둘째 자리까지 허용)
   const handleGradeInput = (value: string): string => {
-    // 숫자만 허용 (소수점 제외)
-    const filtered = value.replace(/[^\d]/g, '');
+    if (!value) return '';
+
+    let filtered = value.replace(/[^\d.]/g, '');
     if (filtered === '') return '';
 
-    const numValue = parseInt(filtered, 10);
-    if (isNaN(numValue)) return '';
+    const hadLeadingDot = filtered.startsWith('.');
+    const hasDotInValue = value.includes('.');
 
-    // 입력 중간에도 범위 체크
-    // 9를 초과하는 값이 입력되면 즉시 9로 제한
-    if (numValue > 9) {
-      return '9';
+    // 첫 번째 소수점만 유지하고 나머지는 제거
+    const firstDotIdx = filtered.indexOf('.');
+    if (firstDotIdx !== -1) {
+      const integerPartRaw = filtered.slice(0, firstDotIdx).replace(/\./g, '');
+      const decimalPartRaw = filtered.slice(firstDotIdx + 1).replace(/\./g, '');
+      let integerPart = integerPartRaw || (hadLeadingDot ? '0' : '');
+      integerPart = integerPart.slice(0, 1); // 정수부 한 자리 제한
+      const decimalPart = decimalPartRaw.slice(0, 2);
+      filtered = decimalPart
+        ? `${integerPart || '0'}.${decimalPart}`
+        : `${integerPart || '0'}.`;
+    } else {
+      // 정수부는 한 자리까지만 허용
+      filtered = filtered.slice(0, 1);
     }
-    if (numValue < 1) {
-      // 0이 입력되면 빈 문자열 반환 (1~9만 허용)
-      if (numValue === 0) return '';
-      return '1';
+
+    // 정수부에서 불필요한 0 제거 (단, "0." 패턴 유지)
+    if (filtered.includes('.')) {
+      const [integer, decimal = ''] = filtered.split('.');
+      const normalizedInteger =
+        integer === '' ? '0' : integer.replace(/^0+(?=\d)/, '') || '0';
+      filtered =
+        decimal === ''
+          ? `${normalizedInteger}.`
+          : `${normalizedInteger}.${decimal.slice(0, 2)}`;
+    } else {
+      filtered = filtered.replace(/^0+(?=\d)/, '');
+      if (filtered === '') filtered = '0';
+    }
+
+    if (filtered === '.' || filtered === '') return '';
+
+    const numericForCheck = filtered.endsWith('.')
+      ? parseFloat(filtered.slice(0, -1))
+      : parseFloat(filtered);
+    if (isNaN(numericForCheck)) return '';
+
+    if (numericForCheck > 9) {
+      return hasDotInValue ? '9.' : '9';
+    }
+    if (numericForCheck <= 0) {
+      return '';
+    }
+
+    // 소수점 이하 두 자리 유지 (입력 도중 소수점만 있는 상태 허용)
+    if (filtered.includes('.')) {
+      const [integer, decimal = ''] = filtered.split('.');
+      if (decimal === '') {
+        return `${integer}.`;
+      }
+      return `${integer}.${decimal.slice(0, 2)}`;
     }
 
     return filtered;

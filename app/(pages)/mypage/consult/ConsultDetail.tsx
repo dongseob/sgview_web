@@ -123,6 +123,14 @@ const ConsultDetail = ({ id }: { id: string }) => {
     }
   };
 
+  const maskName = (name?: string | null) => {
+    if (!name) return '';
+    if (name.length <= 1) return '*';
+    if (name.length === 2) return `${name[0]}*`;
+    const middle = '*'.repeat(name.length - 2);
+    return `${name[0]}${middle}${name[name.length - 1]}`;
+  };
+
   const handleCancelConsult = async () => {
     const res = await postConsultCancel(id);
     console.log(res);
@@ -167,7 +175,7 @@ const ConsultDetail = ({ id }: { id: string }) => {
               {/* 모바일 레이아웃 (745px 이하) */}
               <div className='hidden max-[745px]:block max-[745px]:px-[20px]'>
                 <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] mb-[12px]'>
-                  {consultDetails?.studentInformation?.name}
+                  {maskName(consultDetails?.studentInformation?.name)}
                 </h1>
                 {/* 상세 정보 */}
                 <div className='flex items-center gap-[8px] text-[15px] text-[var(--n-600)] mb-[12px]'>
@@ -206,7 +214,7 @@ const ConsultDetail = ({ id }: { id: string }) => {
               {/* 데스크톱 레이아웃 (745px 이상) */}
               <div className='max-[745px]:hidden flex items-start justify-between mb-[12px]'>
                 <h1 className='text-[26px] font-[700] leading-[1.3] text-[var(--n-800)] '>
-                  {consultDetails?.studentInformation?.name}(
+                  {maskName(consultDetails?.studentInformation?.name)}(
                   {consultDetails?.studentInformation?.grade})
                 </h1>
                 <div className='flex gap-[8px]'>

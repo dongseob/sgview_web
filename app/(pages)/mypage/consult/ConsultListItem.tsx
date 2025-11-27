@@ -94,7 +94,10 @@ const ConsultListItem = ({
           </button>
         )}
         {consulting === 'complete' && (
-          <button className='text-[15px] font-[500]  bg-[var(--r-400)] text-[var(--n-0)] h-[52px] w-full rounded-[8px]  '>
+          <button
+            onClick={() => router.push(`/mypage/consult?id=${id}`)}
+            className='text-[15px] font-[500]  bg-[var(--r-400)] text-[var(--n-0)] h-[52px] w-full rounded-[8px]  '
+          >
             진단결과
           </button>
         )}

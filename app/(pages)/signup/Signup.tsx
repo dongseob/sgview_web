@@ -613,6 +613,7 @@ const Signup = () => {
           <TitleInput
             title='학교'
             placeholder='학교 입력'
+            value={school}
             error={schoolError}
             errorMessage='학교명은 2~50자로 입력해주세요.'
             maxLength={50}
@@ -744,6 +745,7 @@ const Signup = () => {
           <TitleInput
             title='이름(본명)'
             placeholder='이름 입력'
+            value={name}
             error={nameError}
             errorMessage='이름은 2~30자로 입력해주세요.'
             maxLength={30}
@@ -774,6 +776,7 @@ const Signup = () => {
           <TitleInput
             title='아이디(이메일)'
             placeholder='이메일 입력'
+            value={id}
             error={idError}
             errorMessage='이메일 형식이 올바르지 않습니다.'
             maxLength={100}
@@ -797,6 +800,7 @@ const Signup = () => {
           <TitleInput
             title='비밀번호'
             placeholder='비밀번호 입력'
+            value={password}
             error={passwordError}
             errorMessage='영문 대·소문자, 특수문자 포함 8자 이상 입력해주세요.'
             maxLength={64}
@@ -825,6 +829,7 @@ const Signup = () => {
           <TitleInput
             title='비밀번호 확인'
             placeholder='비밀번호 확인'
+            value={passwordConfirm}
             error={passwordConfirmError}
             errorMessage='비밀번호가 일치하지 않습니다.'
             passwordIcon={true}
@@ -849,6 +854,7 @@ const Signup = () => {
           <TitleInput
             title='휴대폰 번호'
             placeholder='01012345678'
+            value={phone}
             error={phoneError}
             errorMessage='휴대폰 번호는 숫자만 10~11자로 입력해주세요.'
             type='tel'

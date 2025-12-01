@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     siteName: '생기뷰(SGView)',
     images: [
       {
-        url: '/icon/og2.png',
+        url: '/icon/og.png',
         width: 1200,
         height: 630,
         alt: 'OG images',

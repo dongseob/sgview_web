@@ -8,9 +8,9 @@ export const metadata: Metadata = {
     url: 'https://istrue.axcorp.ai/mypage/consult',
     images: [
       {
-        url: '/icon/og.png',
-        width: 800,
-        height: 600,
+        url: '/icon/og2.png',
+        width: 1200,
+        height: 630,
         alt: 'OG images',
       },
     ],

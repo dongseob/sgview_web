@@ -1,104 +1,75 @@
-import Image from 'next/image';
-import { useState } from 'react';
-
 interface DetailedCharacteristic {
-  curriculum: string;
-  description: string;
-  grade: string;
+  description: string;  // 세부능력 및 특기사항
+  grade: string;        // 학년
   id: string;
-  semester: string | null;
-  subject: string;
+  semester: string | null; // 학기
+  subject: string;      // 영역
 }
 
-// 학년별 테이블 컴포넌트
+// 학년 구분 없이 전체를 하나의 테이블로 보여주는 컴포넌트
 const LearningDevelopment = ({
-  grade,
   detailedCharacteristics,
 }: {
-  grade: string;
-  detailedCharacteristics: DetailedCharacteristic[];
+  detailedCharacteristics: DetailedCharacteristic[] | undefined;
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
-
-  // 학년에 맞는 데이터 필터링
-  const filteredCharacteristics = detailedCharacteristics?.filter(
-    (item) => item.grade === grade
-  );
-
-  // 과목명 포맷팅 함수
-  const formatSubjectName = (item: DetailedCharacteristic) => {
-    if (item.semester) {
-      return `(${item.semester})${item.subject}`;
-    }
-    return item.subject;
-  };
+  const hasData = detailedCharacteristics && detailedCharacteristics.length > 0;
 
   return (
-    <div className='mb-[32px] '>
-      {grade !== '1학년' && (
-        <div className='w-full h-[1px] bg-[var(--n-200)] mb-[32px] '></div>
-      )}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className='w-full flex items-center justify-between mb-[24px] rounded-t-[8px] max-[745px]:px-[20px]'
-      >
-        <span className='text-[20px] font-[600] text-[var(--n-800)]'>
-          {grade}
-        </span>
-        <Image
-          src='/icon/icon-arrow-24-2.svg'
-          alt='arrow'
-          width={24}
-          height={24}
-          className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
-        />
-      </button>
+    <div className='mt-[0px] max-[745px]:px-[20px]'>
+      <div className='flex flex-col text-[#37383B]'>
+        <div className='mt-[0px]'>
+          <table className='w-full table-fixed border-collapse'>
+            {/* colgroup은 한 줄로 */}
+            <colgroup><col className='w-[140px]' /><col className='w-[120px]' /><col className='w-[80px]' /><col /></colgroup>
 
-      {isOpen && (
-        <div className='overflow-x-auto border-t border-[var(--n-800)] rounded-b-[8px] max-[745px]:border-t-0 max-[745px]:px-[20px]'>
-          <div className='w-full border-t-[var(--n-800)] border-t min-w-[858px] hidden max-[745px]:block'></div>
-          <table className='w-full border-collapse max-[745px]:min-w-[858px]'>
             <thead>
-              <tr className='bg-[var(--n-50)]'>
-                <th className='border-b border-[var(--n-200)] px-[16px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-left w-[130px]'>
-                  과목
+              <tr className='bg-[#F7F8FC]'>
+                <th className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left'>
+                  영역
                 </th>
-                <th className='border-b border-[var(--n-200)] border-l px-[16px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] text-center'>
+                <th className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left'>
+                  학년
+                </th>
+                <th className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left'>
+                  학기
+                </th>
+                <th className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left'>
                   세부능력 및 특기사항
                 </th>
               </tr>
             </thead>
             <tbody>
-              {filteredCharacteristics?.length > 0 ? (
-                filteredCharacteristics.map((item, index) => (
+              {hasData ? (
+                detailedCharacteristics!.map((item, index) => (
                   <tr key={`${item.id}-${index}`}>
-                    <td
-                      className={`border border-l-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[500] text-[var(--n-800)] align-top`}
-                    >
-                      {formatSubjectName(item)}
+                    <td className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left align-top'>
+                      {item.subject || '-'}
                     </td>
-                    <td
-                      className={`
-                        border border-r-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] leading-[1.6] text-[var(--n-600)]`}
-                    >
-                      {item.description}
+                    <td className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left align-top'>
+                      {item.grade || '-'}
+                    </td>
+                    <td className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left align-top'>
+                      {item.semester || '-'}
+                    </td>
+                    <td className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-left align-top leading-[1.6] text-[#4B5563]'>
+                      {item.description || '-'}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
                   <td
-                    colSpan={2}
-                    className='border border-l-0 border-r-0 border-[var(--n-200)] px-[8px] py-[12px] text-[14px] font-[400] text-[var(--n-500)] text-center'
+                    colSpan={4}
+                    className='border border-[#D1D5DC] px-[8px] py-[12px] text-[14px] text-center text-[#9CA3AF]'
                   >
-                    해당 사항 없음
+                    내용이 없습니다.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      )}
+      </div>
     </div>
   );
 };

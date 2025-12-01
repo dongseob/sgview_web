@@ -1,7 +1,7 @@
 const menuItems = [
   { id: 'grade-trend', label: '교과별 등급추이' },
   { id: 'subject-grade', label: '교과성적' },
-  { id: 'learning-development', label: '교과학습발달' },
+  { id: 'learning-development', label: '세부능력 및 특기사항' },
   { id: 'creative-activity', label: '창의적 체험활동' },
   { id: 'behavior-opinion', label: '행동특성 및 종합의견' },
   { id: 'attendance', label: '출결/자격증/봉사' },

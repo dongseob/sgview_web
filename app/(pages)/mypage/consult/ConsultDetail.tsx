@@ -27,7 +27,7 @@ const contentMap: Record<string, { title: string; description: string }> = {
     description: '교과 성적을 확인할 수 있습니다.',
   },
   'learning-development': {
-    title: '교과학습발달',
+    title: '세부능력 및 특기사항',
     description: '교과 학습 발달 상황을 확인할 수 있습니다.',
   },
   'creative-activity': {
@@ -56,6 +56,7 @@ const ConsultDetail = ({ id }: { id: string }) => {
 
   const [consultDetails, setConsultDetails] = useState<any | null>(null);
   const router = useRouter();
+
   useEffect(() => {
     const fetchConsultDetail = async () => {
       const res = await getConsultDetail(id);
@@ -141,6 +142,8 @@ const ConsultDetail = ({ id }: { id: string }) => {
       alert('컨설팅 신청 취소에 실패했습니다.');
     }
   };
+
+  console.log('yogiyo: ', consultDetails);
 
   return (
     <div className='px-[144px] max-[745px]:px-[0]'>
@@ -278,16 +281,12 @@ const ConsultDetail = ({ id }: { id: string }) => {
                 {content.title}
               </h2>
 
-              {/* 학년별 테이블 */}
-              {['1학년', '2학년', '3학년'].map((grade, gradeIndex) => (
-                <LearningDevelopment
-                  key={gradeIndex}
-                  grade={grade}
-                  detailedCharacteristics={
-                    consultDetails?.detailedCharacteristics
-                  }
-                />
-              ))}
+              {/* ✅ 학년 아코디언 없이 단일 테이블 */}
+              <LearningDevelopment
+                detailedCharacteristics={
+                  consultDetails?.detailedCharacteristics ?? []
+                }
+              />
             </div>
           )}
           {activeSection === 'creative-activity' && (

@@ -73,17 +73,12 @@ const ConsultApply = () => {
     second_lang_grade: '',
   });
 
-  // 점수 입력 여부 확인 (공백만 있는 값은 제외)
-  const hasScoreInput = Object.values(scores).some(
-    (value) =>
-      typeof value === 'string' && value.trim() !== ''
-  );
+  // 점수 입력 여부 확인
+  const hasScoreInput = Object.values(scores).some((value) => value !== '');
 
   // 폼 유효성 검사 (대학, 학과 선택 + 점수 입력 필수)
   const isFormValid =
-    selectedUniversities.length > 0 &&
-    selectedMajors.length > 0 &&
-    hasScoreInput;
+    selectedUniversities.length > 0 && selectedMajors.length > 0;
 
   const handleFileUpload = () => {
     fileInputRef.current?.click();
@@ -490,9 +485,7 @@ const ConsultApply = () => {
               percentile: scores.korean_percentile
                 ? parseFloat(scores.korean_percentile)
                 : 0,
-              grade: scores.korean_grade
-                ? parseFloat(scores.korean_grade)
-                : 0,
+              grade: scores.korean_grade ? parseFloat(scores.korean_grade) : 0,
             },
             korean_history: {
               subject: scores.history_subject || '',
@@ -874,7 +867,7 @@ const ConsultApply = () => {
           </div>
           <div className='flex flex-col gap-[8px] w-full'>
             <p className='text-[#36373A] text-[13px] font-medium'>
-              최종 모의고사 점수<span className='text-[#F6432B]'>*</span>
+              최종 모의고사 점수
             </p>
             <button
               onClick={handleOpenScoreModal}
@@ -967,6 +960,8 @@ const ConsultApply = () => {
           최종 모의고사 점수를 입력해주세요
         </p>
         <div className='flex flex-col gap-[20px] px-[20px] pb-[20px]  max-[745px]:pr-[0]'>
+          {/* 설명 텍스트 */}
+
           {/* 점수 테이블 */}
           <div className='w-full overflow-x-auto border-t border-[var(--n-800)] max-[745px]:max-h-[60vh] max-[745px]:overflow-y-auto'>
             <table className='w-full border-collapse'>
@@ -1240,10 +1235,36 @@ const ConsultApply = () => {
                         }}
                         className='w-full px-[8px] py-[4px] text-[14px] border border-[var(--n-200)] rounded-[4px] text-center focus:outline-none focus:border-[var(--n-800)]'
                       />
+
+                      {/* <input
+                        type='text'
+                        value={tempScores.inquiry2_subject}
+                        onChange={(e) =>
+                          setTempScores({
+                            ...tempScores,
+                            inquiry2_subject: e.target.value,
+                          })
+                        }
+                        placeholder='사회 문화'
+                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                      /> */}
                     </div>
                   </td>
                   <td className='border border-[var(--n-200)] px-[4px] py-[4px]'>
                     <div className='flex gap-[4px] items-center justify-center'>
+                      {/* <input
+                        type='text'
+                        value={tempScores.inquiry1_subject}
+                        onChange={(e) =>
+                          setTempScores({
+                            ...tempScores,
+                            inquiry1_subject: e.target.value,
+                          })
+                        }
+                        placeholder='경제지리'
+                        className='w-full px-[8px] py-[4px] text-[12px] border border-[var(--n-200)] rounded-[4px] focus:outline-none focus:border-[var(--r-400)]'
+                      /> */}
+
                       <input
                         type='text'
                         value={tempScores.inquiry2_subject}

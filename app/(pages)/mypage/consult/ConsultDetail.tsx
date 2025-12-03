@@ -273,6 +273,9 @@ const ConsultDetail = ({ id }: { id: string }) => {
                 consultDetails?.transcript?.physicalArtSubjects
               }
               careerSubjects={consultDetails?.transcript?.careerSubjects}
+              coreSubjectAverageRankGrade={
+                consultDetails?.transcript?.coreSubjectAverageRankGrade
+              }
             />
           )}
           {activeSection === 'learning-development' && (

@@ -21,6 +21,14 @@ const Summary = ({ processedData }: { processedData: any }) => {
         : processedData?.aiAnalysis?.nextSteps || '',
     },
     {
+      // ✅ 추가: 종합 의견 (overallOpinion)
+      label:
+        processedData?.aiAnalysisLabels?.overallOpinionLabel || '종합 의견',
+      content: Array.isArray(processedData?.aiAnalysis?.overallOpinion)
+        ? processedData.aiAnalysis.overallOpinion.join('\n')
+        : processedData?.aiAnalysis?.overallOpinion || '',
+    },
+    {
       label: '면접 예상 질문',
       content: Array.isArray(processedData?.aiAnalysis?.interviewQuestions)
         ? processedData.aiAnalysis.interviewQuestions.join('\n')
